@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Chelsea Zone — Everything Chelsea</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #034694; --navy-deep: #002a5c; --blue: #1a56c4; --blue-bright: #2f6fe0; --blue-soft: #eaf1fc;
+    --ink: #131c2e; --body: #45526b; --muted: #6b7688; --muted-2: #99a2b3;
+    --bg: #f5f6f9; --card: #ffffff; --line: #e4e8f0; --line-2: #eef1f6;
+    --gold: #c99700; --star: #f2b705; --green: #128a4c; --red: #cc3b3b;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: var(--sans); }
+  nav { background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  .nav-inner { max-width: 1120px; margin: 0 auto; padding: 13px 24px; display: flex; align-items: center; gap: 24px; }
+  .logo { display: flex; align-items: center; gap: 11px; cursor: pointer; }
+  .logo-mark { width: 38px; height: 38px; border-radius: 9px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 800; font-size: 17px; color: #fff; }
+  .logo-text { font-family: var(--serif); font-weight: 800; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); }
+  .logo-text .z { color: var(--blue); }
+  .nav-links { display: flex; gap: 2px; margin-left: 6px; }
+  .nav-links button { font-size: 13.5px; font-weight: 500; color: var(--muted); padding: 9px 14px; border-radius: 8px; transition: all .15s; border: none; background: transparent; cursor: pointer; }
+  .nav-links button:hover { color: var(--ink); background: var(--line-2); }
+  .nav-links button.active { color: var(--navy); background: var(--blue-soft); font-weight: 600; }
+  .nav-cta { margin-left: auto; font-size: 13px; font-weight: 600; padding: 9px 17px; border-radius: 8px; border: none; color: #fff; background: var(--navy); cursor: pointer; transition: all .15s; }
+  .nav-cta:hover { background: var(--navy-deep); }
+  .ticker { background: var(--navy); color: #fff; font-size: 12.5px; font-weight: 500; padding: 9px 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+  .ticker .tag { background: var(--gold); color: #3a2c00; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 5px; margin: 0 16px; flex-shrink: 0; font-size: 11px; }
+  .ticker-track { display: inline-flex; gap: 40px; animation: scroll 42s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0);} to { transform: translateX(-50%);} }
+  .ticker-track span::before { content: "\2022"; color: rgba(255,255,255,0.45); margin-right: 40px; }
+  .container { max-width: 1120px; margin: 0 auto; padding: 30px 24px 60px; }
+  .grid { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; }
+  .page { display: none; }
+  .page.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: none;} }
+  .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .section-head h2 { font-family: var(--serif); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
+  .section-head .bar { width: 3px; height: 20px; background: var(--navy); border-radius: 2px; }
+  .section-head .more { margin-left: auto; font-size: 12.5px; color: var(--blue); font-weight: 600; cursor: pointer; }
+  .photo { position: relative; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .photo .ph-init { font-family: var(--serif); font-weight: 800; color: rgba(255,255,255,0.92); letter-spacing: -0.02em; }
+  .photo .ph-tag { position: absolute; bottom: 8px; left: 10px; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-weight: 600; }
+  .photo.has-photo { background-size: cover; background-repeat: no-repeat; }
+  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo, .hero-photo.has-photo { background-position: center 15%; }
+  .q-photo.has-photo, .rumour-photo.has-photo { background-position: center center; }
+  .photo-credit { position: absolute; font-size: 9.5px; font-weight: 600; letter-spacing: 0.02em; color: rgba(255,255,255,0.9); text-decoration: none; background: rgba(3,25,60,0.4); padding: 3px 7px; border-radius: 5px; z-index: 2; white-space: nowrap; }
+  .photo-credit:hover { color: #fff; background: rgba(3,25,60,0.6); }
+  .pc-photo .photo-credit, .card-photo .photo-credit, .hero-photo .photo-credit { bottom: 8px; left: 10px; }
+  .modal-photo .photo-credit { top: 16px; left: 20px; font-size: 10.5px; padding: 4px 9px; }
+  .q-photo .photo-credit, .rumour-photo .photo-credit { top: -4px; right: -4px; bottom: auto; left: auto; width: 15px; height: 15px; padding: 0; font-size: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .q-photo .photo-credit::before, .rumour-photo .photo-credit::before { content: "i"; font-size: 10px; font-style: italic; font-weight: 800; color: #fff; }
+  .photo::after { content:""; position:absolute; inset:0; background: radial-gradient(circle at 70% 20%, rgba(47,111,224,0.35) 0%, transparent 55%); }
+  .hero-story { border-radius: 16px; margin-bottom: 26px; overflow: hidden; cursor: pointer; border: 1px solid var(--line); background: var(--card); }
+  .hero-story:hover { box-shadow: 0 12px 30px rgba(3,70,148,0.12); }
+  .hero-photo { height: 210px; }
+  .hero-photo .ph-init { font-size: 64px; }
+  .hero-body { padding: 22px 26px 26px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); background: rgba(201,151,0,0.1); padding: 5px 11px; border-radius: 6px; margin-bottom: 13px; }
+  .hero-story h1 { font-family: var(--serif); font-weight: 800; font-size: 30px; line-height: 1.14; letter-spacing: -0.01em; color: var(--ink); max-width: 24ch; }
+  .hero-story p { color: var(--body); font-size: 14.5px; margin-top: 11px; max-width: 60ch; line-height: 1.6; }
+  .hero-meta { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 12.5px; color: var(--muted); }
+  .hero-meta .src { color: var(--navy); font-weight: 600; }
+  .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; cursor: pointer; transition: transform .12s, box-shadow .12s, border-color .12s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(3,70,148,0.08); border-color: #d2dcec; }
+  .card .card-photo { height: 132px; }
+  .card .card-photo .ph-init { font-size: 34px; }
+  .card .card-body { padding: 15px 17px 17px; }
+  .card .cat { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue); margin-bottom: 8px; }
+  .card .cat.rumour { color: var(--gold); }
+  .card .cat.quote { color: var(--green); }
+  .card .cat.done { color: var(--green); }
+  .card h3 { font-family: var(--serif); font-weight: 700; font-size: 16.5px; line-height: 1.24; letter-spacing: -0.01em; color: var(--ink); }
+  .card p { font-size: 13px; color: var(--body); margin-top: 7px; line-height: 1.55; }
+  .card .foot { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 11.5px; color: var(--muted); }
+  .card .foot .src { color: var(--muted); font-weight: 500; }
+  .card .foot .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted-2); }
+  .quote-card { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--green); border-radius: 13px; padding: 22px 24px; margin-top: 14px; cursor: pointer; display: flex; gap: 18px; align-items: flex-start; }
+  .quote-card:hover { box-shadow: 0 8px 22px rgba(3,70,148,0.06); }
+  .quote-card .q-photo { width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0; }
+  .quote-card .q-photo .ph-init { font-size: 20px; }
+  .quote-card .q { font-family: var(--serif); font-weight: 600; font-size: 18px; line-height: 1.42; letter-spacing: -0.01em; color: var(--ink); font-style: italic; }
+  .quote-card .attr { display: flex; align-items: baseline; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .quote-card .attr .who { font-size: 13px; font-weight: 600; }
+  .quote-card .attr .role { font-size: 12px; color: var(--muted); }
+  .side-card { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 18px; margin-bottom: 16px; }
+  .side-card h4 { font-family: var(--serif); font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; color: var(--ink); }
+  .side-card h4 .ic { color: var(--navy); display: flex; font-size: 15px; }
+  .transfer-row { display: flex; align-items: center; gap: 11px; padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+  .transfer-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .transfer-row .dir { width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .transfer-row .dir.in { background: #e3f4ea; color: var(--green); }
+  .transfer-row .dir.out { background: #fbe9e9; color: var(--red); }
+  .transfer-row .tinfo { flex: 1; min-width: 0; }
+  .transfer-row .tinfo .name { font-size: 13.5px; font-weight: 600; }
+  .transfer-row .tinfo .club { font-size: 11.5px; color: var(--muted); }
+  .transfer-row .fee { font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+  .transfer-row .fee.status { color: var(--gold); font-size: 11px; }
+  .fixture-row { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line-2); font-size: 12.5px; }
+  .fixture-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .fixture-row .comp { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-2); width: 62px; flex-shrink: 0; }
+  .fixture-row .teams { flex: 1; font-weight: 500; }
+  .fixture-row .when { color: var(--muted); font-size: 11.5px; flex-shrink: 0; }
+  .poll-opt { display: flex; align-items: center; gap: 10px; padding: 11px 13px; background: var(--card); border: 1px solid var(--line); border-radius: 9px; margin-bottom: 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all .12s; position: relative; overflow: hidden; }
+  .poll-opt:hover { border-color: var(--blue); }
+  .poll-opt .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--blue-soft); width: 0; transition: width .5s ease; z-index: 0; }
+  .poll-opt .lbl, .poll-opt .pct { position: relative; z-index: 1; }
+  .poll-opt .pct { margin-left: auto; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .rumour-item { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 18px 20px; margin-bottom: 14px; cursor: pointer; transition: box-shadow .12s, border-color .12s; }
+  .rumour-item:hover { box-shadow: 0 8px 22px rgba(3,70,148,0.07); border-color: #d2dcec; }
+  .rumour-top { display: flex; align-items: flex-start; gap: 16px; }
+  .rumour-photo { width: 56px; height: 56px; border-radius: 10px; flex-shrink: 0; }
+  .rumour-photo .ph-init { font-size: 19px; }
+  .rumour-main { flex: 1; }
+  .rumour-main h3 { font-family: var(--serif); font-weight: 700; font-size: 17px; line-height: 1.25; color: var(--ink); }
+  .rumour-main p { font-size: 13px; color: var(--body); margin-top: 6px; line-height: 1.55; }
+  .rumour-metrics { display: flex; gap: 20px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line-2); flex-wrap: wrap; }
+  .metric { display: flex; flex-direction: column; gap: 3px; }
+  .metric .m-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-2); font-weight: 600; }
+  .metric .m-val { display: flex; align-items: center; gap: 7px; }
+  .stars { position: relative; display: inline-block; font-size: 14px; line-height: 1; letter-spacing: 1px; }
+  .stars .s-bg { color: var(--line); }
+  .stars .s-fg { color: var(--star); position: absolute; top: 0; left: 0; overflow: hidden; white-space: nowrap; }
+  .metric .m-num { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .metric .src-name { font-size: 12.5px; font-weight: 600; color: var(--body); }
+  .prob-wrap { display: flex; align-items: center; gap: 9px; }
+  .prob-bar { width: 84px; height: 7px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .prob-bar span { display: block; height: 100%; border-radius: 4px; }
+  .prob-num { font-size: 13px; font-weight: 700; }
+  .discuss-head { display: flex; align-items: center; gap: 10px; margin: 30px 0 16px; }
+  .discuss-head .bar { width: 3px; height: 20px; background: var(--navy); border-radius: 2px; }
+  .discuss-head h2 { font-family: var(--serif); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+  .discuss-head .count { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+  .comment-box { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; margin-bottom: 18px; }
+  .comment-box textarea { width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 11px 13px; font-family: var(--sans); font-size: 13.5px; color: var(--ink); resize: vertical; min-height: 62px; outline: none; transition: border-color .15s; }
+  .comment-box textarea:focus { border-color: var(--blue); }
+  .comment-box .cb-foot { display: flex; align-items: center; margin-top: 10px; gap: 10px; }
+  .comment-box input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-family: var(--sans); font-size: 13px; outline: none; max-width: 180px; }
+  .comment-box input:focus { border-color: var(--blue); }
+  .comment-box .post-btn { margin-left: auto; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 8px; border: none; color: #fff; background: var(--navy); cursor: pointer; transition: background .15s; }
+  .comment-box .post-btn:hover { background: var(--navy-deep); }
+  .comment { display: flex; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--line-2); }
+  .comment:last-child { border-bottom: none; }
+  .comment .av { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 13px; color: #fff; }
+  .comment .cmain { flex: 1; }
+  .comment .chead { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .comment .chead .cname { font-size: 13px; font-weight: 600; }
+  .comment .chead .ctime { font-size: 11.5px; color: var(--muted-2); }
+  .comment .ctext { font-size: 13.5px; color: var(--body); line-height: 1.55; }
+  .comment .cactions { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+  .comment .cact { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); cursor: pointer; user-select: none; }
+  .comment .cact:hover { color: var(--blue); }
+  .comment .cact.liked { color: var(--blue); font-weight: 600; }
+  .page-title { font-family: var(--serif); font-weight: 800; font-size: 30px; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .rel-note { background: var(--blue-soft); border: 1px solid #d3e2f7; border-radius: 11px; padding: 13px 16px; font-size: 12.5px; color: var(--navy-deep); line-height: 1.55; margin-bottom: 22px; }
+  .rel-note strong { font-weight: 600; }
+  footer { border-top: 1px solid var(--line); background: var(--card); padding: 26px 24px; text-align: center; }
+  footer .disc { max-width: 720px; margin: 0 auto; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  footer .disc strong { color: var(--body); font-weight: 600; }
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: 1fr; }
+    .news-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-story h1 { font-size: 24px; }
+  }
+  .player-search { position: relative; max-width: 460px; margin-bottom: 14px; }
+  .player-search .ps-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.5; }
+  .player-search input { width: 100%; font-family: var(--sans); font-size: 14px; padding: 13px 16px 13px 42px; border: 1.5px solid var(--line); border-radius: 11px; background: var(--card); outline: none; transition: border-color .15s; }
+  .player-search input:focus { border-color: var(--navy); }
+  .pos-filters { display: flex; gap: 7px; margin-bottom: 22px; flex-wrap: wrap; }
+  .pos-filters button { font-size: 12.5px; font-weight: 600; padding: 8px 15px; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; cursor: pointer; transition: all .15s; }
+  .pos-filters button:hover { border-color: var(--navy); color: var(--navy); }
+  .pos-filters button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .player-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .player-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: transform .12s, box-shadow .12s; }
+  .player-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(3,70,148,0.09); }
+  .pc-photo { height: 150px; position: relative; }
+  .pc-photo .ph-init { font-size: 42px; }
+  .pc-ratings { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+  .pc-rating { background: rgba(255,255,255,0.95); border-radius: 10px; padding: 6px 9px; text-align: center; min-width: 42px; }
+  .pc-rating .rv { font-family: var(--serif); font-weight: 800; font-size: 19px; line-height: 1; color: var(--navy); }
+  .pc-rating .rk { font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); white-space: nowrap; }
+  .pc-rating.season .rv { color: var(--blue); }
+  .pc-num { position: absolute; top: 12px; left: 14px; font-family: var(--serif); font-weight: 800; font-size: 30px; color: rgba(255,255,255,0.55); }
+  .pc-body { padding: 15px 17px 17px; }
+  .pc-name { font-family: var(--serif); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; color: var(--ink); }
+  .pc-pos { font-size: 12px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+  .pc-desc { font-size: 13px; color: var(--body); margin-top: 10px; line-height: 1.5; }
+  .pc-meta { margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 7px; }
+  .pc-meta .row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .pc-meta .row .k { color: var(--muted-2); width: 62px; flex-shrink: 0; }
+  .pc-meta .row .v { color: var(--ink); font-weight: 500; }
+  .season-bar { display: flex; gap: 7px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .season-bar .sb-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-right: 4px; }
+  .season-bar button { font-size: 12.5px; font-weight: 600; padding: 8px 13px; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); border-radius: 8px; cursor: pointer; transition: all .15s; }
+  .season-bar button:hover { border-color: var(--navy); color: var(--navy); }
+  .season-bar button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .pc-tenure { font-size: 11.5px; color: var(--muted); margin-top: 9px; display: flex; align-items: center; gap: 5px; }
+  .pc-click { font-size: 11.5px; color: var(--blue); font-weight: 600; margin-top: 11px; }
+  .player-card { cursor: pointer; }
+  .empty-season { grid-column: 1/-1; padding: 40px; text-align: center; color: var(--muted); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(6,16,34,0.55); backdrop-filter: blur(3px); display: none; align-items: flex-start; justify-content: center; padding: 40px 20px; z-index: 100; overflow-y: auto; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card); border-radius: 18px; max-width: 600px; width: 100%; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.35); }
+  .modal-photo { height: 200px; position: relative; }
+  .modal-photo .ph-init { font-size: 64px; }
+  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; font-size: 17px; color: var(--ink); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .modal-num { position: absolute; bottom: 14px; left: 20px; font-family: var(--serif); font-weight: 800; font-size: 40px; color: rgba(255,255,255,0.6); }
+  .modal-ratings { position: absolute; bottom: 16px; right: 20px; display: flex; gap: 8px; }
+  .modal-rating-box { background: rgba(255,255,255,0.95); border-radius: 12px; padding: 8px 14px; text-align: center; }
+  .modal-rating-box .rv { font-family: var(--serif); font-weight: 800; font-size: 27px; color: var(--navy); line-height: 1; }
+  .modal-rating-box .rk { font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); white-space: nowrap; }
+  .modal-rating-box.season .rv { color: var(--blue); }
+  .modal-body { padding: 22px 24px 26px; }
+  .modal-name { font-family: var(--serif); font-weight: 800; font-size: 25px; letter-spacing: -0.01em; }
+  .modal-pos { font-size: 13px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+  .modal-desc { font-size: 14px; color: var(--body); line-height: 1.6; margin-top: 14px; }
+  .modal-facts { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 18px; }
+  .fact { background: var(--bg); border-radius: 11px; padding: 12px 14px; }
+  .fact .fk { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-2); font-weight: 600; }
+  .fact .fv { font-size: 14px; font-weight: 600; margin-top: 3px; }
+  .modal-section { font-family: var(--serif); font-weight: 700; font-size: 16px; margin: 24px 0 4px; }
+  .modal-section-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .chart-wrap { position: relative; }
+  .chart-note { font-size: 11px; color: var(--muted-2); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+
+  /* ── Social embed slots ── */
+  .embed-slot { margin: 14px 0 0; border: 1.5px dashed var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+  .embed-slot-header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--line-2); border-bottom: 1px solid var(--line); }
+  .embed-platform-badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 5px; letter-spacing: 0.02em; }
+  .embed-badge--twitter { background: #000; color: #fff; }
+  .embed-badge--instagram { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+  .embed-slot-tag { font-size: 10px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.05em; margin-left: auto; background: rgba(201,151,0,0.12); padding: 2px 7px; border-radius: 4px; }
+  .embed-slot-body { display: flex; align-items: flex-start; gap: 11px; padding: 11px 13px; }
+  .embed-slot-icon { font-size: 20px; flex-shrink: 0; opacity: 0.4; line-height: 1.3; }
+  .embed-slot-text { font-size: 12px; color: var(--body); }
+  .embed-slot-text strong { display: block; color: var(--ink); margin-bottom: 3px; font-size: 12.5px; }
+  .embed-slot-url { font-family: monospace; font-size: 10.5px; color: var(--blue); word-break: break-all; margin: 3px 0; }
+  .embed-slot-hint { font-size: 10.5px; color: var(--muted-2); margin-top: 4px; font-style: italic; }
+  .embed-live { margin: 14px 0 0; }
+  .embed-live blockquote { max-width: 100% !important; margin: 0 auto !important; }
+  /* prevent embed clicks bubbling to card/rumour onclick */
+  .embed-wrap { pointer-events: auto; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="go('home')">
+      <div class="logo-mark">CZ</div>
+      <div class="logo-text">The Chelsea <span class="z">Zone</span></div>
+    </div>
+    <div class="nav-links" id="nav-links"></div>
+    <button class="nav-cta" onclick="scrollToDiscuss()">Join the discussion</button>
+  </div>
+</nav>
+<div class="ticker">
+  <span class="tag">Breaking</span>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+<div class="container">
+  <div class="page active" id="page-home">
+    <div class="grid">
+      <div class="main">
+        <div class="hero-story" onclick="openSource('https://www.beinsports.com/en-us/soccer/premier-league/articles/andrey-santos-completes-man-utd-transfer-from-chelsea-2026-07-13')">
+          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('https://upload.wikimedia.org/wikipedia/commons/2/23/Santos_asse_rcsa_2425.jpg')">
+            <a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Santos_asse_rcsa_2425.jpg" target="_blank" rel="noopener noreferrer" title="Photo: Paté kroute · CC0 1.0 · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>
+          </div>
+          <div class="hero-body">
+            <span class="hero-badge">&#9889; Transfer latest</span>
+            <h1>Santos completes &pound;48m Man Utd exit as Alonso plots his next move</h1>
+            <p>Andrey Santos's transfer to Manchester United is confirmed at a reported &pound;48m plus &pound;2m in add-ons, while Chelsea prepare an improved &euro;25m bid for Rayo Vallecano's Pep Chavarr&iacute;a after Real Madrid rebuffed an approach for &Aacute;lvaro Carreras.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">beIN Sports</span> &middot; <span class="src">FootballTransfers</span> &middot; <span class="src">Sport Witness</span></span><span>&middot;</span><span>13 Jul 2026</span></div>
+          </div>
+        </div>
+        <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
+        <div class="news-grid" id="news-grid"></div>
+        <div class="section-head" style="margin-top:28px;"><div class="bar" style="background:var(--gold);"></div><h2>Rumour mill</h2><span class="more" onclick="go('rumours')">All rumours &rarr;</span></div>
+        <div id="rumour-home"></div>
+        <div class="section-head" style="margin-top:28px;"><div class="bar" style="background:var(--green);"></div><h2>Quote of the day</h2></div>
+        <div class="quote-card" onclick="openSource('https://www.chelseafc.com/en/news/article/every-word-from-xabi-alonsos-first-interview-as-chelsea-manager')">
+          <div class="photo q-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('https://upload.wikimedia.org/wikipedia/commons/8/80/Xabi_Alonso_48609.jpg')">
+            <a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Xabi_Alonso_48609.jpg" target="_blank" rel="noopener noreferrer" title="Photo: Vladimir Mayorov · CC BY-SA 3.0 · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>
+          </div>
+          <div>
+            <div class="q">"You need to give everything you have for the benefit of the team. The team is always the most important thing."</div>
+            <div class="attr"><span class="who">Xabi Alonso</span><span class="role">&mdash; first press conference as Chelsea head coach</span></div>
+          </div>
+        </div>
+        <div class="discuss-head" id="discuss"><div class="bar"></div><h2>Fan discussion</h2><span class="count" id="cCount"></span></div>
+        <div class="comment-box">
+          <textarea id="cText" placeholder="Share your take on the latest Chelsea news..."></textarea>
+          <div class="cb-foot">
+            <input id="cName" type="text" placeholder="Your name" />
+            <button class="post-btn" onclick="postComment()">Post comment</button>
+          </div>
+        </div>
+        <div id="comments"></div>
+      </div>
+      <div class="side">
+        <div class="side-card">
+          <h4><span class="ic">&#8644;</span> Summer transfer tracker</h4>
+          <div id="transfer-list"></div>
+        </div>
+        <div class="side-card">
+          <h4><span class="ic">&#9638;</span> Pre-season fixtures</h4>
+          <div id="fixture-list"></div>
+        </div>
+        <div class="side-card">
+          <h4><span class="ic">&#10003;</span> Fan poll</h4>
+          <p style="font-size:13px; color:var(--body); margin-bottom:14px; line-height:1.5;">Should Chelsea cash in on Enzo Fern&aacute;ndez at &pound;120m?</p>
+          <div class="poll-opt" onclick="vote(this,0)"><span class="fill"></span><span class="lbl">Sell &mdash; reinvest the money</span><span class="pct"></span></div>
+          <div class="poll-opt" onclick="vote(this,1)"><span class="fill"></span><span class="lbl">Keep him &mdash; he's the engine</span><span class="pct"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="page-news">
+    <div class="page-title">Latest news</div>
+    <div class="page-sub">Everything around Stamford Bridge, summarised with links to the original reporting.</div>
+    <div class="news-grid" id="news-grid-full"></div>
+  </div>
+  <div class="page" id="page-transfers">
+    <div class="page-title">Transfer centre</div>
+    <div class="page-sub">Every confirmed deal and live rumour of the summer window.</div>
+    <div class="grid">
+      <div class="main"><div class="news-grid" id="transfer-cards"></div></div>
+      <div class="side"><div class="side-card"><h4><span class="ic">&#8644;</span> Done deals + rumours</h4><div id="transfer-list-2"></div></div></div>
+    </div>
+  </div>
+  <div class="page" id="page-rumours">
+    <div class="page-title">Rumour mill</div>
+    <div class="page-sub">Every live rumour, rated by source reliability and how likely we think it is to happen.</div>
+    <div class="rel-note"><strong>How to read this:</strong> &#9733; stars rate how reliable the <strong>reporting source</strong> is on Chelsea deals (track record, not the story). The <strong>likelihood</strong> bar is our read on how probable the move actually is &mdash; a trusted source can still report a deal that falls through.</div>
+    <div id="rumour-full"></div>
+  </div>
+  <div class="page" id="page-players">
+    <div class="page-title">Squad profiles</div>
+    <div class="page-sub">Browse any season back to 2020-21. Search, filter, and click a player for their full profile and rating progression.</div>
+    <div class="season-bar" id="seasonBar"></div>
+    <div class="player-search">
+      <span class="ps-icon">&#128269;</span>
+      <input id="playerSearch" type="text" placeholder="Search a player by name..." autocomplete="off" oninput="renderPlayers()" />
+    </div>
+    <div class="pos-filters" id="posFilters"></div>
+    <div class="player-grid" id="playerGrid"></div>
+  </div>
+  <div class="page" id="page-quotes">
+    <div class="page-title">Quotes</div>
+    <div class="page-sub">Straight from the players, the manager, and around the club.</div>
+    <div id="quote-list"></div>
+  </div>
+  <div class="page" id="page-fixtures">
+    <div class="page-title">Fixtures</div>
+    <div class="page-sub">Pre-season schedule ahead of the 2026-27 campaign.</div>
+    <div class="side-card" style="max-width:560px;"><div id="fixture-list-full"></div></div>
+  </div>
+</div>
+<footer>
+  <div class="disc"><strong>The Chelsea Zone</strong> is an independent fan site, not affiliated with Chelsea Football Club. News is summarised in our own words with links to the original reporting. Images are placeholders &mdash; add your own licensed or original photos before publishing. Design prototype.</div>
+</footer>
+
+<script>
+/* ── Helpers ── */
+function starRating(val){
+  var pct=(val/5)*100;
+  return '<span class="stars"><span class="s-bg">★★★★★</span><span class="s-fg" style="width:'+pct+'%">★★★★★</span></span>';
+}
+function probColor(p){ if(p>=70) return '#128a4c'; if(p>=45) return '#c99700'; return '#cc3b3b'; }
+
+/* ── Nav ── */
+var navItems=[["home","Home"],["news","News"],["transfers","Transfers"],["rumours","Rumours"],["players","Players"],["quotes","Quotes"],["fixtures","Fixtures"]];
+document.getElementById('nav-links').innerHTML=navItems.map(function(x){return '<button data-p="'+x[0]+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>';}).join('');
+function go(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(function(b){b.classList.toggle('active',b.dataset.p===id);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelector('.nav-links button').classList.add('active');
+function scrollToDiscuss(){ go('home'); setTimeout(function(){document.getElementById('discuss').scrollIntoView({behavior:'smooth'});},120); }
+
+/* ── Ticker ── */
+var tickerItems=["Santos completes £48m Man Utd move","Alonso: 'The team is always the most important thing'","Chelsea prepare improved bid for Chavarría","Real Madrid reject Chelsea's Carreras offer","Garnacho left out of first-team training","Xhaka commits future to Sunderland"];
+document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
+
+/* ════════════════════════════════════════════
+   SOCIAL EMBED SYSTEM
+   ════════════════════════════════════════════
+   Each news item, rumour, quote, or player can carry an optional
+   `embed` object:
+     { type: "twitter" | "instagram", url: "...", example: true | false }
+
+   • example: true  → shows a labelled placeholder slot so you can
+     see exactly where the embed will appear. Set to false and replace
+     the URL with a real post URL to activate the live embed.
+   • example: false → renders the official platform blockquote and
+     lazy-loads the platform's own embed.js / widgets.js script via
+     IntersectionObserver (script loads only when the embed scrolls
+     into view, keeping initial page load fast).
+
+   HOW TO ADD A REAL EMBED
+   ──────────────────────
+   Twitter / X post:
+     embed: { type:"twitter", url:"https://twitter.com/ChelseaFC/status/123456789", example:false }
+   Instagram post:
+     embed: { type:"instagram", url:"https://www.instagram.com/p/ABC123XYZ/", example:false }
+   ════════════════════════════════════════════ */
+
+var EMBED_SCRIPTS_LOADED={};
+
+function loadEmbedScript(type){
+  if(EMBED_SCRIPTS_LOADED[type]) return;
+  EMBED_SCRIPTS_LOADED[type]=true;
+  var s=document.createElement('script');
+  if(type==='twitter'){ s.src='https://platform.twitter.com/widgets.js'; s.charset='utf-8'; }
+  else if(type==='instagram'){ s.src='https://www.instagram.com/embed.js'; }
+  s.async=true;
+  document.body.appendChild(s);
+}
+
+var embedObserver=typeof IntersectionObserver!=='undefined'
+  ? new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        loadEmbedScript(e.target.dataset.embedType);
+        embedObserver.unobserve(e.target);
+      });
+    },{rootMargin:'300px 0px'})
+  : null;
+
+function observeEmbeds(){
+  if(!embedObserver) return;
+  document.querySelectorAll('.embed-live[data-embed-type]').forEach(function(el){
+    embedObserver.observe(el);
+  });
+}
+
+function embedHTML(embed){
+  if(!embed) return '';
+  var type=embed.type;
+  var url=embed.url;
+  var label=type==='twitter' ? '𝕏️ X / Twitter' : 'Instagram';
+  var icon=type==='twitter' ? '&#120143;' : '&#128247;';
+
+  if(embed.example){
+    return '<div class="embed-slot" onclick="event.stopPropagation()">'+
+      '<div class="embed-slot-header">'+
+        '<span class="embed-platform-badge embed-badge--'+type+'">'+label+'</span>'+
+        '<span class="embed-slot-tag">Example slot</span>'+
+      '</div>'+
+      '<div class="embed-slot-body">'+
+        '<div class="embed-slot-icon">'+icon+'</div>'+
+        '<div class="embed-slot-text">'+
+          '<strong>Paste a real post URL here to activate this embed</strong>'+
+          '<div class="embed-slot-url">'+url+'</div>'+
+          '<div class="embed-slot-hint">In the data array: set <code>example:false</code> and replace the URL above.</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  var inner='';
+  if(type==='twitter'){
+    inner='<blockquote class="twitter-tweet" data-lang="en"><a href="'+url+'"></a></blockquote>';
+  } else if(type==='instagram'){
+    inner='<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" style="max-width:540px;min-width:326px;width:calc(100% - 2px);margin:0 auto;"></blockquote>';
+  }
+  return '<div class="embed-live" data-embed-type="'+type+'" onclick="event.stopPropagation()">'+inner+'</div>';
+}
+
+/* ── News ── */
+var news=[
+  {
+    cat:"Done deal",cc:"done",init:"AS",
+    h:"Andrey Santos completes Manchester United move",
+    p:"Chelsea confirm the Brazilian's departure for a reported £48m plus £2m in add-ons on a five-year deal, ending a three-year spell that included last summer's Club World Cup win.",
+    src:"beIN Sports · Chelsea FC",when:"13 Jul",
+    url:"https://www.beinsports.com/en-us/soccer/premier-league/articles/andrey-santos-completes-man-utd-transfer-from-chelsea-2026-07-13",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/2/23/Santos_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Santos_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0",
+    /* EXAMPLE EMBED SLOT — replace url with a real X post and set example:false */
+    embed:{type:"twitter",url:"https://twitter.com/ChelseaFC/status/REPLACE_WITH_REAL_TWEET_ID",example:true}
+  },
+  {
+    cat:"Quote",cc:"quote",init:"XA",
+    h:"Alonso, in his first press conference: ‘The team is always the most important thing’",
+    p:"Chelsea's new head coach sets out his footballing culture ahead of pre-season: “You need to give everything you have for the benefit of the team. The team is always the most important thing.”",
+    src:"Chelsea FC",when:"13 Jul",
+    url:"https://www.chelseafc.com/en/news/article/every-word-from-xabi-alonsos-first-interview-as-chelsea-manager",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/8/80/Xabi_Alonso_48609.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Xabi_Alonso_48609.jpg",photoBy:"Vladimir Mayorov",photoLic:"CC BY-SA 3.0"
+  },
+  {
+    cat:"Transfer",cc:"",init:"PC",
+    h:"Chelsea prepare improved bid for Pep Chavarría",
+    p:"An offer worth up to €25m is being readied for the Rayo Vallecano left-back, who is said to have reached personal terms and wants to join compatriot Xabi Alonso as cover for Jorrel Hato.",
+    src:"FootballTransfers · Marca",when:"13 Jul",
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-pep-chavarria-rayo-vallecano-25m-offer-prepared-summer-2026"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"MP",
+    h:"Palestra becomes first Alonso signing",
+    p:"The Italy international joins permanently from Atalanta for a reported €57m, signing through to 2033 — Chelsea’s first move of the window.",
+    src:"Chelsea FC · BBC",when:"1 Jul",
+    url:"https://www.chelseafc.com/en/news/article/summer-transfers-2026-all-the-chelsea-ins-outs-and-new-contracts-so-far",
+    /* EXAMPLE EMBED SLOT — replace with official club Instagram post */
+    embed:{type:"instagram",url:"https://www.instagram.com/p/REPLACE_WITH_REAL_POST_ID/",example:true}
+  },
+  {cat:"News",cc:"",init:"AG",h:"Garnacho left out of first-team training after being listed",p:"Chelsea and the winger have agreed to explore a sale following a difficult debut season; he remains absent from Cobham as Roma and Napoli continue to monitor his situation.",src:"FootballTransfers",when:"12 Jul",url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-adam-wharton-alejandro-garnacho-12-july"},
+  {cat:"News",cc:"",init:"AC",h:"Real Madrid reject Chelsea's opening Carreras offer",p:"A €25m bid for left-back Álvaro Carreras — a player Alonso worked with at Madrid — is turned down, with Los Blancos said to value him closer to €50-60m.",src:"Sport Witness",when:"12 Jul",url:"https://sportwitness.co.uk/chelsea-boss-refuses-to-give-up-on-real-madrid-signing-e25m-offer-already-rejected/"},
+  {cat:"News",cc:"",init:"GX",h:"Xhaka U-turn: Alonso target stays at Sunderland",p:"“Sunderland has been my home since day one… I've decided to stay where I am; the most important thing is family,” the midfielder says after rejecting Chelsea's approach.",src:"chelseafconline",when:"8 Jul",url:"https://chelseafconline.com/2026/07/granit-xhaka-ends-chelsea-speculation-commits-future-to-sunderland/",
+   photo:"https://upload.wikimedia.org/wikipedia/commons/0/04/Granit_Xhaka_2018.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Granit_Xhaka_2018.jpg",photoBy:"cfcunofficial",photoLic:"CC BY-SA 2.0"},
+  {cat:"Quote",cc:"quote",init:"VC",h:"Enzo’s wife: ‘I’m very happy in London’",p:"Valentina Cervantes plays down Real Madrid talk, telling El Chiringuito the family is settled with their children in school in England.",src:"FootballTransfers",when:"5 Jul",url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-tyrique-george-5-july"},
+  {cat:"Academy",cc:"",init:"NJ",h:"Nicoll-Jazuli tied down on scholarship terms",p:"Chelsea secure the future of one of their brightest academy prospects, Mahdi Nicoll-Jazuli, per David Ornstein.",src:"chelseafconline",when:"5 Jul",url:"https://chelseafconline.com/"}
+];
+
+function cardHTML(n){
+  var em=n.embed ? embedHTML(n.embed) : '';
+  return '<div class="card" onclick="openSource(\''+n.url+'\')">'+
+    '<div class="photo card-photo'+(n.photo?' has-photo':'')+'"'+photoStyle(n)+'>'+(n.photo?'':'<span class="ph-init">'+n.init+'</span>')+(n.photo?photoCredit(n):'<span class="ph-tag">Photo placeholder</span>')+'</div>'+
+    '<div class="card-body">'+
+      '<div class="cat '+n.cc+'">'+n.cat+'</div>'+
+      '<h3>'+n.h+'</h3>'+
+      '<p>'+n.p+'</p>'+
+      '<div class="foot"><span class="src">'+n.src+'</span><span class="dot"></span><span>'+n.when+'</span></div>'+
+      em+
+    '</div>'+
+  '</div>';
+}
+document.getElementById('news-grid').innerHTML=news.slice(0,4).map(cardHTML).join('');
+document.getElementById('news-grid-full').innerHTML=news.map(cardHTML).join('');
+document.getElementById('transfer-cards').innerHTML=news.filter(function(n){return n.cat==='Transfer'||n.cc==='done';}).map(cardHTML).join('');
+observeEmbeds();
+
+/* ── Rumours ── */
+var rumours=[
+  {
+    init:"AG",h:"Garnacho to Roma or Napoli",
+    p:"Now formally transfer-listed and left out of first-team training, with Roma the winger's preferred destination — though Napoli remain interested if the finances can be made to work.",
+    src:"FootballTransfers",rel:4.2,prob:64,
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-adam-wharton-alejandro-garnacho-12-july",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"
+  },
+  {
+    init:"PC",h:"Chelsea prepare improved bid for Pep Chavarría",
+    p:"A reported \"firm agreement\" with the Rayo Vallecano left-back, who wants to join compatriot Xabi Alonso — but Rayo president Raúl Presa may hold out for a fixed €25m fee.",
+    src:"FootballTransfers · Marca",rel:4.0,prob:72,
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-pep-chavarria-rayo-vallecano-25m-offer-prepared-summer-2026"
+  },
+  {
+    init:"TC",h:"Chalobah eyed by Inter and Como",
+    p:"His agent has reportedly met Inter Milan, with Como also keen and a bid around £30m mooted for the England defender.",
+    src:"Football Transfer League",rel:2.8,prob:42,
+    url:"https://www.footballtransferleague.co.uk/clubs/chelsea",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"
+  },
+  {
+    init:"EF",h:"Arsenal and Man City ‘gathering info’ on Enzo",
+    p:"After Real Madrid pulled out, Longari claims domestic rivals are monitoring Fernández — but Chelsea’s £120m+ valuation is a major hurdle.",
+    src:"Gianluigi Longari",rel:2.6,prob:28,
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-alejandro-garnacho-granit-xhaka-gilberto-mora",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0"
+  },
+  {
+    init:"DV",h:"Vlahović floated as a striker option",
+    p:"Speculative link suggesting the Juventus forward could be considered if Chelsea revamp their attack. Thin sourcing so far.",
+    src:"CaughtOffside",rel:2.2,prob:18,
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-speaks-out-future-unusual-deal-takes-shape",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/7/76/Dusan_Vlahovic.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dusan_Vlahovic.jpg",photoBy:"Dariuzzdigambassi",photoLic:"CC BY-SA 4.0"
+  },
+  {
+    init:"AW",h:"Chelsea favourites for Adam Wharton as rivals cool",
+    p:"Bookmakers have shortened Chelsea's odds as Liverpool, Man United and Spurs are said to have stepped back — though Palace's £80-100m valuation makes a deal before deadline day unlikely. Rumour-tier for now.",
+    src:"Football Insider",rel:1.8,prob:22,
+    url:"https://www.footballinsider247.com/chelsea/adam-wharton-chelsea-increasingly-likely-to-complete-crystal-palace-deal-as-odds-tumble"
+  }
+];
+function rumourHTML(r){
+  var em=r.embed ? embedHTML(r.embed) : '';
+  return '<div class="rumour-item" onclick="openSource(\''+r.url+'\')">'+
+    '<div class="rumour-top">'+
+      '<div class="photo rumour-photo'+(r.photo?' has-photo':'')+'"'+photoStyle(r)+'>'+(r.photo?'':'<span class="ph-init">'+r.init+'</span>')+(r.photo?photoCredit(r):'')+'</div>'+
+      '<div class="rumour-main"><h3>'+r.h+'</h3><p>'+r.p+'</p></div>'+
+    '</div>'+
+    '<div class="rumour-metrics">'+
+      '<div class="metric"><span class="m-label">Source</span><div class="m-val"><span class="src-name">'+r.src+'</span></div></div>'+
+      '<div class="metric"><span class="m-label">Source reliability</span><div class="m-val">'+starRating(r.rel)+'<span class="m-num">'+r.rel.toFixed(1)+'</span></div></div>'+
+      '<div class="metric"><span class="m-label">Likelihood of move</span><div class="m-val prob-wrap"><span class="prob-bar"><span style="width:'+r.prob+'%;background:'+probColor(r.prob)+';"></span></span><span class="prob-num" style="color:'+probColor(r.prob)+';">'+r.prob+'%</span></div></div>'+
+    '</div>'+
+    em+
+  '</div>';
+}
+document.getElementById('rumour-full').innerHTML=rumours.map(rumourHTML).join('');
+document.getElementById('rumour-home').innerHTML=rumours.slice(0,3).map(rumourHTML).join('');
+observeEmbeds();
+
+/* ── Quotes ── */
+var quotes=[
+  {
+    init:"XA",
+    q:"You need to give everything you have for the benefit of the team. The team is always the most important thing.",
+    who:"Xabi Alonso",role:"first press conference as Chelsea head coach, to Chelsea FC",
+    url:"https://www.chelseafc.com/en/news/article/every-word-from-xabi-alonsos-first-interview-as-chelsea-manager",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/8/80/Xabi_Alonso_48609.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Xabi_Alonso_48609.jpg",photoBy:"Vladimir Mayorov",photoLic:"CC BY-SA 3.0"
+  },
+  {
+    init:"GX",
+    q:"Sunderland has been my home since day one. We are all very happy. I’ve decided to stay where I am; the most important thing is family. I am ready to make history with them.",
+    who:"Granit Xhaka",role:"on rejecting Chelsea's approach, to chelseafconline",
+    url:"https://chelseafconline.com/2026/07/granit-xhaka-ends-chelsea-speculation-commits-future-to-sunderland/",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/0/04/Granit_Xhaka_2018.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Granit_Xhaka_2018.jpg",photoBy:"cfcunofficial",photoLic:"CC BY-SA 2.0"
+  },
+  {
+    init:"EF",
+    q:"I’m not thinking about my future right now. I’m here living this incredible moment, and we’ll see what happens after the World Cup.",
+    who:"Enzo Fernández",role:"to DAZN, after Argentina beat Egypt",
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-speaks-out-future-unusual-deal-takes-shape",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",
+    /* EXAMPLE EMBED SLOT — e.g. the original DAZN clip tweet */
+    embed:{type:"twitter",url:"https://twitter.com/DAZN_ES/status/REPLACE_WITH_REAL_TWEET_ID",example:true}
+  },
+  {
+    init:"VC",
+    q:"Honestly, I’m fine. My son was born in England, they go to school there, so I’m very happy too. Any team is fine with me.",
+    who:"Valentina Cervantes",role:"Enzo Fernández’s wife, to El Chiringuito",
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-tyrique-george-5-july"
+  }
+];
+function quoteCardHTML(x){
+  var em=x.embed ? embedHTML(x.embed) : '';
+  return '<div class="quote-card" onclick="openSource(\''+x.url+'\')">'+
+    '<div class="photo q-photo'+(x.photo?' has-photo':'')+'"'+photoStyle(x)+'>'+(x.photo?'':'<span class="ph-init">'+x.init+'</span>')+(x.photo?photoCredit(x):'')+'</div>'+
+    '<div style="flex:1">'+
+      '<div class="q">“'+x.q+'”</div>'+
+      '<div class="attr"><span class="who">'+x.who+'</span><span class="role">- '+x.role+'</span></div>'+
+      em+
+    '</div>'+
+  '</div>';
+}
+document.getElementById('quote-list').innerHTML=quotes.map(quoteCardHTML).join('');
+observeEmbeds();
+
+/* ── Transfers sidebar ── */
+var transfers=[
+  {dir:"in",name:"Marco Palestra",club:"from Atalanta",fee:"€57m",s:false},
+  {dir:"in",name:"Valentín Barco",club:"from Strasbourg",fee:"Agreed",s:true},
+  {dir:"in",name:"Pep Chavarría",club:"bid prepared - Rayo Vallecano",fee:"~€25m",s:true},
+  {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
+  {dir:"out",name:"Marc Cucurella",club:"to Real Madrid",fee:"£51.8m",s:false},
+  {dir:"out",name:"Tyrique George",club:"to Everton",fee:"up to €28m",s:false},
+  {dir:"out",name:"Alejandro Garnacho",club:"listed - Roma/Napoli keen",fee:"For sale",s:true}
+];
+function trHTML(t){ return '<div class="transfer-row"><div class="dir '+t.dir+'">'+(t.dir==='in'?'↓':'↑')+'</div><div class="tinfo"><div class="name">'+t.name+'</div><div class="club">'+t.club+'</div></div><div class="fee '+(t.s?'status':'')+'">'+t.fee+'</div></div>'; }
+document.getElementById('transfer-list').innerHTML=transfers.map(trHTML).join('');
+document.getElementById('transfer-list-2').innerHTML=transfers.map(trHTML).join('');
+
+/* ── Fixtures ── */
+var fixtures=[
+  {comp:"Friendly",teams:"Western Sydney Wanderers vs Chelsea",when:"28 Jul"},
+  {comp:"Friendly",teams:"Chelsea vs Tottenham Hotspur",when:"1 Aug"},
+  {comp:"Pre-season",teams:"Asia tour - vs Serie A side",when:"Aug"}
+];
+function fxHTML(f){ return '<div class="fixture-row"><div class="comp">'+f.comp+'</div><div class="teams">'+f.teams+'</div><div class="when">'+f.when+'</div></div>'; }
+document.getElementById('fixture-list').innerHTML=fixtures.map(fxHTML).join('');
+document.getElementById('fixture-list-full').innerHTML=fixtures.map(fxHTML).join('');
+
+/* ── Poll ── */
+var voted=false;
+function vote(el,idx){
+  if(voted) return; voted=true;
+  var res=['58%','42%']; var opts=document.querySelectorAll('.poll-opt');
+  opts.forEach(function(o,i){ o.style.cursor='default'; o.querySelector('.pct').textContent=res[i]; o.querySelector('.fill').style.width=res[i]; });
+  el.style.borderColor='var(--blue)';
+}
+
+/* ── Comments ── */
+var avatarColors=['#034694','#128a4c','#c99700','#8a3fc9','#c94a3f','#2f6fe0'];
+var comments=[
+  {name:"BlueLion_87",text:"£120m for Enzo is steep but if someone actually pays it, Alonso can rebuild that midfield exactly how he wants. Barco’s a smart start.",time:"2h ago",likes:14,liked:false},
+  {name:"KTBFFH",text:"Losing Santos hurts more than people think. Reliable squad depth, sold too cheap imo.",time:"4h ago",likes:9,liked:false},
+  {name:"StamfordFaithful",text:"Garnacho for sale after one year is wild. £40m basically gone. Recruitment needs a proper rethink.",time:"6h ago",likes:22,liked:false}
+];
+function initials(n){ return n.replace(/[^a-zA-Z0-9]/g,'').slice(0,2).toUpperCase(); }
+function renderComments(){
+  document.getElementById('cCount').textContent=comments.length+' comments';
+  document.getElementById('comments').innerHTML=comments.map(function(c,i){
+    return '<div class="comment"><div class="av" style="background:'+avatarColors[i%avatarColors.length]+';">'+initials(c.name)+'</div><div class="cmain"><div class="chead"><span class="cname">'+c.name+'</span><span class="ctime">'+c.time+'</span></div><div class="ctext">'+c.text+'</div><div class="cactions"><span class="cact '+(c.liked?'liked':'')+'" onclick="likeComment('+i+')">▲ '+c.likes+'</span><span class="cact" onclick="scrollToDiscuss()">↩ Reply</span></div></div></div>';
+  }).join('');
+}
+function likeComment(i){ comments[i].liked=!comments[i].liked; comments[i].likes+=comments[i].liked?1:-1; renderComments(); }
+function postComment(){
+  var name=(document.getElementById('cName').value||'Guest').trim();
+  var text=document.getElementById('cText').value.trim();
+  if(!text) return;
+  comments.unshift({name:name||'Guest',text:text,time:'just now',likes:0,liked:false});
+  document.getElementById('cText').value=''; document.getElementById('cName').value='';
+  renderComments();
+}
+renderComments();
+
+/* ════════════════════════════════════════════
+   FULL CHELSEA SQUAD — 2025-26 (and historical seasons back to 2020-21)
+   Ratings are ILLUSTRATIVE PLACEHOLDERS — see chart note in each modal.
+   Squad numbers and fees are as recorded / best available at time of writing.
+   ════════════════════════════════════════════ */
+var SEASONS=["2020-21","2021-22","2022-23","2023-24","2024-25","2025-26"];
+var currentSeason="2025-26";
+var squad=[
+  /* ── Goalkeepers ── */
+  {n:"Robert Sánchez",      num:1,  pos:"Goalkeeper",   grp:"GK",  init:"RS",from:"Brighton",          fee:"~£25m",       joinedY:"2023",r:{"2023-24":75,"2024-25":78,"2025-26":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Robert_S%C3%A1nchez_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Robert_Sánchez_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
+  {n:"Filip Jørgensen",     num:12, pos:"Goalkeeper",   grp:"GK",  init:"FJ",from:"Villarreal",         fee:"~£20m",       joinedY:"2024",r:{"2024-25":73,"2025-26":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Filip_J%C3%B6rgensen_20042025_(1).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Filip_Jörgensen_20042025_(1).jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
+
+  /* ── Defenders ── */
+  {n:"Reece James",              num:24, pos:"Right-back",   grp:"DEF", init:"RJ",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2019",r:{"2020-21":78,"2021-22":83,"2022-23":81,"2023-24":76,"2024-25":80,"2025-26":82},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",
+   embed:{type:"instagram",url:"https://www.instagram.com/p/REPLACE_REECE_JAMES_POST/",example:true}},
+  {n:"Malo Gusto",               num:27, pos:"Right-back",   grp:"DEF", init:"MG",from:"Lyon",               fee:"~£26m",       joinedY:"2023",r:{"2023-24":74,"2024-25":77,"2025-26":76},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/a/a2/Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+  {n:"Josh Acheampong",          num:43, pos:"Right-back",   grp:"DEF", init:"JA",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2024",r:{"2024-25":69,"2025-26":73}},
+  {n:"Caleb Wiley",              num:30, pos:"Left-back",    grp:"DEF", init:"CW",from:"Atlanta United",     fee:"~£10m",       joinedY:"2025",r:{"2025-26":72},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/7/7b/Wiley_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wiley_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
+  {n:"Levi Colwill",             num:6,  pos:"Centre-back",  grp:"DEF", init:"LC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2023",r:{"2023-24":78,"2024-25":81,"2025-26":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
+  {n:"Tosin Adarabioyo",         num:4,  pos:"Centre-back",  grp:"DEF", init:"TA",from:"Fulham",             fee:"Free",             joinedY:"2024",r:{"2024-25":78,"2025-26":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/2/2d/Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
+  {n:"Wesley Fofana",            num:29, pos:"Centre-back",  grp:"DEF", init:"WF",from:"Leicester City",     fee:"~£70m",       joinedY:"2022",r:{"2022-23":76,"2023-24":70,"2024-25":72,"2025-26":73},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/f/f6/Wesley_Fofana_2022.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wesley_Fofana_2022.jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
+  {n:"Trevoh Chalobah",          num:23, pos:"Centre-back",  grp:"DEF", init:"TC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2021",r:{"2021-22":74,"2022-23":73,"2023-24":72,"2024-25":76,"2025-26":77},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
+  {n:"Axel Disasi",              num:2,  pos:"Centre-back",  grp:"DEF", init:"AX",from:"Monaco",             fee:"~£38m",       joinedY:"2023",r:{"2023-24":74,"2024-25":76,"2025-26":77},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/b/b4/AxelDisasi_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:AxelDisasi_(cropped).jpg",photoBy:"Ksiamon",photoLic:"CC BY-SA 4.0"},
+  {n:"Benoit Badiashile",        num:5,  pos:"Centre-back",  grp:"DEF", init:"BB",from:"Monaco",             fee:"~£33m",       joinedY:"2023",r:{"2023-24":73,"2024-25":75,"2025-26":77},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Beno%C3%AEt_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Benoît_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
+  {n:"Aaron Anselmino",          num:34, pos:"Centre-back",  grp:"DEF", init:"AA",from:"Boca Juniors",       fee:"~€23m",       joinedY:"2024",r:{"2024-25":70,"2025-26":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
+  {n:"Mamadou Sarr",             num:33, pos:"Centre-back",  grp:"DEF", init:"MS",from:"Strasbourg",         fee:"~€9m",        joinedY:"2024",r:{"2024-25":68,"2025-26":71},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sarr_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Sarr_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
+  {n:"Renato Veiga",             num:31, pos:"Centre-back",  grp:"DEF", init:"RV",from:"Basel",              fee:"~£12m",       joinedY:"2024",r:{"2024-25":73,"2025-26":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+
+  /* ── Midfielders ── */
+  {n:"Moíses Caicedo",      num:25, pos:"Defensive mid",grp:"MID", init:"MC",from:"Brighton",           fee:"~£115m",      joinedY:"2023",r:{"2023-24":78,"2024-25":82,"2025-26":84},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+  {n:"Enzo Fernández",      num:8,  pos:"Central mid",  grp:"MID", init:"EF",from:"Benfica",            fee:"£106.8m",     joinedY:"2023",r:{"2022-23":79,"2023-24":82,"2024-25":84,"2025-26":85},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",
+   embed:{type:"twitter",url:"https://twitter.com/ChelseaFC/status/REPLACE_ENZO_TWEET_ID",example:true}},
+  {n:"Cole Palmer",              num:10, pos:"Attacking mid",grp:"MID", init:"CP",from:"Manchester City",    fee:"~£40m",       joinedY:"2023",r:{"2023-24":86,"2024-25":88,"2025-26":89},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/f/fb/Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg",photoBy:"The White House",photoLic:"Public domain",
+   embed:{type:"instagram",url:"https://www.instagram.com/p/REPLACE_PALMER_POST_ID/",example:true}},
+  {n:"Romeo Lavia",              num:45, pos:"Defensive mid",grp:"MID", init:"RL",from:"Southampton",        fee:"~£58m",       joinedY:"2023",r:{"2023-24":72,"2024-25":78,"2025-26":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/f/fb/Rom%C3%A9o_Lavia_20042025_(1)_cropped.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Roméo_Lavia_20042025_(1)_cropped.jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
+  {n:"Kiernan Dewsbury-Hall",    num:22, pos:"Central mid",  grp:"MID", init:"KD",from:"Leicester City",     fee:"~£30m",       joinedY:"2024",r:{"2024-25":76,"2025-26":78},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/7/77/Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
+  {n:"Dario Essugo",             num:47, pos:"Central mid",  grp:"MID", init:"DE",from:"Sporting CP",        fee:"~€15m",       joinedY:"2024",r:{"2024-25":70,"2025-26":73},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/8/8f/Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
+  {n:"Marco Palestra",           num:35, pos:"Central mid",  grp:"MID", init:"MP",from:"Atalanta",           fee:"€57m",        joinedY:"2026",r:{"2025-26":79}},
+
+  /* ── Forwards ── */
+  {n:"Pedro Neto",               num:7,  pos:"Winger",       grp:"FWD", init:"PN",from:"Wolves",             fee:"~£54m",       joinedY:"2024",r:{"2024-25":80,"2025-26":83},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48_(cropped).jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0"},
+  {n:"Noni Madueke",             num:11, pos:"Winger",       grp:"FWD", init:"NM",from:"PSV Eindhoven",      fee:"~£29m",       joinedY:"2023",r:{"2023-24":73,"2024-25":77,"2025-26":78},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoBy:"YantsImages / Asatur Yesayants",photoLic:"CC BY-SA 4.0"},
+  {n:"Jamie Gittens",            num:44, pos:"Winger",       grp:"FWD", init:"JG",from:"Borussia Dortmund",  fee:"~£55m",       joinedY:"2025",r:{"2025-26":81}},
+  {n:"Estêvão Willian",num:41, pos:"Forward",      grp:"FWD", init:"EW",from:"Palmeiras",          fee:"£29m+add-ons",joinedY:"2025",r:{"2025-26":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/b/b3/Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoBy:"Sepguilherme",photoLic:"CC BY-SA 4.0"},
+  {n:"Alejandro Garnacho",       num:49, pos:"Winger",       grp:"FWD", init:"AG",from:"Manchester United",  fee:"~£40m",       joinedY:"2025",r:{"2025-26":72},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
+  {n:"João Pedro",          num:20, pos:"Forward",      grp:"FWD", init:"JP",from:"Brighton",           fee:"~£60m",       joinedY:"2025",r:{"2025-26":87},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/1/1d/Jo%C3%A3o_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:João_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoBy:"Mikaela McGee (DHS)",photoLic:"Public domain"},
+  {n:"Liam Delap",               num:9,  pos:"Striker",      grp:"FWD", init:"LD",from:"Ipswich Town",       fee:"~£30m",       joinedY:"2025",r:{"2025-26":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/6/66/Liam_Delap_in_2025.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Liam_Delap_in_2025.jpg",photoBy:"Daniel Torok / The White House",photoLic:"Public domain"},
+  {n:"Nicolas Jackson",          num:15, pos:"Striker",      grp:"FWD", init:"NJ",from:"Villarreal",         fee:"~£30m",       joinedY:"2023",r:{"2023-24":74,"2024-25":76,"2025-26":75},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/3/35/Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+  {n:"Marc Guiu",                num:18, pos:"Striker",      grp:"FWD", init:"MG",from:"Barcelona",          fee:"~€5m",        joinedY:"2024",r:{"2024-25":69,"2025-26":72},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/5/53/Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
+
+  /* ── Historical squad members (appear in earlier seasons) ── */
+  {n:"Marc Cucurella",           num:3,  pos:"Left-back",    grp:"DEF", init:"MU",from:"Brighton",           fee:"~£60m",       joinedY:"2022",r:{"2022-23":70,"2023-24":74,"2024-25":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/c/c7/Marc_Cucurella_%28cropped%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Marc_Cucurella_(cropped).jpg",photoBy:"Soccer.ru",photoLic:"CC BY-SA 3.0"},
+  {n:"Ben Chilwell",             num:21, pos:"Left-back",    grp:"DEF", init:"BC",from:"Leicester City",     fee:"~£45m",       joinedY:"2020",r:{"2020-21":79,"2021-22":78,"2022-23":74,"2023-24":73},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/1/1a/Ben_Chilwell_2020.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Ben_Chilwell_2020.jpg",photoBy:"Dmitry Pukalik",photoLic:"CC BY-SA 3.0"},
+  {n:"Thiago Silva",             num:6,  pos:"Centre-back",  grp:"DEF", init:"TS",from:"Paris Saint-Germain",fee:"Free",             joinedY:"2020",r:{"2020-21":83,"2021-22":84,"2022-23":81,"2023-24":80},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/c/c8/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Thiago_Silva_850_1582.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Thiago_Silva_850_1582.jpg",photoBy:"Granada",photoLic:"CC BY-SA 4.0"},
+  {n:"N'Golo Kanté",        num:7,  pos:"Central mid",  grp:"MID", init:"NK",from:"Leicester City",     fee:"~£32m",       joinedY:"2016",r:{"2020-21":84,"2021-22":85,"2022-23":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/c/c1/N%27Golo_Kante_France_v_Senegal_16_June_2026-397.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:N'Golo_Kante_France_v_Senegal_16_June_2026-397.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+  {n:"Mateo Kovačić",  num:8,  pos:"Central mid",  grp:"MID", init:"MK",from:"Real Madrid",        fee:"~£40m",       joinedY:"2019",r:{"2020-21":78,"2021-22":80,"2022-23":77},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/d/d9/Chelsea_vs._Arsenal%2C_29_May_2019_18_Kovacic.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Chelsea_vs._Arsenal,_29_May_2019_18_Kovacic.jpg",photoBy:"Amir Hosseini",photoLic:"CC BY 4.0"},
+  {n:"Mason Mount",              num:19, pos:"Attacking mid",grp:"MID", init:"MM",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2019",r:{"2020-21":80,"2021-22":83,"2022-23":76},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/3/32/Mountbrightonoct3_2019_%28cropped%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Mountbrightonoct3_2019_(cropped).jpg",photoBy:"Brian Minkoff London-Pixels",photoLic:"CC BY-SA 4.0"},
+  {n:"Kai Havertz",              num:29, pos:"Forward",      grp:"FWD", init:"KH",from:"Bayer Leverkusen",   fee:"~£71m",       joinedY:"2020",r:{"2020-21":76,"2021-22":78,"2022-23":75},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/7/76/Kai_Havertz_Ecuador_v_Germany_25_June_2026-118.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Kai_Havertz_Ecuador_v_Germany_25_June_2026-118.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
+  {n:"Christian Pulisic",        num:10, pos:"Winger",       grp:"FWD", init:"CS",from:"Borussia Dortmund",  fee:"~£58m",       joinedY:"2019",r:{"2020-21":77,"2021-22":75,"2022-23":73},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/7/71/Christian_Pulisic_USMNT_v_Belgium_Mar_28_2026-73_%28cropped%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Christian_Pulisic_USMNT_v_Belgium_Mar_28_2026-73_(cropped).jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0"},
+  {n:"Raheem Sterling",          num:17, pos:"Winger",       grp:"FWD", init:"ST",from:"Manchester City",    fee:"~£47m",       joinedY:"2022",r:{"2022-23":76,"2023-24":74},
+   photo:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Raheem_Sterling_2018.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Raheem_Sterling_2018.jpg",photoBy:"Anton Zaitsev",photoLic:"CC BY-SA 3.0"}
+];
+
+/* ── Season bar ── */
+var sbEl=document.getElementById('seasonBar');
+sbEl.innerHTML='<span class="sb-label">Season</span>'+SEASONS.slice().reverse().map(function(s){
+  return '<button class="'+(s===currentSeason?'on':'')+'" data-s="'+s+'" onclick="setSeason(\''+s+'\',this)">'+s+'</button>';
+}).join('');
+function setSeason(s,btn){ currentSeason=s; [].forEach.call(sbEl.querySelectorAll('button'),function(b){b.classList.remove('on');}); btn.classList.add('on'); renderPlayers(); }
+
+/* ── Position filters ── */
+var playerFilter="ALL";
+var pfDefs=[["ALL","All"],["FWD","Forwards"],["MID","Midfield"],["DEF","Defence"],["GK","Goalkeepers"]];
+var pfEl=document.getElementById('posFilters');
+pfEl.innerHTML=pfDefs.map(function(x,i){ return '<button class="'+(i===0?'on':'')+'" data-f="'+x[0]+'" onclick="setPlayerFilter(\''+x[0]+'\',this)">'+x[1]+'</button>'; }).join('');
+function setPlayerFilter(f,btn){ playerFilter=f; [].forEach.call(pfEl.children,function(b){b.classList.remove('on');}); btn.classList.add('on'); renderPlayers(); }
+
+function tenure(p){ var ys=Object.keys(p.r).sort(); return ys[0].split('-')[0]+'–'+ys[ys.length-1].split('-')[1]; }
+function overallRating(p){ var vals=Object.values(p.r); return Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length); }
+function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')"':''; }
+function photoCredit(p){ return p.photo?'<a class="photo-credit" href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" title="Photo: '+p.photoBy+' · '+p.photoLic+' · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>':''; }
+
+function renderPlayers(){
+  var q=(document.getElementById('playerSearch').value||'').trim().toLowerCase();
+  var rows=squad.filter(function(p){ return p.r[currentSeason]!==undefined&&(playerFilter==='ALL'||p.grp===playerFilter)&&p.n.toLowerCase().indexOf(q)>-1; });
+  rows.sort(function(a,b){ return b.r[currentSeason]-a.r[currentSeason]; });
+  var grid=document.getElementById('playerGrid');
+  if(!rows.length){ grid.innerHTML='<div class="empty-season">No players match — try another season or filter.</div>'; return; }
+  grid.innerHTML=rows.map(function(p){
+    return '<div class="player-card" onclick="openPlayer('+squad.indexOf(p)+')">'+
+      '<div class="photo pc-photo'+(p.photo?' has-photo':'')+'"'+photoStyle(p)+'>'+
+        '<span class="pc-num">'+p.num+'</span>'+
+        (p.photo?'':'<span class="ph-init">'+p.init+'</span>')+
+        '<div class="pc-ratings">'+
+          '<div class="pc-rating overall"><div class="rv">'+overallRating(p)+'</div><div class="rk">Overall</div></div>'+
+          '<div class="pc-rating season"><div class="rv">'+p.r[currentSeason]+'</div><div class="rk">'+currentSeason+'</div></div>'+
+        '</div>'+
+        (p.photo?photoCredit(p):'<span class="ph-tag">Photo placeholder</span>')+
+      '</div>'+
+      '<div class="pc-body">'+
+        '<div class="pc-name">'+p.n+'</div>'+
+        '<div class="pc-pos">'+p.pos+'</div>'+
+        '<div class="pc-tenure">&#9201; Chelsea '+tenure(p)+'</div>'+
+        '<div class="pc-click">View profile &rarr;</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ── Rating chart ── */
+function ratingChart(p){
+  var ys=Object.keys(p.r).sort();
+  var vals=ys.map(function(y){return p.r[y];});
+  var overall=overallRating(p);
+  var W=540,H=150,padL=34,padR=16,padT=16,padB=28;
+  var min=Math.min.apply(null,vals.concat([overall]))-4,max=Math.max.apply(null,vals.concat([overall]))+4;
+  function x(i){ return padL+(ys.length===1?(W-padL-padR)/2:(i/(ys.length-1))*(W-padL-padR)); }
+  function y(v){ return padT+(1-(v-min)/(max-min))*(H-padT-padB); }
+  var pts=ys.map(function(yr,i){return x(i)+','+y(vals[i]);}).join(' ');
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block;">';
+  [min,Math.round((min+max)/2),max].forEach(function(gv){
+    svg+='<line x1="'+padL+'" y1="'+y(gv)+'" x2="'+(W-padR)+'" y2="'+y(gv)+'" stroke="#eef1f6" stroke-width="1"/>';
+    svg+='<text x="'+(padL-8)+'" y="'+(y(gv)+3)+'" text-anchor="end" font-size="10" fill="#99a2b3" font-family="Inter">'+gv+'</text>';
+  });
+  svg+='<line x1="'+padL+'" y1="'+y(overall)+'" x2="'+(W-padR)+'" y2="'+y(overall)+'" stroke="#c9962e" stroke-width="1.5" stroke-dasharray="4,3"/>';
+  svg+='<text x="'+(W-padR)+'" y="'+(y(overall)-5)+'" text-anchor="end" font-size="10" font-weight="600" fill="#c9962e" font-family="Inter">Overall avg '+overall+'</text>';
+  if(ys.length>1){ svg+='<polyline points="'+pts+'" fill="none" stroke="#034694" stroke-width="2.5" stroke-linejoin="round"/>'; }
+  ys.forEach(function(yr,i){
+    svg+='<circle cx="'+x(i)+'" cy="'+y(vals[i])+'" r="4.5" fill="#034694"/>';
+    svg+='<text x="'+x(i)+'" y="'+(y(vals[i])-11)+'" text-anchor="middle" font-size="11" font-weight="600" fill="#131c2e" font-family="Inter">'+vals[i]+'</text>';
+    svg+='<text x="'+x(i)+'" y="'+(H-9)+'" text-anchor="middle" font-size="10" fill="#6b7688" font-family="Inter">'+yr+'</text>';
+  });
+  svg+='</svg>';
+  return svg;
+}
+
+/* ── Player blurbs ── */
+var blurbs={
+  "Robert Sánchez":"First-choice keeper who led the clean-sheet count and even chipped in with an assist.",
+  "Filip Jørgensen":"Danish keeper signed as competition from Villarreal, keen to push for the number-one shirt.",
+  "Reece James":"Club captain and academy graduate; an elite attacking right-back when fully fit.",
+  "Malo Gusto":"Energetic right-back offering attacking width and high-line cover for the captain.",
+  "Josh Acheampong":"Exciting academy graduate and Ghanaian international whose pace and energy at right-back have already caught the eye of the first team.",
+  "Caleb Wiley":"American left-back with MLS background, signed from Atlanta United for long-term development as cover on the left.",
+  "Levi Colwill":"Ball-playing English centre-back and academy product, part of the long-term defensive core.",
+  "Tosin Adarabioyo":"Commanding centre-back who joined on a free from Fulham, bringing Premier League experience and aerial dominance to the back four.",
+  "Wesley Fofana":"Athletic centre-back whose Chelsea career has been badly disrupted by injuries.",
+  "Trevoh Chalobah":"Versatile, aerially strong defender; linked with Inter and Como in the summer window.",
+  "Axel Disasi":"Versatile French defender capable of playing at right-back or centre-back, a consistent performer since arriving from Monaco.",
+  "Benoit Badiashile":"French centre-back valued for his composure in possession and leadership qualities; signed from Monaco as part of a major defensive rebuild.",
+  "Aaron Anselmino":"Argentine teenage centre-back signed from Boca Juniors as one of the brightest defensive prospects in South America.",
+  "Mamadou Sarr":"Teenage French centre-back signed from Strasbourg; part of Chelsea’s long-term defensive investment.",
+  "Renato Veiga":"Versatile Portuguese player comfortable at centre-back or in midfield; signed from Basel in the multi-signing summer of 2024.",
+  "Moíses Caicedo":"Ball-winning anchor who screens the defence and drives play forward. A club-record signing at the time of purchase.",
+  "Enzo Fernández":"World Cup winner and deep-lying creator; heavily linked with a summer exit at a £120m valuation.",
+  "Cole Palmer":"Talismanic number 10 and the creative heartbeat of the side, with four Premier League hat-tricks in 2025–26.",
+  "Romeo Lavia":"Composed Belgian defensive midfielder who commanded one of Chelsea’s biggest fees from Southampton; known for his calmness and range of passing.",
+  "Kiernan Dewsbury-Hall":"Energetic box-to-box midfielder who joined from Leicester following their relegation; brings pressing intensity and creativity.",
+  "Dario Essugo":"Portuguese midfielder signed from Sporting CP as a long-term midfield prospect, impressing with his technical quality and composure.",
+  "Marco Palestra":"Italian midfielder confirmed as Xabi Alonso’s first signing of the window, bringing energy and intelligence from Serie A.",
+  "Pedro Neto":"Direct, two-footed wide man who reached double figures in both goals and assists in his debut Chelsea campaign.",
+  "Noni Madueke":"Fast and direct English winger signed from PSV, capable of playing on either flank with a sharp eye for goal.",
+  "Jamie Gittens":"Electric English winger who developed into one of Europe’s most dangerous wide men at Borussia Dortmund before Chelsea secured his signature.",
+  "Estêvão Willian":"Teenage Brazilian sensation and the youngest Chelsea scorer in the Champions League.",
+  "Alejandro Garnacho":"Argentine winger whose debut Chelsea season underwhelmed; linked with moves to Roma and Napoli in the summer window.",
+  "João Pedro":"Brazilian forward who hit the ground running with 20 goal involvements in his debut campaign at the club.",
+  "Liam Delap":"Powerful English centre-forward adding physical presence and high-intensity pressing to the front line.",
+  "Nicolas Jackson":"Mobile striker whose pace and pressing led the line before further attacking additions arrived.",
+  "Marc Guiu":"Spanish teenage striker signed from Barcelona’s B setup, showing sharp movement and clinical finishing beyond his years.",
+  "Marc Cucurella":"All-action left-back who became a fan favourite before completing a £51.8m move to Real Madrid in summer 2026.",
+  "Ben Chilwell":"Attacking left-back whose Chelsea spell was interrupted by recurring injuries.",
+  "Thiago Silva":"Veteran Brazilian centre-back whose leadership and reading of the game anchored the defence for four seasons.",
+  "N'Golo Kanté":"Relentless, world-class defensive midfielder and a key figure in the 2021 European triumph.",
+  "Mateo Kovačić":"Press-resistant central midfielder known for carrying the ball through the lines.",
+  "Mason Mount":"Academy graduate and creative midfielder, a first-team mainstay before his 2023 departure to Manchester United.",
+  "Kai Havertz":"Versatile German forward who scored the winning goal in the 2021 Champions League final.",
+  "Christian Pulisic":"American winger with pace and directness during his Stamford Bridge spell.",
+  "Raheem Sterling":"Experienced England forward brought in for wide areas; moved on after two seasons."
+};
+
+/* ── Player modal ── */
+function openPlayer(i){
+  var p=squad[i];
+  var seasonR=p.r[currentSeason]!==undefined?p.r[currentSeason]:Object.values(p.r).slice(-1)[0];
+  var ys=Object.keys(p.r).sort();
+  var peak=Math.max.apply(null,Object.values(p.r));
+  var embedSection=p.embed
+    ? '<div class="modal-section">Official post</div>'+
+      '<div class="modal-section-sub">Linked via official platform embed</div>'+
+      embedHTML(p.embed)
+    : '';
+  document.getElementById('modalInner').innerHTML=
+    '<div class="photo modal-photo'+(p.photo?' has-photo':'')+'"'+photoStyle(p)+'>'+
+      '<button class="modal-close" onclick="closeModal()">✕</button>'+
+      (p.photo?'':'<span class="ph-init">'+p.init+'</span>')+
+      '<span class="modal-num">'+p.num+'</span>'+
+      '<div class="modal-ratings">'+
+        '<div class="modal-rating-box"><div class="rv">'+overallRating(p)+'</div><div class="rk">Overall</div></div>'+
+        '<div class="modal-rating-box season"><div class="rv">'+seasonR+'</div><div class="rk">'+currentSeason+'</div></div>'+
+      '</div>'+
+      (p.photo?photoCredit(p):'<span class="ph-tag">Photo placeholder</span>')+
+    '</div>'+
+    '<div class="modal-body">'+
+      '<div class="modal-name">'+p.n+'</div>'+
+      '<div class="modal-pos">'+p.pos+'</div>'+
+      '<div class="modal-desc">'+(blurbs[p.n]||'Chelsea squad player.')+'</div>'+
+      '<div class="modal-facts">'+
+        '<div class="fact"><div class="fk">Joined</div><div class="fv">'+p.joinedY+'</div></div>'+
+        '<div class="fact"><div class="fk">From</div><div class="fv">'+p.from+'</div></div>'+
+        '<div class="fact"><div class="fk">Fee</div><div class="fv">'+p.fee+'</div></div>'+
+      '</div>'+
+      '<div class="modal-facts" style="margin-top:10px;">'+
+        '<div class="fact"><div class="fk">Peak rating</div><div class="fv">'+peak+'</div></div>'+
+        '<div class="fact"><div class="fk">Seasons</div><div class="fv">'+ys.length+'</div></div>'+
+        '<div class="fact"><div class="fk">Position</div><div class="fv">'+p.grp+'</div></div>'+
+      '</div>'+
+      '<div class="modal-section">Rating progression</div>'+
+      '<div class="modal-section-sub">Overall rating by season at Chelsea</div>'+
+      '<div class="chart-wrap">'+ratingChart(p)+'</div>'+
+      '<div class="chart-note">&#9432; Ratings are illustrative placeholders for this prototype — real values come from the rating formula.</div>'+
+      embedSection+
+    '</div>';
+  document.getElementById('playerModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  observeEmbeds();
+}
+function closeModal(){ document.getElementById('playerModal').classList.remove('show'); document.body.style.overflow=''; }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+
+renderPlayers();
+
+function openSource(url){ window.open(url,'_blank'); }
+</script>
+
+<div class="modal-overlay" id="playerModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalInner"></div>
+</div>
+</body>
+</html>
