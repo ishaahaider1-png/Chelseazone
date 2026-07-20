@@ -114,6 +114,10 @@
   .hero-story p { color: var(--gray-700); font-size: var(--text-base); margin-top: var(--space-12); max-width: 65ch; line-height: 1.6; }
   .hero-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-16); font-size: var(--text-xs); color: var(--gray-500); }
   .hero-meta .src { color: var(--accent); font-weight: 600; }
+  .photo-attribution { font-size: var(--text-2xs); color: var(--gray-300); margin-top: var(--space-8); line-height: 1.5; }
+  .photo-attribution a { color: var(--gray-500); text-decoration: underline; }
+  .photo-attribution a:hover { color: var(--accent); }
+  .card .photo-attribution { padding: 0 var(--space-16); margin-top: var(--space-8); }
   .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
   .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: background .15s; }
   .card:hover { background: var(--gray-100); }
@@ -357,9 +361,9 @@
     <div class="grid">
       <div class="main">
         <div class="hero-story" onclick="openSource('https://www.skysports.com/football/video/12606/13565165/morgan-rogers-spotted-arriving-for-chelsea-medical-ahead-of-lb117m-deal')">
-          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Morgan_Rogers_April_2026_%28cropped%29.jpg')">
-            <a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Morgan_Rogers_April_2026_(cropped).jpg" target="_blank" rel="noopener noreferrer" title="Photo: Nayson Ratcliffe · CC0 1.0 · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>
+          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/morgan-rogers.jpg')">
           </div>
+          <div class="photo-attribution">Photo by Bryan Berlin, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Panama_27_June_26-144.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
           <div class="hero-body">
             <span class="hero-badge">&#9889; Transfer latest</span>
             <h1>Chelsea agree British-record &pound;117m deal for Morgan Rogers</h1>
@@ -594,7 +598,7 @@ var news=[
     p:"The Blues beat Arsenal to the Aston Villa forward's signature after Xabi Alonso personally convinced him to join; personal terms are done and a medical is set for Monday, surpassing Elliot Anderson's £116m move to Man City as the biggest transfer in English football history.",
     src:"Sky Sports · Football365",when:"18 Jul",
     url:"https://www.skysports.com/football/video/12606/13565165/morgan-rogers-spotted-arriving-for-chelsea-medical-ahead-of-lb117m-deal",
-    photo:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Morgan_Rogers_April_2026_%28cropped%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_April_2026_(cropped).jpg",photoBy:"Nayson Ratcliffe",photoLic:"CC0 1.0"
+    photo:"images/players/morgan-rogers.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Panama_27_June_26-144.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoAttribution:true
   },
   {
     cat:"News",cc:"",init:"RJ",
@@ -696,7 +700,8 @@ var news=[
 function cardHTML(n){
   var em=n.embed ? embedHTML(n.embed) : '';
   return '<div class="card" onclick="openSource(\''+n.url+'\')">'+
-    '<div class="photo card-photo'+(n.photo?' has-photo':'')+'"'+photoStyle(n)+'>'+(n.photo?'':'<span class="ph-init">'+n.init+'</span>')+(n.photo?photoCredit(n):'<span class="ph-tag">Photo placeholder</span>')+'</div>'+
+    '<div class="photo card-photo'+(n.photo?' has-photo':'')+'"'+photoStyle(n)+'>'+(n.photo?'':'<span class="ph-init">'+n.init+'</span>')+(n.photo&&!n.photoAttribution?photoCredit(n):(n.photo?'':'<span class="ph-tag">Photo placeholder</span>'))+'</div>'+
+    photoAttributionHTML(n)+
     '<div class="card-body">'+
       '<div class="cat '+n.cc+'">'+n.cat+'</div>'+
       '<h3>'+n.h+'</h3>'+
@@ -1208,6 +1213,10 @@ function tenure(p){ var ys=Object.keys(p.r).sort(); return ys[0].split('-')[0]+'
 function overallRating(p){ var vals=Object.values(p.r); return Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length); }
 function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')"':''; }
 function photoCredit(p){ return p.photo?'<a class="photo-credit" href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" title="Photo: '+p.photoBy+' · '+p.photoLic+' · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>':''; }
+function photoAttributionHTML(p){
+  if(!p.photoAttribution) return '';
+  return '<div class="photo-attribution">Photo by '+p.photoBy+', licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+p.photoLic+'</a>, via <a href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.'+(p.photoModified?' Modified.':'')+'</div>';
+}
 
 function renderPlayers(){
   var q=(document.getElementById('playerSearch').value||'').trim().toLowerCase();
