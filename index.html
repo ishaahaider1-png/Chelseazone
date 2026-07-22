@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Chelsea Zone — Everything Chelsea</title>
+<title>The Chelsea Zone | Chelsea FC News, Transfers & Fixtures</title>
+<meta name="description" content="The Chelsea Zone brings Chelsea FC fans the latest news, transfer updates, rumours, fixtures and squad coverage — all in one place.">
+<link rel="canonical" href="https://thechelseazone.com/">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 116'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0.8' y2='1'%3E%3Cstop offset='0%25' stop-color='%23034694'/%3E%3Cstop offset='100%25' stop-color='%23012c5e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50,4 C66,4 80,8 88,14 L88,52 C88,82 72,100 50,112 C28,100 12,82 12,52 L12,14 C20,8 34,4 50,4 Z' fill='url(%23g)'/%3E%3Ctext x='50' y='74' text-anchor='middle' font-family='Georgia, serif' font-weight='800' font-size='48' letter-spacing='-3' fill='%23fff'%3ECZ%3C/text%3E%3C/svg%3E" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
@@ -95,7 +97,8 @@
   .photo .ph-init { font-family: var(--serif); font-weight: 800; color: rgba(255,255,255,0.92); letter-spacing: -0.02em; }
   .photo .ph-tag { position: absolute; bottom: var(--space-8); left: var(--space-8); font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-weight: 600; }
   .photo.has-photo { background-size: cover; background-repeat: no-repeat; }
-  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo, .hero-photo.has-photo { background-position: center 15%; }
+  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo { background-position: center 15%; }
+  .hero-photo.has-photo { background-position: center 12%; }
   .q-photo.has-photo, .rumour-photo.has-photo { background-position: center center; }
   .photo-credit { position: absolute; font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.02em; color: rgba(255,255,255,0.9); text-decoration: none; background: rgba(0,0,0,0.4); padding: var(--space-4) var(--space-8); border-radius: var(--radius); z-index: 2; white-space: nowrap; }
   .photo-credit:hover { color: var(--surface); background: rgba(0,0,0,0.6); }
@@ -106,7 +109,7 @@
   .photo::after { content:""; position:absolute; inset:0; background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.12) 0%, transparent 55%); }
   .hero-story { border-radius: var(--radius); margin-bottom: var(--space-24); overflow: hidden; cursor: pointer; background: var(--surface); }
   .hero-story:hover { background: var(--gray-100); }
-  .hero-photo { height: 210px; }
+  .hero-photo { height: 360px; }
   .hero-photo .ph-init { font-size: var(--text-3xl); }
   .hero-body { padding: var(--space-24) var(--space-24) var(--space-24); }
   .hero-badge { display: inline-flex; align-items: center; gap: var(--space-8); font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-tint); padding: var(--space-4) var(--space-12); border-radius: var(--radius); margin-bottom: var(--space-12); }
@@ -360,15 +363,15 @@
   <div class="page active" id="page-home">
     <div class="grid">
       <div class="main">
-        <div class="hero-story" onclick="openSource('https://www.skysports.com/football/video/12606/13565165/morgan-rogers-spotted-arriving-for-chelsea-medical-ahead-of-lb117m-deal')">
-          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/morgan-rogers.jpg')">
+        <div class="hero-story" onclick="openSource('https://www.chelseafc.com/en/news/article/morgan-rogers-signs-for-chelsea')">
+          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/morgan-rogers-ghana.jpg')">
           </div>
-          <div class="photo-attribution">Photo by Bryan Berlin, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Panama_27_June_26-144.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
+          <div class="photo-attribution">Photo by Bryan Berlin / WikiPortraits, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
           <div class="hero-body">
-            <span class="hero-badge">&#9889; Transfer latest</span>
-            <h1>Chelsea agree British-record &pound;117m deal for Morgan Rogers</h1>
-            <p>The Blues beat Arsenal to the Aston Villa forward, with Xabi Alonso personally persuading him to join; personal terms are done and a medical is scheduled, making it the biggest transfer in English football history — eclipsing Elliot Anderson's &pound;116m move to Manchester City.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">Sky Sports</span> &middot; <span class="src">Football365</span> &middot; <span class="src">The Sunday Guardian</span></span><span>&middot;</span><span>18-20 Jul 2026</span></div>
+            <span class="hero-badge">&#9889; Done deal</span>
+            <h1>Morgan Rogers signs for Chelsea in record British deal, takes No.17</h1>
+            <p>Chelsea have completed the signing of Morgan Rogers from Aston Villa on a seven-year contract until 2033. At &pound;117m the 23-year-old becomes the most expensive British player of all time, surpassing Elliot Anderson's &pound;116m move to Manchester City, and will wear the No.17 shirt in Xabi Alonso's squad for the 2026/27 season.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">Chelsea FC</span></span><span>&middot;</span><span>22 Jul 2026</span></div>
           </div>
         </div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
@@ -428,7 +431,7 @@
   </div>
   <div class="page" id="page-players">
     <div class="page-title">Squad profiles</div>
-    <div class="page-sub">Browse any season back to 2020-21. Search, filter, and click a player for their full profile and rating progression.</div>
+    <div class="page-sub">Browse the 2026/27 squad and past seasons back to 2020-21. Search, filter, and click a player for their full profile.</div>
     <div class="season-bar" id="seasonBar"></div>
     <div class="player-search">
       <span class="ps-icon">&#128269;</span>
@@ -592,6 +595,50 @@ function embedHTML(embed){
 
 /* ── News ── */
 var news=[
+  {
+    cat:"Done deal",cc:"done",init:"MR",
+    h:"Morgan Rogers signs for Chelsea in record British deal, takes No.17",
+    p:"Chelsea have completed the signing of Morgan Rogers from Aston Villa. The 23-year-old forward has passed his medical and been officially announced, signing a seven-year contract until 2033. At £117m, Rogers becomes the most expensive British player of all time, surpassing Elliot Anderson's £116m move to Manchester City earlier this window. He will wear the No.17 shirt — the number he wore for England at the 2026 World Cup, previously worn at Chelsea by Eden Hazard, Pedro and Mateo Kovacic. Rogers joins Xabi Alonso's squad for the 2026/27 season after 40 goal involvements in 85 Premier League appearances for Villa and 22 England caps.",
+    src:"Chelsea FC",when:"22 Jul",
+    url:"https://www.chelseafc.com/en/news/article/morgan-rogers-signs-for-chelsea",
+    photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoAttribution:true
+  },
+  {
+    cat:"Rumour",cc:"rumour",init:"CR",
+    h:"Reports: Tottenham offer Cristian Romero to Chelsea as Neto linked with move the other way",
+    p:"Tottenham have reportedly offered club captain Cristian \"Cuti\" Romero to Chelsea, with the Argentine World Cup winner said to be keen on the move and Enzo Fernández reportedly encouraging it. Separately, Spurs have made a verbal bid for Chelsea winger Pedro Neto, prompting speculation over an interconnected deal — though reports describe two distinct transactions of roughly similar value rather than a confirmed straight swap. Neto is said to want assurances over his role and regular football before deciding. Tottenham, now managed by Roberto De Zerbi, have already strengthened at centre-back with Marcos Senesi and Jan Paul van Hecke. Nothing is agreed; treat as rumour.",
+    src:"Football Transfers",when:"22 Jul",
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/transfer-rumours-22-july-arsenal-chelsea-man-utd-alex-scott-alejandro-garnacho-bruno-guimaraes",
+    photo:"images/players/cristian-romero.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cristian_Romero_Argentina_v_Egypt_7_July_2026-108.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoAttribution:true
+  },
+  {
+    cat:"Transfer",cc:"",init:"AS",
+    h:"Bournemouth reject Chelsea's £64m Alex Scott bid — Blues still hunting a midfielder",
+    p:"Bournemouth have rejected Chelsea's £64m bid for midfielder Alex Scott and told the club further approaches will be turned down, valuing the 22-year-old at around £80m and intending to keep him for their first European campaign. Scott has two years left on his deal and has declined new contract offers; Arsenal, Manchester United, Manchester City and Tottenham are also credited with interest. Chelsea remain in the market for a midfielder after selling Andrey Santos to Manchester United for £50m, with Enzo Fernández's future still uncertain. Other names reported on Chelsea's midfield radar include Manu Koné (Roma), Adam Wharton (Crystal Palace, though Chelsea are said to feel priced out), Noah Sadiki (Sunderland) and Frenkie de Jong (Barcelona). All of these are reported links, not confirmed moves.",
+    src:"CaughtOffside",when:"22 Jul",
+    url:"https://www.caughtoffside.com/2026/07/22/chelsea-alex-scott-transfer-bid-rejected/"
+  },
+  {
+    cat:"News",cc:"",init:"AG",
+    h:"Chelsea news in brief: Garnacho seeks exit, pre-season underway",
+    p:"Elsewhere at Stamford Bridge: Alejandro Garnacho has asked to leave with his sights set on Real Madrid, and Xabi Alonso is reportedly open to a sale. Andrey Santos has completed a permanent £50m move to Manchester United. Chelsea open their pre-season against Western Sydney Wanderers on 28 July.",
+    src:"Yahoo Sports",when:"22 Jul",
+    url:"https://uk.sports.yahoo.com/news/alejandro-garnacho-misses-chelsea-pre-141807785.html"
+  },
+  {
+    cat:"News",cc:"",init:"XA",
+    h:"Chelsea depart for Australia and the Sydney Super Cup",
+    p:"Xabi Alonso's squad fly out for their pre-season tour, headlined by the 2026 Sydney Super Cup running from 28 July to 12 August. Chelsea open against hosts Western Sydney Wanderers on 28 July before further fixtures in the invitational series — the new head coach's first run-outs with the group in front of crowds, after behind-closed-doors wins over Crawley and Bromley at Cobham.",
+    src:"Wikipedia · Chelsea FC",when:"22 Jul",
+    url:"https://en.wikipedia.org/wiki/2026_Sydney_Super_Cup"
+  },
+  {
+    cat:"News",cc:"",init:"MR",
+    h:"Rogers arrival reshapes Chelsea's projected 2026/27 squad",
+    p:"With Morgan Rogers officially through the door alongside earlier arrivals Marco Palestra, Jamie Gittens, Estêvão and Geovany Quenda, analysts are already piecing together Xabi Alonso's likely first-choice XI for the new campaign. Rogers is expected to bolster a front line that also boasts Cole Palmer and João Pedro, while questions remain over the futures of Enzo Fernández, Nicolas Jackson and Alejandro Garnacho.",
+    src:"Last Word on Sports",when:"22 Jul",
+    url:"https://lastwordonsports.com/football/2026/07/22/projected-chelsea-squad-2627-july-21/"
+  },
   {
     cat:"Transfer",cc:"",init:"MR",
     h:"Chelsea agree British-record £117m deal for Morgan Rogers",
@@ -941,7 +988,8 @@ var transferHistory=[
   {player:"Tyrique George",dir:"out",club:"Everton",fee:"~£18m",date:"summer 2026",grade:"B-",image_quality:null,verdict:"A promising academy winger who found first-team opportunities hard to come by. A sensible permanent exit to guarantee regular senior football elsewhere."},
   {player:"Marco Palestra",dir:"in",club:"Atalanta",fee:"~£43m",date:"1 Jul 2026",grade:"C",image_quality:null,verdict:"Xabi Alonso's first signing as head coach — a versatile right-back well suited to his system. Too early to judge, having not yet made a Chelsea appearance."},
   {player:"Emmanuel Emegha",dir:"in",club:"RC Strasbourg",fee:"~£22m",date:"summer 2026",grade:"C",image_quality:null,verdict:"A physically imposing striker signed via Chelsea's Strasbourg pipeline to add depth up front. Too early to judge, having not yet made a Chelsea appearance."},
-  {player:"Geovany Quenda",dir:"in",club:"Sporting CP",fee:"£40m",date:"summer 2026",grade:"C",image_quality:null,verdict:"One of the most exciting young wide talents in Europe, signed for a significant fee well before his 20th birthday. Too early to judge, having not yet made a Chelsea appearance."}
+  {player:"Geovany Quenda",dir:"in",club:"Sporting CP",fee:"£40m",date:"summer 2026",grade:"C",image_quality:null,verdict:"One of the most exciting young wide talents in Europe, signed for a significant fee well before his 20th birthday. Too early to judge, having not yet made a Chelsea appearance."},
+  {player:"Morgan Rogers",dir:"in",club:"Aston Villa",fee:"£117m",date:"22 Jul 2026",grade:"C",image_quality:"good",photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",verdict:"Chelsea's British-record signing at £117m, eclipsing Elliot Anderson's move to Manchester City. A statement of intent in Xabi Alonso's rebuild and a reunion with Cole Palmer — but with no Chelsea appearances yet, it is far too early to judge the value."}
 ];
 function gradeClass(g){ return 'grade-'+g.charAt(0).toLowerCase(); }
 function transferHistoryHTML(t){
@@ -1098,81 +1146,83 @@ renderComments();
    Ratings are ILLUSTRATIVE PLACEHOLDERS — see chart note in each modal.
    Squad numbers and fees are as recorded / best available at time of writing.
    ════════════════════════════════════════════ */
-var SEASONS=["2020-21","2021-22","2022-23","2023-24","2024-25","2025-26"];
-var currentSeason="2025-26";
+var SEASONS=["2020-21","2021-22","2022-23","2023-24","2024-25","2025-26","2026-27"];
+var currentSeason="2026-27";
 var squad=[
   /* ── Goalkeepers ── */
-  {n:"Robert Sánchez",      num:1,  pos:"Goalkeeper",   grp:"GK",  init:"RS",from:"Brighton",          fee:"~£25m",       joinedY:"2023",age:28,mv:22,r:{"2023-24":75,"2024-25":78,"2025-26":80},
+  {n:"Robert Sánchez",      num:1,  pos:"Goalkeeper",   grp:"GK",  init:"RS",from:"Brighton",          fee:"~£25m",       joinedY:"2023",age:28,mv:22,r:{"2023-24":75,"2024-25":78,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Robert_S%C3%A1nchez_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Robert_Sánchez_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Filip Jørgensen",     num:12, pos:"Goalkeeper",   grp:"GK",  init:"FJ",from:"Villarreal",         fee:"~£20m",       joinedY:"2024",age:24,mv:15,r:{"2024-25":73,"2025-26":74},
+  {n:"Filip Jørgensen",     num:12, pos:"Goalkeeper",   grp:"GK",  init:"FJ",from:"Villarreal",         fee:"~£20m",       joinedY:"2024",age:24,mv:15,r:{"2024-25":73,"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Filip_J%C3%B6rgensen_20042025_(1).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Filip_Jörgensen_20042025_(1).jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
 
   /* ── Defenders ── */
-  {n:"Reece James",              num:24, pos:"Right-back",   grp:"DEF", init:"RJ",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2019",age:26,mv:60,r:{"2020-21":78,"2021-22":83,"2022-23":81,"2023-24":76,"2024-25":80,"2025-26":82},
+  {n:"Reece James",              num:24, pos:"Right-back",   grp:"DEF", init:"RJ",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2019",age:26,mv:60,r:{"2020-21":78,"2021-22":83,"2022-23":81,"2023-24":76,"2024-25":80,"2025-26":82,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",
    embed:{type:"instagram",url:"https://www.instagram.com/p/REPLACE_REECE_JAMES_POST/",example:true}},
-  {n:"Malo Gusto",               num:27, pos:"Right-back",   grp:"DEF", init:"MG",from:"Lyon",               fee:"~£26m",       joinedY:"2023",age:23,mv:35,r:{"2023-24":74,"2024-25":77,"2025-26":76},
+  {n:"Malo Gusto",               num:27, pos:"Right-back",   grp:"DEF", init:"MG",from:"Lyon",               fee:"~£26m",       joinedY:"2023",age:23,mv:35,r:{"2023-24":74,"2024-25":77,"2025-26":76,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/a/a2/Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Josh Acheampong",          num:34, pos:"Right-back",   grp:"DEF", init:"JA",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2024",age:20,mv:25,r:{"2024-25":69,"2025-26":73}},
-  {n:"Caleb Wiley",              num:null, pos:"Left-back",    grp:"DEF", init:"CW",from:"Atlanta United",     fee:"~£10m",       joinedY:"2025",age:21,mv:8,r:{"2025-26":72},
+  {n:"Josh Acheampong",          num:34, pos:"Right-back",   grp:"DEF", init:"JA",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2024",age:20,mv:25,r:{"2024-25":69,"2025-26":73,"2026-27":null}},
+  {n:"Caleb Wiley",              num:null, pos:"Left-back",    grp:"DEF", init:"CW",from:"Atlanta United",     fee:"~£10m",       joinedY:"2025",age:21,mv:8,r:{"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/7/7b/Wiley_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wiley_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
-  {n:"Levi Colwill",             num:6,  pos:"Centre-back",  grp:"DEF", init:"LC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2023",age:23,mv:50,r:{"2023-24":78,"2024-25":81,"2025-26":80},
+  {n:"Levi Colwill",             num:6,  pos:"Centre-back",  grp:"DEF", init:"LC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2023",age:23,mv:50,r:{"2023-24":78,"2024-25":81,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Tosin Adarabioyo",         num:4,  pos:"Centre-back",  grp:"DEF", init:"TA",from:"Fulham",             fee:"Free",             joinedY:"2024",age:28,mv:16,r:{"2024-25":78,"2025-26":80},
+  {n:"Tosin Adarabioyo",         num:4,  pos:"Centre-back",  grp:"DEF", init:"TA",from:"Fulham",             fee:"Free",             joinedY:"2024",age:28,mv:16,r:{"2024-25":78,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/2/2d/Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
-  {n:"Wesley Fofana",            num:29, pos:"Centre-back",  grp:"DEF", init:"WF",from:"Leicester City",     fee:"~£70m",       joinedY:"2022",age:25,mv:28,r:{"2022-23":76,"2023-24":70,"2024-25":72,"2025-26":73},
+  {n:"Wesley Fofana",            num:29, pos:"Centre-back",  grp:"DEF", init:"WF",from:"Leicester City",     fee:"~£70m",       joinedY:"2022",age:25,mv:28,r:{"2022-23":76,"2023-24":70,"2024-25":72,"2025-26":73,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/f/f6/Wesley_Fofana_2022.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wesley_Fofana_2022.jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
-  {n:"Trevoh Chalobah",          num:23, pos:"Centre-back",  grp:"DEF", init:"TC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2021",age:26,mv:40,r:{"2021-22":74,"2022-23":73,"2023-24":72,"2024-25":76,"2025-26":77},
+  {n:"Trevoh Chalobah",          num:23, pos:"Centre-back",  grp:"DEF", init:"TC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2021",age:26,mv:40,r:{"2021-22":74,"2022-23":73,"2023-24":72,"2024-25":76,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Axel Disasi",              num:2,  pos:"Centre-back",  grp:"DEF", init:"AX",from:"Monaco",             fee:"~£38m",       joinedY:"2023",age:28,mv:15,r:{"2023-24":74,"2024-25":76,"2025-26":77},
+  {n:"Axel Disasi",              num:2,  pos:"Centre-back",  grp:"DEF", init:"AX",from:"Monaco",             fee:"~£38m",       joinedY:"2023",age:28,mv:15,r:{"2023-24":74,"2024-25":76,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b4/AxelDisasi_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:AxelDisasi_(cropped).jpg",photoBy:"Ksiamon",photoLic:"CC BY-SA 4.0"},
-  {n:"Benoit Badiashile",        num:5,  pos:"Centre-back",  grp:"DEF", init:"BB",from:"Monaco",             fee:"~£33m",       joinedY:"2023",age:25,mv:15,r:{"2023-24":73,"2024-25":75,"2025-26":77},
+  {n:"Benoit Badiashile",        num:5,  pos:"Centre-back",  grp:"DEF", init:"BB",from:"Monaco",             fee:"~£33m",       joinedY:"2023",age:25,mv:15,r:{"2023-24":73,"2024-25":75,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Beno%C3%AEt_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Benoît_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Aaron Anselmino",          num:null, pos:"Centre-back",  grp:"DEF", init:"AA",from:"Boca Juniors",       fee:"~€23m",       joinedY:"2024",age:21,mv:10,r:{"2024-25":70,"2025-26":74},
+  {n:"Aaron Anselmino",          num:null, pos:"Centre-back",  grp:"DEF", init:"AA",from:"Boca Juniors",       fee:"~€23m",       joinedY:"2024",age:21,mv:10,r:{"2024-25":70,"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
-  {n:"Mamadou Sarr",             num:19, pos:"Centre-back",  grp:"DEF", init:"MS",from:"Strasbourg",         fee:"~€9m",        joinedY:"2024",age:20,mv:22,r:{"2024-25":68,"2025-26":71},
+  {n:"Mamadou Sarr",             num:19, pos:"Centre-back",  grp:"DEF", init:"MS",from:"Strasbourg",         fee:"~€9m",        joinedY:"2024",age:20,mv:22,r:{"2024-25":68,"2025-26":71,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sarr_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Sarr_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
   {n:"Renato Veiga",             num:31, pos:"Centre-back",  grp:"DEF", init:"RV",from:"Basel",              fee:"~£12m",       joinedY:"2024",r:{"2024-25":73},
    photo:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Jorrel Hato",              num:21, pos:"Left-back",    grp:"DEF", init:"JH",from:"Ajax",               fee:"undisclosed",      joinedY:"2025",age:20,mv:40,r:{"2025-26":72}},
+  {n:"Jorrel Hato",              num:21, pos:"Left-back",    grp:"DEF", init:"JH",from:"Ajax",               fee:"undisclosed",      joinedY:"2025",age:20,mv:40,r:{"2025-26":72,"2026-27":null}},
 
   /* ── Midfielders ── */
-  {n:"Moíses Caicedo",      num:25, pos:"Defensive mid",grp:"MID", init:"MC",from:"Brighton",           fee:"~£115m",      joinedY:"2023",age:24,mv:100,r:{"2023-24":78,"2024-25":82,"2025-26":84},
+  {n:"Moíses Caicedo",      num:25, pos:"Defensive mid",grp:"MID", init:"MC",from:"Brighton",           fee:"~£115m",      joinedY:"2023",age:24,mv:100,r:{"2023-24":78,"2024-25":82,"2025-26":84,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Enzo Fernández",      num:8,  pos:"Central mid",  grp:"MID", init:"EF",from:"Benfica",            fee:"£106.8m",     joinedY:"2023",age:25,mv:90,r:{"2022-23":79,"2023-24":82,"2024-25":84,"2025-26":85},
+  {n:"Enzo Fernández",      num:8,  pos:"Central mid",  grp:"MID", init:"EF",from:"Benfica",            fee:"£106.8m",     joinedY:"2023",age:25,mv:90,r:{"2022-23":79,"2023-24":82,"2024-25":84,"2025-26":85,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",
    embed:{type:"twitter",url:"https://twitter.com/ChelseaFC/status/REPLACE_ENZO_TWEET_ID",example:true}},
-  {n:"Cole Palmer",              num:10, pos:"Attacking mid",grp:"MID", init:"CP",from:"Manchester City",    fee:"~£40m",       joinedY:"2023",age:24,mv:100,r:{"2023-24":86,"2024-25":88,"2025-26":89},
+  {n:"Cole Palmer",              num:10, pos:"Attacking mid",grp:"MID", init:"CP",from:"Manchester City",    fee:"~£40m",       joinedY:"2023",age:24,mv:100,r:{"2023-24":86,"2024-25":88,"2025-26":89,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/f/fb/Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg",photoBy:"The White House",photoLic:"Public domain",
    embed:{type:"instagram",url:"https://www.instagram.com/p/REPLACE_PALMER_POST_ID/",example:true}},
-  {n:"Romeo Lavia",              num:45, pos:"Defensive mid",grp:"MID", init:"RL",from:"Southampton",        fee:"~£58m",       joinedY:"2023",age:22,mv:22,r:{"2023-24":72,"2024-25":78,"2025-26":80},
+  {n:"Romeo Lavia",              num:45, pos:"Defensive mid",grp:"MID", init:"RL",from:"Southampton",        fee:"~£58m",       joinedY:"2023",age:22,mv:22,r:{"2023-24":72,"2024-25":78,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/f/fb/Rom%C3%A9o_Lavia_20042025_(1)_cropped.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Roméo_Lavia_20042025_(1)_cropped.jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
   {n:"Kiernan Dewsbury-Hall",    num:22, pos:"Central mid",  grp:"MID", init:"KD",from:"Leicester City",     fee:"~£30m",       joinedY:"2024",r:{"2024-25":76},
    photo:"https://upload.wikimedia.org/wikipedia/commons/7/77/Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Dario Essugo",             num:14, pos:"Central mid",  grp:"MID", init:"DE",from:"Sporting CP",        fee:"~€15m",       joinedY:"2024",age:21,mv:15,r:{"2024-25":70,"2025-26":73},
+  {n:"Dario Essugo",             num:14, pos:"Central mid",  grp:"MID", init:"DE",from:"Sporting CP",        fee:"~€15m",       joinedY:"2024",age:21,mv:15,r:{"2024-25":70,"2025-26":73,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/8/8f/Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
-  {n:"Marco Palestra",           num:null, pos:"Right-back",  grp:"DEF", init:"MP",from:"Atalanta",           fee:"~£43m",        joinedY:"2026",age:21,mv:35,r:{}},
+  {n:"Marco Palestra",           num:null, pos:"Right-back",  grp:"DEF", init:"MP",from:"Atalanta",           fee:"~£43m",        joinedY:"2026",age:21,mv:35,r:{"2026-27":null}},
 
   /* ── Forwards ── */
-  {n:"Pedro Neto",               num:7,  pos:"Winger",       grp:"FWD", init:"PN",from:"Wolves",             fee:"~£54m",       joinedY:"2024",age:26,mv:60,r:{"2024-25":80,"2025-26":83},
+  {n:"Pedro Neto",               num:7,  pos:"Winger",       grp:"FWD", init:"PN",from:"Wolves",             fee:"~£54m",       joinedY:"2024",age:26,mv:60,r:{"2024-25":80,"2025-26":83,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48_(cropped).jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0"},
   {n:"Noni Madueke",             num:null, pos:"Winger",       grp:"FWD", init:"NM",from:"PSV Eindhoven",      fee:"~£29m",       joinedY:"2023",r:{"2023-24":73,"2024-25":77},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoBy:"YantsImages / Asatur Yesayants",photoLic:"CC BY-SA 4.0"},
-  {n:"Jamie Gittens",            num:11, pos:"Winger",       grp:"FWD", init:"JG",from:"Borussia Dortmund",  fee:"~£55m",       joinedY:"2025",age:21,mv:30,r:{"2025-26":81}},
-  {n:"Estêvão Willian",num:41, pos:"Forward",      grp:"FWD", init:"EW",from:"Palmeiras",          fee:"£29m+add-ons",joinedY:"2025",age:19,mv:80,r:{"2025-26":80},
+  {n:"Jamie Gittens",            num:11, pos:"Winger",       grp:"FWD", init:"JG",from:"Borussia Dortmund",  fee:"~£55m",       joinedY:"2025",age:21,mv:30,r:{"2025-26":81,"2026-27":null}},
+  {n:"Estêvão Willian",num:41, pos:"Forward",      grp:"FWD", init:"EW",from:"Palmeiras",          fee:"£29m+add-ons",joinedY:"2025",age:19,mv:80,r:{"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b3/Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoBy:"Sepguilherme",photoLic:"CC BY-SA 4.0"},
-  {n:"Alejandro Garnacho",       num:49, pos:"Winger",       grp:"FWD", init:"AG",from:"Manchester United",  fee:"~£40m",       joinedY:"2025",age:21,mv:28,r:{"2025-26":72},
+  {n:"Alejandro Garnacho",       num:49, pos:"Winger",       grp:"FWD", init:"AG",from:"Manchester United",  fee:"~£40m",       joinedY:"2025",age:21,mv:28,r:{"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
-  {n:"João Pedro",          num:20, pos:"Forward",      grp:"FWD", init:"JP",from:"Brighton",           fee:"~£60m",       joinedY:"2025",age:24,mv:80,r:{"2025-26":87},
+  {n:"João Pedro",          num:20, pos:"Forward",      grp:"FWD", init:"JP",from:"Brighton",           fee:"~£60m",       joinedY:"2025",age:24,mv:80,r:{"2025-26":87,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/1/1d/Jo%C3%A3o_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:João_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoBy:"Mikaela McGee (DHS)",photoLic:"Public domain"},
-  {n:"Liam Delap",               num:9,  pos:"Striker",      grp:"FWD", init:"LD",from:"Ipswich Town",       fee:"~£30m",       joinedY:"2025",age:23,mv:28,r:{"2025-26":74},
+  {n:"Liam Delap",               num:9,  pos:"Striker",      grp:"FWD", init:"LD",from:"Ipswich Town",       fee:"~£30m",       joinedY:"2025",age:23,mv:28,r:{"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/6/66/Liam_Delap_in_2025.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Liam_Delap_in_2025.jpg",photoBy:"Daniel Torok / The White House",photoLic:"Public domain"},
-  {n:"Nicolas Jackson",          num:15, pos:"Striker",      grp:"FWD", init:"NJ",from:"Villarreal",         fee:"~£30m",       joinedY:"2023",age:25,mv:40,r:{"2023-24":74,"2024-25":76,"2025-26":75},
+  {n:"Nicolas Jackson",          num:15, pos:"Striker",      grp:"FWD", init:"NJ",from:"Villarreal",         fee:"~£30m",       joinedY:"2023",age:25,mv:40,r:{"2023-24":74,"2024-25":76,"2025-26":75,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/3/35/Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Marc Guiu",                num:38, pos:"Striker",      grp:"FWD", init:"MG",from:"Barcelona",          fee:"~€5m",        joinedY:"2024",age:20,mv:12,r:{"2024-25":69,"2025-26":72},
+  {n:"Marc Guiu",                num:38, pos:"Striker",      grp:"FWD", init:"MG",from:"Barcelona",          fee:"~€5m",        joinedY:"2024",age:20,mv:12,r:{"2024-25":69,"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/5/53/Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
-  {n:"Emmanuel Emegha",          num:null, pos:"Striker",      grp:"FWD", init:"EE",from:"RC Strasbourg",      fee:"~£22m",        joinedY:"2026",age:23,mv:25,r:{}},
-  {n:"Geovany Quenda",           num:null, pos:"Winger",       grp:"FWD", init:"GQ",from:"Sporting CP",        fee:"£40m",         joinedY:"2026",age:19,mv:42,r:{}},
+  {n:"Emmanuel Emegha",          num:null, pos:"Striker",      grp:"FWD", init:"EE",from:"RC Strasbourg",      fee:"~£22m",        joinedY:"2026",age:23,mv:25,r:{"2026-27":null}},
+  {n:"Geovany Quenda",           num:null, pos:"Winger",       grp:"FWD", init:"GQ",from:"Sporting CP",        fee:"£40m",         joinedY:"2026",age:19,mv:42,r:{"2026-27":null}},
+  {n:"Morgan Rogers",            num:17, pos:"Forward",      grp:"FWD", init:"MR",from:"Aston Villa",        fee:"£117m",        joinedY:"2026",age:23,r:{"2026-27":null},
+   photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
 
   /* ── Historical squad members (appear in earlier seasons) ── */
   {n:"Marc Cucurella",           num:3,  pos:"Left-back",    grp:"DEF", init:"MU",from:"Brighton",           fee:"~£60m",       joinedY:"2022",r:{"2022-23":70,"2023-24":74,"2024-25":80},
@@ -1210,7 +1260,6 @@ pfEl.innerHTML=pfDefs.map(function(x,i){ return '<button class="'+(i===0?'on':''
 function setPlayerFilter(f,btn){ playerFilter=f; [].forEach.call(pfEl.children,function(b){b.classList.remove('on');}); btn.classList.add('on'); renderPlayers(); }
 
 function tenure(p){ var ys=Object.keys(p.r).sort(); return ys[0].split('-')[0]+'–'+ys[ys.length-1].split('-')[1]; }
-function overallRating(p){ var vals=Object.values(p.r); return Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length); }
 function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')"':''; }
 function photoCredit(p){ return p.photo?'<a class="photo-credit" href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" title="Photo: '+p.photoBy+' · '+p.photoLic+' · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>':''; }
 function photoAttributionHTML(p){
@@ -1221,7 +1270,6 @@ function photoAttributionHTML(p){
 function renderPlayers(){
   var q=(document.getElementById('playerSearch').value||'').trim().toLowerCase();
   var rows=squad.filter(function(p){ return p.r[currentSeason]!==undefined&&(playerFilter==='ALL'||p.grp===playerFilter)&&p.n.toLowerCase().indexOf(q)>-1; });
-  rows.sort(function(a,b){ return b.r[currentSeason]-a.r[currentSeason]; });
   var grid=document.getElementById('playerGrid');
   if(!rows.length){ grid.innerHTML='<div class="empty-season">No players match — try another season or filter.</div>'; return; }
   grid.innerHTML=rows.map(function(p){
@@ -1229,10 +1277,6 @@ function renderPlayers(){
       '<div class="photo pc-photo'+(p.photo?' has-photo':'')+'"'+photoStyle(p)+'>'+
         (p.num?'<span class="pc-num">'+p.num+'</span>':'')+
         (p.photo?'':'<span class="ph-init">'+p.init+'</span>')+
-        '<div class="pc-ratings">'+
-          '<div class="pc-rating overall"><div class="rv">'+overallRating(p)+'</div><div class="rk">Overall</div></div>'+
-          '<div class="pc-rating season"><div class="rv">'+p.r[currentSeason]+'</div><div class="rk">'+currentSeason+'</div></div>'+
-        '</div>'+
         (p.photo?photoCredit(p):'<span class="ph-tag">Photo placeholder</span>')+
       '</div>'+
       '<div class="pc-body">'+
@@ -1243,33 +1287,6 @@ function renderPlayers(){
       '</div>'+
     '</div>';
   }).join('');
-}
-
-/* ── Rating chart ── */
-function ratingChart(p){
-  var ys=Object.keys(p.r).sort();
-  var vals=ys.map(function(y){return p.r[y];});
-  var overall=overallRating(p);
-  var W=540,H=150,padL=34,padR=16,padT=16,padB=28;
-  var min=Math.min.apply(null,vals.concat([overall]))-4,max=Math.max.apply(null,vals.concat([overall]))+4;
-  function x(i){ return padL+(ys.length===1?(W-padL-padR)/2:(i/(ys.length-1))*(W-padL-padR)); }
-  function y(v){ return padT+(1-(v-min)/(max-min))*(H-padT-padB); }
-  var pts=ys.map(function(yr,i){return x(i)+','+y(vals[i]);}).join(' ');
-  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block;">';
-  [min,Math.round((min+max)/2),max].forEach(function(gv){
-    svg+='<line x1="'+padL+'" y1="'+y(gv)+'" x2="'+(W-padR)+'" y2="'+y(gv)+'" stroke="var(--gray-100)" stroke-width="1"/>';
-    svg+='<text x="'+(padL-8)+'" y="'+(y(gv)+3)+'" text-anchor="end" font-size="var(--text-2xs)" fill="var(--gray-300)" font-family="Inter">'+gv+'</text>';
-  });
-  svg+='<line x1="'+padL+'" y1="'+y(overall)+'" x2="'+(W-padR)+'" y2="'+y(overall)+'" stroke="var(--gray-500)" stroke-width="1.5" stroke-dasharray="4,3"/>';
-  svg+='<text x="'+(W-padR)+'" y="'+(y(overall)-5)+'" text-anchor="end" font-size="var(--text-2xs)" font-weight="600" fill="var(--gray-500)" font-family="Inter">Overall avg '+overall+'</text>';
-  if(ys.length>1){ svg+='<polyline points="'+pts+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>'; }
-  ys.forEach(function(yr,i){
-    svg+='<circle cx="'+x(i)+'" cy="'+y(vals[i])+'" r="4.5" fill="var(--accent)"/>';
-    svg+='<text x="'+x(i)+'" y="'+(y(vals[i])-11)+'" text-anchor="middle" font-size="var(--text-xs)" font-weight="600" fill="var(--ink)" font-family="Inter">'+vals[i]+'</text>';
-    svg+='<text x="'+x(i)+'" y="'+(H-9)+'" text-anchor="middle" font-size="var(--text-2xs)" fill="var(--gray-500)" font-family="Inter">'+yr+'</text>';
-  });
-  svg+='</svg>';
-  return svg;
 }
 
 /* ── Player blurbs ── */
@@ -1299,6 +1316,7 @@ var blurbs={
   "Jorrel Hato":"Versatile Dutch left-back signed from Ajax in 2025, combining composure in possession with defensive discipline beyond his years.",
   "Emmanuel Emegha":"Dutch striker signed from RC Strasbourg — Chelsea's sister club — ahead of the 2026-27 season, valued for his physical presence and finishing.",
   "Geovany Quenda":"Portuguese winger signed from Sporting CP for a reported £40m, regarded as one of the most exciting young wide talents in Europe.",
+  "Morgan Rogers":"England forward signed from Aston Villa in a British-record £117m deal, taking the No.17 shirt; a versatile attacker convinced to join by Xabi Alonso, reuniting with close friend Cole Palmer.",
   "Pedro Neto":"Direct, two-footed wide man who reached double figures in both goals and assists in his debut Chelsea campaign.",
   "Noni Madueke":"Fast and direct English winger signed from PSV, capable of playing on either flank with a sharp eye for goal.",
   "Jamie Gittens":"Electric English winger who developed into one of Europe’s most dangerous wide men at Borussia Dortmund before Chelsea secured his signature.",
@@ -1322,9 +1340,7 @@ var blurbs={
 /* ── Player modal ── */
 function openPlayer(i){
   var p=squad[i];
-  var seasonR=p.r[currentSeason]!==undefined?p.r[currentSeason]:Object.values(p.r).slice(-1)[0];
   var ys=Object.keys(p.r).sort();
-  var peak=Math.max.apply(null,Object.values(p.r));
   var embedSection=p.embed
     ? '<div class="modal-section">Official post</div>'+
       '<div class="modal-section-sub">Linked via official platform embed</div>'+
@@ -1335,10 +1351,6 @@ function openPlayer(i){
       '<button class="modal-close" onclick="closeModal()">✕</button>'+
       (p.photo?'':'<span class="ph-init">'+p.init+'</span>')+
       (p.num?'<span class="modal-num">'+p.num+'</span>':'')+
-      '<div class="modal-ratings">'+
-        '<div class="modal-rating-box"><div class="rv">'+overallRating(p)+'</div><div class="rk">Overall</div></div>'+
-        '<div class="modal-rating-box season"><div class="rv">'+seasonR+'</div><div class="rk">'+currentSeason+'</div></div>'+
-      '</div>'+
       (p.photo?photoCredit(p):'<span class="ph-tag">Photo placeholder</span>')+
     '</div>'+
     '<div class="modal-body">'+
@@ -1351,14 +1363,10 @@ function openPlayer(i){
         '<div class="fact"><div class="fk">Fee</div><div class="fv">'+p.fee+'</div></div>'+
       '</div>'+
       '<div class="modal-facts" style="margin-top:10px;">'+
-        '<div class="fact"><div class="fk">Peak rating</div><div class="fv">'+peak+'</div></div>'+
+        '<div class="fact"><div class="fk">Age</div><div class="fv">'+(p.age||'—')+'</div></div>'+
         '<div class="fact"><div class="fk">Seasons</div><div class="fv">'+ys.length+'</div></div>'+
         '<div class="fact"><div class="fk">Position</div><div class="fv">'+p.grp+'</div></div>'+
       '</div>'+
-      '<div class="modal-section">Rating progression</div>'+
-      '<div class="modal-section-sub">Overall rating by season at Chelsea</div>'+
-      '<div class="chart-wrap">'+ratingChart(p)+'</div>'+
-      '<div class="chart-note">&#9432; Ratings are illustrative placeholders for this prototype — real values come from the rating formula.</div>'+
       embedSection+
     '</div>';
   document.getElementById('playerModal').classList.add('show');
