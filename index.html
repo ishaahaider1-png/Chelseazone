@@ -78,8 +78,9 @@
   .nav-links button.active { color: var(--accent); background: var(--accent-tint); font-weight: 600; }
   .nav-cta { margin-left: auto; font-size: var(--text-xs); font-weight: 600; padding: var(--space-8) var(--space-16); border-radius: var(--radius); border: none; color: var(--surface); background: var(--accent); cursor: pointer; transition: background .15s; }
   .nav-cta:hover { background: var(--accent-deep); }
-  .ticker { background: var(--ink); color: var(--surface); font-size: var(--text-xs); font-weight: 500; padding: var(--space-8) 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
-  .ticker .tag { background: var(--accent); color: var(--surface); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: var(--space-4) var(--space-8); border-radius: var(--radius); margin: 0 var(--space-16); flex-shrink: 0; font-size: var(--text-2xs); }
+  .ticker { background: var(--ink); color: var(--surface); font-size: var(--text-xs); font-weight: 500; padding: var(--space-8) 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; position: relative; }
+  .ticker .tag { background: var(--accent); color: var(--surface); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: var(--space-4) var(--space-8); border-radius: var(--radius); margin: 0 var(--space-16); flex-shrink: 0; font-size: var(--text-2xs); position: relative; z-index: 2; }
+  .ticker-viewport { flex: 1; min-width: 0; overflow: hidden; }
   .ticker-track { display: inline-flex; gap: var(--space-40); animation: scroll 42s linear infinite; }
   @keyframes scroll { from { transform: translateX(0);} to { transform: translateX(-50%);} }
   .ticker-track span::before { content: "\2022"; color: rgba(255,255,255,0.4); margin-right: var(--space-40); }
@@ -97,9 +98,9 @@
   .photo .ph-init { font-family: var(--serif); font-weight: 800; color: rgba(255,255,255,0.92); letter-spacing: -0.02em; }
   .photo .ph-tag { position: absolute; bottom: var(--space-8); left: var(--space-8); font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-weight: 600; }
   .photo.has-photo { background-size: cover; background-repeat: no-repeat; }
-  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo { background-position: center 15%; }
-  .hero-photo.has-photo { background-position: center 12%; }
-  .q-photo.has-photo, .rumour-photo.has-photo { background-position: center center; }
+  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo { background-position: center 15%; background-size: 135%; }
+  .hero-photo.has-photo { background-position: center 12%; background-size: 130%; }
+  .q-photo.has-photo, .rumour-photo.has-photo { background-position: center 22%; background-size: 155%; }
   .photo-credit { position: absolute; font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.02em; color: rgba(255,255,255,0.9); text-decoration: none; background: rgba(0,0,0,0.4); padding: var(--space-4) var(--space-8); border-radius: var(--radius); z-index: 2; white-space: nowrap; }
   .photo-credit:hover { color: var(--surface); background: rgba(0,0,0,0.6); }
   .pc-photo .photo-credit, .card-photo .photo-credit, .hero-photo .photo-credit { bottom: var(--space-8); left: var(--space-8); }
@@ -131,6 +132,10 @@
   .card .cat.rumour, .card .cat.quote, .card .cat.done { color: var(--accent); }
   .card h3 { font-family: var(--serif); font-weight: 700; font-size: var(--text-lg); line-height: 1.24; letter-spacing: -0.01em; color: var(--ink); }
   .card p { font-size: var(--text-base); color: var(--gray-700); margin-top: var(--space-8); line-height: 1.6; max-width: 65ch; }
+  #news-grid .card p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  #news-grid .card p.expanded { display: block; -webkit-line-clamp: unset; overflow: visible; }
+  #news-grid .card-more { display: inline-block; margin-top: var(--space-8); font-size: var(--text-xs); font-weight: 600; color: var(--accent); background: none; border: none; padding: 0; cursor: pointer; }
+  #news-grid .card-more:hover { text-decoration: underline; }
   .card .foot { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-xs); color: var(--gray-500); }
   .card .foot .src { color: var(--gray-500); font-weight: 500; }
   .card .foot .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-300); }
@@ -357,7 +362,9 @@
 </nav>
 <div class="ticker">
   <span class="tag">Breaking</span>
-  <div class="ticker-track" id="ticker-track"></div>
+  <div class="ticker-viewport">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
 </div>
 <div class="container">
   <div class="page active" id="page-home">
@@ -505,7 +512,7 @@ document.querySelector('.nav-links button').classList.add('active');
 function scrollToDiscuss(){ go('discuss'); setTimeout(function(){var t=document.getElementById('cText'); if(t) t.focus();},120); }
 
 /* ── Ticker ── */
-var tickerItems=["Chelsea agree British-record £117m deal for Morgan Rogers","Alonso confirms Reece James stays captain, Colwill vice option","João Pedro hat-trick as Chelsea thrash Crawley 7-0","Cucurella crowned world champion with Spain","Enzo Fernández exit speculation intensifies","Gusto-Man City talks stall over £75m valuation","Chavarría deal stuck on Rayo release clause"];
+var tickerItems=["Chelsea complete British-record £117m deal for Morgan Rogers","Spurs offer Cristian Romero as Neto linked with move the other way","Bournemouth reject Chelsea's £64m Alex Scott bid","Garnacho pushes for exit with Real Madrid in mind","Alonso confirms Reece James stays captain","Chelsea depart for Sydney Super Cup pre-season tour","Gusto-Man City talks stall over £75m valuation"];
 document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
 
 /* ════════════════════════════════════════════
@@ -746,9 +753,12 @@ var news=[
 
 function cardHTML(n){
   var em=n.embed ? embedHTML(n.embed) : '';
-  return '<div class="card" onclick="openSource(\''+n.url+'\')">'+
-    '<div class="photo card-photo'+(n.photo?' has-photo':'')+'"'+photoStyle(n)+'>'+(n.photo?'':'<span class="ph-init">'+n.init+'</span>')+(n.photo&&!n.photoAttribution?photoCredit(n):(n.photo?'':'<span class="ph-tag">Photo placeholder</span>'))+'</div>'+
-    photoAttributionHTML(n)+
+  var showPhoto=n.photo&&n.photoAttribution;
+  var photoBlock=showPhoto
+    ? '<div class="photo card-photo has-photo"'+photoStyle(n)+'></div>'+photoAttributionHTML(n)
+    : '';
+  return '<div class="card'+(showPhoto?'':' card-textonly')+'" onclick="openSource(\''+n.url+'\')">'+
+    photoBlock+
     '<div class="card-body">'+
       '<div class="cat '+n.cc+'">'+n.cat+'</div>'+
       '<h3>'+n.h+'</h3>'+
@@ -758,7 +768,28 @@ function cardHTML(n){
     '</div>'+
   '</div>';
 }
-document.getElementById('news-grid').innerHTML=news.slice(0,4).map(cardHTML).join('');
+function toggleCardText(btn){
+  var p=btn.parentNode.querySelector('p');
+  var expanded=p.classList.toggle('expanded');
+  btn.textContent=expanded?'Show less':'Read more';
+}
+function clampNewsCards(){
+  [].forEach.call(document.querySelectorAll('#news-grid .card'),function(card){
+    var body=card.querySelector('.card-body'), p=body&&body.querySelector('p');
+    if(!p||body.querySelector('.card-more')||p.classList.contains('expanded')) return;
+    if(p.scrollHeight>p.clientHeight+2){
+      var btn=document.createElement('button');
+      btn.className='card-more';
+      btn.type='button';
+      btn.textContent='Read more';
+      btn.onclick=function(e){ e.stopPropagation(); toggleCardText(btn); };
+      p.parentNode.insertBefore(btn,p.nextSibling);
+    }
+  });
+}
+window.addEventListener('load',clampNewsCards);
+document.getElementById('news-grid').innerHTML=news.slice(1,5).map(cardHTML).join('');
+clampNewsCards();
 document.getElementById('news-grid-full').innerHTML=news.map(cardHTML).join('');
 document.getElementById('transfer-cards').innerHTML=news.filter(function(n){return n.cat==='Transfer'||n.cc==='done';}).map(cardHTML).join('');
 observeEmbeds();
@@ -766,11 +797,23 @@ observeEmbeds();
 /* ── Rumours ── */
 var rumours=[
   {
+    init:"CR",h:"Spurs offer Cristian Romero to Chelsea",
+    p:"Tottenham have reportedly offered club captain Cristian Romero, with the Argentine said to be keen and Enzo Fernández encouraging the move; Spurs have separately made a verbal bid for Pedro Neto. Nothing is agreed \u2014 treat as rumour.",
+    src:"Football Transfers",rel:2.4,prob:30,
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/transfer-rumours-22-july-arsenal-chelsea-man-utd-alex-scott-alejandro-garnacho-bruno-guimaraes",
+    photo:"images/players/cristian-romero.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cristian_Romero_Argentina_v_Egypt_7_July_2026-108.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"
+  },
+  {
+    init:"AS",h:"Chelsea chase Bournemouth's Alex Scott",
+    p:"Chelsea remain keen on the 22-year-old midfielder after a \u00a364m bid was rejected, with Bournemouth valuing him nearer \u00a380m and intent on keeping him for their European campaign.",
+    src:"CaughtOffside",rel:3.0,prob:35,
+    url:"https://www.caughtoffside.com/2026/07/22/chelsea-alex-scott-transfer-bid-rejected/"
+  },
+  {
     init:"AG",h:"Garnacho to Roma or Napoli",
     p:"Now formally transfer-listed and left out of first-team training, with Roma the winger's preferred destination — though Napoli remain interested if the finances can be made to work.",
     src:"FootballTransfers",rel:4.2,prob:64,
-    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-adam-wharton-alejandro-garnacho-12-july",
-    photo:"https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-adam-wharton-alejandro-garnacho-12-july"
   },
   {
     init:"PC",h:"Chelsea prepare improved bid for Pep Chavarría",
@@ -782,22 +825,19 @@ var rumours=[
     init:"TC",h:"Chalobah eyed by Inter and Como",
     p:"His agent has reportedly met Inter Milan, with Como also keen and a bid around £30m mooted for the England defender.",
     src:"Football Transfer League",rel:2.8,prob:42,
-    url:"https://www.footballtransferleague.co.uk/clubs/chelsea",
-    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"
+    url:"https://www.footballtransferleague.co.uk/clubs/chelsea"
   },
   {
     init:"EF",h:"Arsenal and Man City ‘gathering info’ on Enzo",
     p:"After Real Madrid pulled out, Longari claims domestic rivals are monitoring Fernández — but Chelsea’s £120m+ valuation is a major hurdle.",
     src:"Gianluigi Longari",rel:2.6,prob:28,
-    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-alejandro-garnacho-granit-xhaka-gilberto-mora",
-    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0"
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-alejandro-garnacho-granit-xhaka-gilberto-mora"
   },
   {
     init:"DV",h:"Vlahović floated as a striker option",
     p:"Speculative link suggesting the Juventus forward could be considered if Chelsea revamp their attack. Thin sourcing so far.",
     src:"CaughtOffside",rel:2.2,prob:18,
-    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-speaks-out-future-unusual-deal-takes-shape",
-    photo:"https://upload.wikimedia.org/wikipedia/commons/7/76/Dusan_Vlahovic.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dusan_Vlahovic.jpg",photoBy:"Dariuzzdigambassi",photoLic:"CC BY-SA 4.0"
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-speaks-out-future-unusual-deal-takes-shape"
   },
   {
     init:"AW",h:"Chelsea favourites for Adam Wharton as rivals cool",
@@ -873,12 +913,13 @@ observeEmbeds();
 
 /* ── Transfers sidebar ── */
 var transfers=[
-  {dir:"in",name:"Marco Palestra",club:"from Atalanta",fee:"€57m",s:false},
+  {dir:"in",name:"Morgan Rogers",club:"from Aston Villa",fee:"£117m",s:false},
+  {dir:"in",name:"Marco Palestra",club:"from Atalanta",fee:"£43m",s:false},
   {dir:"in",name:"Valentín Barco",club:"from Strasbourg",fee:"Agreed",s:true},
   {dir:"in",name:"Pep Chavarría",club:"bid prepared - Rayo Vallecano",fee:"~€25m",s:true},
   {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
   {dir:"out",name:"Marc Cucurella",club:"to Real Madrid",fee:"£51.8m",s:false},
-  {dir:"out",name:"Tyrique George",club:"to Everton",fee:"up to €28m",s:false},
+  {dir:"out",name:"Tyrique George",club:"to Everton",fee:"~£18m",s:false},
   {dir:"out",name:"Alejandro Garnacho",club:"listed - Roma/Napoli keen",fee:"For sale",s:true}
 ];
 function trHTML(t){ return '<div class="transfer-row"><div class="dir '+t.dir+'">'+(t.dir==='in'?'↓':'↑')+'</div><div class="tinfo"><div class="name">'+t.name+'</div><div class="club">'+t.club+'</div></div><div class="fee '+(t.s?'status':'')+'">'+t.fee+'</div></div>'; }
