@@ -81,6 +81,8 @@
   .nav-auth { margin-left: auto; display: flex; align-items: center; gap: var(--space-12); }
   .nav-auth .nav-cta { margin-left: 0; }
   .nav-user { font-size: var(--text-xs); font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .nav-textbtn { background: none; border: none; color: var(--accent); font-size: var(--text-xs); font-weight: 600; cursor: pointer; padding: 0; }
+  .nav-textbtn:hover { text-decoration: underline; }
   .nav-signout { background: var(--gray-100); color: var(--ink); }
   .nav-signout:hover { background: var(--gray-300); }
   .ticker { background: var(--ink); color: var(--surface); font-size: var(--text-xs); font-weight: 500; padding: var(--space-8) 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; position: relative; }
@@ -213,6 +215,13 @@
   .comment-box input:focus { border-color: var(--accent); }
   .comment-box .post-btn { margin-left: auto; font-size: var(--text-sm); font-weight: 600; padding: var(--space-8) var(--space-16); border-radius: var(--radius); border: none; color: var(--surface); background: var(--accent); cursor: pointer; transition: background .15s; }
   .comment-box .post-btn:hover { background: var(--accent-deep); }
+  .ug-label { font-size: var(--text-sm); font-weight: 600; color: var(--ink); margin-bottom: var(--space-8); }
+  .ug-row { display: flex; gap: var(--space-8); align-items: center; flex-wrap: wrap; }
+  .ug-row input { flex: 1; min-width: 160px; max-width: 240px; border: var(--hairline); border-radius: var(--radius); padding: var(--space-8) var(--space-12); font-family: var(--sans); font-size: var(--text-sm); outline: none; background: var(--bg); }
+  .ug-row input:focus { border-color: var(--accent); }
+  .ug-msg { font-size: var(--text-xs); margin-top: var(--space-8); min-height: 1.1em; }
+  .ug-msg.error { color: var(--grade-flag); }
+  .ug-msg.ok { color: var(--accent); }
   .comment { display: flex; gap: var(--space-12); padding: var(--space-16) 0; border-bottom: var(--hairline); }
   .comment:last-child { border-bottom: none; }
   .comment .av { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: var(--text-sm); color: var(--surface); }
@@ -470,10 +479,21 @@
     <div class="grid">
       <div class="main">
         <div class="comment-box">
-          <textarea id="cText" placeholder="Share your take on the latest Chelsea news..."></textarea>
-          <div class="cb-foot">
-            <select id="cCat" class="cat-select"></select>
-            <button class="post-btn" onclick="postComment()">Post comment</button>
+          <div id="usernameGate" class="username-gate" style="display:none">
+            <div class="ug-label" id="ugLabel">Choose a username to join the discussion</div>
+            <div class="ug-row">
+              <input id="ugInput" type="text" maxlength="20" placeholder="e.g. BlueLion_87" autocomplete="off" />
+              <button class="post-btn" onclick="saveUsername()">Save</button>
+              <button class="nav-textbtn" id="ugCancel" onclick="cancelUsername()" style="display:none">Cancel</button>
+            </div>
+            <div id="ugMsg" class="ug-msg"></div>
+          </div>
+          <div id="commentInputs">
+            <textarea id="cText" placeholder="Share your take on the latest Chelsea news..."></textarea>
+            <div class="cb-foot">
+              <select id="cCat" class="cat-select"></select>
+              <button class="post-btn" onclick="postComment()">Post comment</button>
+            </div>
           </div>
         </div>
         <div class="discuss-toolbar">
@@ -525,20 +545,69 @@ function scrollToDiscuss(){ go('discuss'); setTimeout(function(){var t=document.
 
 /* ── Auth (Supabase + Google) ── */
 var currentUser=null;
+var currentUsername=null;
+var usernameEditing=false;
 function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-function authName(user){
-  var m=(user&&user.user_metadata)||{};
-  return m.full_name||m.name||m.user_name||(user&&user.email)||'Chelsea fan';
-}
 function renderAuth(){
   var el=document.getElementById('navAuth');
   if(!el) return;
-  if(currentUser){
-    el.innerHTML='<span class="nav-user">'+escapeHtml(authName(currentUser))+'</span>'+
+  if(!currentUser){
+    el.innerHTML='<button class="nav-cta" onclick="signInGoogle()">Join the discussion</button>';
+  } else if(currentUsername){
+    el.innerHTML='<span class="nav-user">@'+escapeHtml(currentUsername)+'</span>'+
+      '<button class="nav-textbtn" onclick="startChangeUsername()">change</button>'+
       '<button class="nav-cta nav-signout" onclick="signOut()">Sign out</button>';
   } else {
-    el.innerHTML='<button class="nav-cta" onclick="signInGoogle()">Join the discussion</button>';
+    el.innerHTML='<button class="nav-cta" onclick="scrollToDiscuss()">Choose username</button>'+
+      '<button class="nav-cta nav-signout" onclick="signOut()">Sign out</button>';
   }
+}
+function setUgMsg(text,kind){ var m=document.getElementById('ugMsg'); if(!m) return; m.textContent=text||''; m.className='ug-msg'+(kind?(' '+kind):''); }
+function refreshComposer(){
+  var gate=document.getElementById('usernameGate'), inputs=document.getElementById('commentInputs');
+  if(!gate||!inputs) return;
+  var needsUsername=currentUser && !currentUsername;
+  if(needsUsername || usernameEditing){
+    gate.style.display=''; inputs.style.display='none';
+    var label=document.getElementById('ugLabel'), cancel=document.getElementById('ugCancel');
+    if(label) label.textContent=usernameEditing?'Change your username':'Choose a username to join the discussion';
+    if(cancel) cancel.style.display=usernameEditing?'':'none';
+  } else {
+    gate.style.display='none'; inputs.style.display='';
+  }
+}
+function startChangeUsername(){
+  usernameEditing=true;
+  go('discuss');
+  refreshComposer();
+  setUgMsg('','');
+  var input=document.getElementById('ugInput');
+  if(input){ input.value=currentUsername||''; setTimeout(function(){ input.focus(); input.select(); },120); }
+}
+function cancelUsername(){ usernameEditing=false; setUgMsg('',''); refreshComposer(); }
+function loadProfile(){
+  if(!currentUser){ currentUsername=null; renderAuth(); refreshComposer(); return; }
+  sb.from('profiles').select('username').eq('id',currentUser.id).maybeSingle().then(function(res){
+    if(res.error){ console.error('load profile',res.error); }
+    currentUsername=(res.data&&res.data.username)?res.data.username:null;
+    renderAuth(); refreshComposer();
+  });
+}
+function validUsername(u){ return /^[A-Za-z0-9_]{3,20}$/.test(u); }
+function isUniqueErr(e){ return !!e && (e.code==='23505' || /duplicate key|already exists|unique/i.test(e.message||'')); }
+function saveUsername(){
+  if(!currentUser){ signInGoogle(); return; }
+  var u=(document.getElementById('ugInput').value||'').trim();
+  if(!validUsername(u)){ setUgMsg('Use 3–20 characters: letters, numbers or underscores only.','error'); return; }
+  setUgMsg('','');
+  sb.from('profiles').upsert({id:currentUser.id,username:u}).then(function(res){
+    if(res.error){
+      if(isUniqueErr(res.error)){ setUgMsg('That username is taken, try another.','error'); }
+      else { console.error('save username',res.error); setUgMsg('Could not save username. Try again.','error'); }
+      return;
+    }
+    currentUsername=u; usernameEditing=false; renderAuth(); refreshComposer();
+  });
 }
 function signInGoogle(){
   sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
@@ -546,11 +615,11 @@ function signInGoogle(){
 function signOut(){ sb.auth.signOut(); }
 sb.auth.getSession().then(function(res){
   currentUser=(res.data&&res.data.session)?res.data.session.user:null;
-  renderAuth();
+  loadProfile();
 });
 sb.auth.onAuthStateChange(function(event,session){
   currentUser=session?session.user:null;
-  renderAuth();
+  loadProfile();
   loadComments();
 });
 
@@ -1251,10 +1320,11 @@ function toggleVote(el,id){
 }
 function postComment(){
   if(!currentUser){ signInGoogle(); return; }
+  if(!currentUsername){ refreshComposer(); return; }
   var text=document.getElementById('cText').value.trim();
   var cat=document.getElementById('cCat').value;
   if(!text) return;
-  sb.from('comments').insert({article_id:'discuss',user_id:currentUser.id,display_name:authName(currentUser),body:text,category:cat}).then(function(res){
+  sb.from('comments').insert({article_id:'discuss',user_id:currentUser.id,display_name:currentUsername,body:text,category:cat}).then(function(res){
     if(res.error){ console.error('post comment',res.error); alert('Could not post your comment. Please try again.'); return; }
     document.getElementById('cText').value='';
     loadComments();
