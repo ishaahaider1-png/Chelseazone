@@ -1137,7 +1137,7 @@ var transfers=[
   {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
   {dir:"out",name:"Marc Cucurella",club:"to Real Madrid",fee:"£51.8m",s:false},
   {dir:"out",name:"Tyrique George",club:"to Everton",fee:"~£18m",s:false},
-  {dir:"out",name:"Alejandro Garnacho",club:"listed - Roma/Napoli keen",fee:"For sale",s:true}
+  {dir:"out",name:"Alejandro Garnacho",club:"to Aston Villa (loan)",fee:"~£42.5m obligation",s:false}
 ];
 function trHTML(t){ return '<div class="transfer-row"><div class="dir '+t.dir+'">'+(t.dir==='in'?'↓':'↑')+'</div><div class="tinfo"><div class="name">'+t.name+'</div><div class="club">'+t.club+'</div></div><div class="fee '+(t.s?'status':'')+'">'+t.fee+'</div></div>'; }
 document.getElementById('transfer-list').innerHTML=transfers.map(trHTML).join('');
