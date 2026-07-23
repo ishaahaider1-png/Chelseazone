@@ -364,10 +364,59 @@
   .lb-slot:focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
   .lb-slot .lb-plus { font-size: clamp(11px, 3vw, 15px); line-height: 1; font-weight: 400; opacity: 0.75; }
   .lb-slot .lb-slot-pos { font-size: clamp(9px, 2.6vw, 11px); font-weight: 700; letter-spacing: 0.04em; }
+  /* Filled slots */
+  .lb-slot.filled { border-style: solid; border-color: rgba(255,255,255,0.92); background: rgba(3,25,60,0.62); }
+  .lb-slot.filled.rumoured { border-style: dashed; border-color: #e0a63b; background: rgba(58,42,10,0.6); }
+  .lb-slot .lb-slot-top { font-family: var(--serif); font-weight: 800; font-size: clamp(11px, 3vw, 15px); line-height: 1; }
+  .lb-slot.rumoured .lb-slot-top { color: #edbf78; }
+  .lb-slot .lb-slot-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 3px; font-size: clamp(8px, 2.3vw, 10px); font-weight: 600; }
+  .lb-slot.rumoured .lb-slot-name { color: #f2cf94; }
+  .lb-slot-x { position: absolute; top: -7px; right: -7px; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); color: var(--surface); font-size: 12px; line-height: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.65); opacity: 0; transition: opacity .12s; cursor: pointer; }
+  .lb-slot.filled:hover .lb-slot-x, .lb-slot.filled:focus-within .lb-slot-x { opacity: 1; }
+  @media (hover: none){ .lb-slot-x { opacity: 1; } }
+  .lb-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); max-width: 520px; margin: var(--space-16) auto 0; }
+  .lb-count { font-size: var(--text-xs); color: var(--gray-500); font-weight: 600; }
+  .lb-clearall { font-size: var(--text-xs); font-weight: 600; padding: var(--space-8) var(--space-16); border: var(--hairline); background: var(--surface); color: var(--gray-700); border-radius: var(--radius); cursor: pointer; transition: border-color .15s, color .15s; }
+  .lb-clearall:hover { border-color: var(--grade-flag); color: var(--grade-flag); }
+  .lb-msg { max-width: 520px; margin: var(--space-8) auto 0; font-size: var(--text-xs); color: var(--accent-deep); background: var(--accent-tint); border-radius: var(--radius); padding: var(--space-8) var(--space-12); text-align: center; }
+  .lb-msg:empty { display: none; }
+  .lb-picker-clearpos { font-size: var(--text-xs); font-weight: 600; color: var(--grade-flag); background: var(--grade-flag-tint); border: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius); cursor: pointer; width: 100%; }
+  .lb-picker-clearpos:hover { filter: brightness(0.97); }
   .lb-hint { text-align: center; font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-16); }
   .lb-controls { display: flex; gap: var(--space-8); align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: var(--space-16); }
   .lb-controls-label { font-size: var(--text-xs); font-weight: 600; color: var(--gray-500); margin-right: var(--space-4); }
   .lb-controls .pos-filters { margin-bottom: 0; justify-content: center; }
+  /* Player picker (modal on desktop, bottom sheet on mobile) */
+  .lb-picker-overlay { position: fixed; inset: 0; background: rgba(17,17,17,0.55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; padding: var(--space-20); z-index: 120; }
+  .lb-picker-overlay.show { display: flex; }
+  .lb-picker { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 460px; max-height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+  .lb-picker-head { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-16) var(--space-20); border-bottom: var(--hairline); }
+  .lb-picker-title { font-family: var(--serif); font-weight: 700; font-size: var(--text-base); color: var(--ink); }
+  .lb-pick-code { font-family: var(--sans); font-size: var(--text-2xs); font-weight: 700; color: var(--accent); background: var(--accent-tint); padding: 2px 6px; border-radius: var(--radius); margin-left: var(--space-4); letter-spacing: 0.04em; vertical-align: middle; }
+  .lb-picker-close { margin-left: auto; width: 32px; height: 32px; border-radius: 50%; background: var(--gray-100); border: none; cursor: pointer; font-size: var(--text-base); color: var(--ink); flex-shrink: 0; }
+  .lb-picker-close:hover { background: var(--gray-300); }
+  .lb-picker-body { overflow-y: auto; padding: var(--space-8) var(--space-12) var(--space-12); }
+  .lb-pick-group { margin-top: var(--space-8); }
+  .lb-pick-head { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); font-weight: 700; padding: var(--space-12) var(--space-8) var(--space-4); }
+  .lb-pick-row { display: flex; align-items: center; gap: var(--space-8); width: 100%; text-align: left; padding: var(--space-12); border: none; background: var(--surface); border-radius: var(--radius); cursor: pointer; font-family: var(--sans); }
+  .lb-pick-row:hover { background: var(--gray-100); }
+  .lb-pick-name { font-size: var(--text-sm); font-weight: 600; color: var(--ink); flex: 1; min-width: 0; }
+  .lb-pick-num { font-size: var(--text-xs); font-weight: 700; color: var(--gray-500); flex-shrink: 0; }
+  .lb-pick-rumour { font-size: var(--text-2xs); font-weight: 700; letter-spacing: 0.04em; color: #8a5a12; background: #f6ead0; padding: 2px var(--space-8); border-radius: var(--radius); white-space: nowrap; flex-shrink: 0; }
+  .lb-pick-row.rumoured .lb-pick-name { color: #7a5210; }
+  .lb-pick-row.sel { background: var(--accent-tint); }
+  .lb-pick-row.used { opacity: 0.5; cursor: not-allowed; }
+  .lb-pick-row.used:hover { background: var(--surface); }
+  .lb-pick-used { font-size: var(--text-2xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-500); flex-shrink: 0; }
+  .lb-pick-used.sel { color: var(--accent); }
+  .lb-pick-empty { padding: var(--space-24); text-align: center; color: var(--gray-500); font-size: var(--text-sm); }
+  .lb-picker-foot:empty { display: none; }
+  .lb-picker-foot { border-top: var(--hairline); padding: var(--space-12) var(--space-20); }
+  @media (max-width: 560px){
+    .lb-picker-overlay { align-items: flex-end; padding: 0; }
+    .lb-picker { max-width: none; max-height: 88vh; border-radius: var(--radius) var(--radius) 0 0; animation: lb-sheet .2s ease; }
+  }
+  @keyframes lb-sheet { from { transform: translateY(100%); } to { transform: none; } }
 </style>
 </head>
 <body>
@@ -1754,6 +1803,118 @@ var LB_ORDER = ["4-3-3","4-2-3-1","4-4-2","4-1-4-1","4-3-1-2","4-4-1-1","3-4-3",
 
 var LB_current = "4-3-3";
 
+/* ── Selection state (in-memory only for this page session — no persistence) ── */
+var LB_selected = {};      /* slot index -> player object (from squad or rumouredPlayers) */
+var LB_pickerSlot = null;  /* slot index the picker is currently open for */
+
+/* Stable string keys so a player object can round-trip through an inline handler. */
+function lb_playerKey(p){
+  var i = squad.indexOf(p); if(i>-1) return 's'+i;
+  var j = rumouredPlayers.indexOf(p); if(j>-1) return 'r'+j;
+  return '';
+}
+function lb_playerByKey(key){
+  if(!key) return null;
+  var t = key.charAt(0), n = parseInt(key.slice(1),10);
+  return t==='s' ? squad[n] : (t==='r' ? rumouredPlayers[n] : null);
+}
+function lb_isUsed(p, exceptSlot){
+  for(var k in LB_selected){ if(LB_selected.hasOwnProperty(k) && Number(k)!==exceptSlot && LB_selected[k]===p) return true; }
+  return false;
+}
+var LB_POSNAME={GK:'Goalkeeper',RB:'Right-back',RWB:'Right wing-back',CB:'Centre-back',LB:'Left-back',LWB:'Left wing-back',CDM:'Defensive midfielder',CM:'Central midfielder',CAM:'Attacking midfielder',RM:'Right midfielder',LM:'Left midfielder',RW:'Right winger',RF:'Right forward',LW:'Left winger',LF:'Left forward',ST:'Striker'};
+function lb_posName(code){ return LB_POSNAME[code]||code; }
+
+/* ── Eligible players for a position code ── */
+function lb_eligible(pos){
+  var live = squad.filter(function(p){ return !p.departed && p.positions && p.positions.indexOf(pos)>-1; });
+  var rum  = rumouredPlayers.filter(function(p){ return p.positions && p.positions.indexOf(pos)>-1; });
+  return live.concat(rum);
+}
+/* A player's primary position is positions[0] (pos is a descriptive phrase, not a code). */
+function lb_pickRow(p){
+  var used = lb_isUsed(p, LB_pickerSlot);
+  var sel  = LB_selected[LB_pickerSlot]===p;
+  var isR  = !!p.rumoured;
+  var meta = isR
+    ? '<span class="lb-pick-rumour">RUMOURED &middot; '+escapeHtml(p.club||'')+'</span>'
+    : '<span class="lb-pick-num">'+(p.num!=null?('#'+p.num):'&mdash;')+'</span>';
+  var flag = used ? '<span class="lb-pick-used">In XI</span>' : (sel ? '<span class="lb-pick-used sel">Selected</span>' : '');
+  return '<button type="button" class="lb-pick-row'+(isR?' rumoured':'')+(used?' used':'')+(sel?' sel':'')+'"'+
+    (used?' disabled aria-disabled="true"':'')+' onclick="lb_choose(\''+lb_playerKey(p)+'\')">'+
+    '<span class="lb-pick-name">'+escapeHtml(p.n)+'</span>'+meta+flag+
+  '</button>';
+}
+function lb_pickSection(label, list){
+  if(!list.length) return '';
+  return '<div class="lb-pick-group"><div class="lb-pick-head">'+label+'</div>'+list.map(lb_pickRow).join('')+'</div>';
+}
+
+/* ── Player picker: open / close ── */
+function lb_openPicker(i){
+  LB_pickerSlot = i;
+  var pos = LB_FORMATIONS[LB_current].slots[i].pos;
+  var titleEl = document.getElementById('lb-picker-title');
+  if(titleEl) titleEl.innerHTML = 'Choose a '+lb_posName(pos)+' <span class="lb-pick-code">'+pos+'</span>';
+  var elig = lb_eligible(pos);
+  var natural = elig.filter(function(p){ return p.positions[0]===pos; });
+  var others  = elig.filter(function(p){ return p.positions[0]!==pos; });
+  var body = elig.length
+    ? lb_pickSection('Natural', natural) + lb_pickSection('Can also play', others)
+    : '<div class="lb-pick-empty">No eligible players for '+lb_posName(pos)+'.</div>';
+  var bodyEl = document.getElementById('lb-picker-body');
+  if(bodyEl){ bodyEl.innerHTML = body; bodyEl.scrollTop = 0; }
+  var footEl = document.getElementById('lb-picker-foot');
+  if(footEl) footEl.innerHTML = LB_selected[i]
+    ? '<button type="button" class="lb-picker-clearpos" onclick="lb_clearFromPicker()">Clear this position</button>'
+    : '';
+  var overlay = document.getElementById('lb-picker-overlay');
+  if(overlay) overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function lb_choose(key){
+  var p = lb_playerByKey(key);
+  if(!p || LB_pickerSlot==null || lb_isUsed(p, LB_pickerSlot)) return;
+  LB_selected[LB_pickerSlot] = p;
+  lb_closePicker();
+  lb_setMsg('');
+  lb_render();
+}
+function lb_clearSlot(i, ev){
+  if(ev){ ev.stopPropagation(); ev.preventDefault(); }
+  delete LB_selected[i];
+  lb_setMsg('');
+  lb_render();
+}
+function lb_clearFromPicker(){
+  if(LB_pickerSlot!=null) delete LB_selected[LB_pickerSlot];
+  lb_closePicker();
+  lb_setMsg('');
+  lb_render();
+}
+function lb_clearAll(){
+  LB_selected = {};
+  lb_setMsg('');
+  lb_render();
+}
+function lb_setMsg(t){ var m=document.getElementById('lb-msg'); if(m) m.textContent = t||''; }
+function lb_updateActions(){
+  var n = Object.keys(LB_selected).length;
+  var c = document.getElementById('lb-count');
+  if(c) c.textContent = n ? (n+' of 11 selected') : 'No players selected';
+  var b = document.getElementById('lb-clearall');
+  if(b) b.style.display = n ? '' : 'none';
+}
+function lb_closePicker(){
+  var overlay = document.getElementById('lb-picker-overlay');
+  if(overlay) overlay.classList.remove('show');
+  document.body.style.overflow = '';
+  LB_pickerSlot = null;
+}
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){ var o=document.getElementById('lb-picker-overlay'); if(o && o.classList.contains('show')) lb_closePicker(); }
+});
+
 /* ── Pitch markings (SVG space 680×960 = 68/96 portrait, navy turf / white lines) ── */
 function lb_pitchSVG(){
   return '<svg viewBox="0 0 680 960" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+
@@ -1777,15 +1938,32 @@ function lb_pitchSVG(){
 }
 
 /* ── Render the selected formation's empty slots onto the pitch ── */
+function lb_shortName(n){
+  var parts = String(n).trim().split(/\s+/);
+  var s = parts[parts.length-1];
+  return s.length>9 ? s.slice(0,8)+'…' : s;
+}
 function lb_render(){
   var f = LB_FORMATIONS[LB_current];
   var slots = f.slots.map(function(s,i){
-    return '<button type="button" class="lb-slot" style="left:'+s.x+'%;top:'+s.y+'%" data-i="'+i+'" data-pos="'+s.pos+'" title="'+s.pos+' — empty" aria-label="'+s.pos+' position, empty">'+
+    var p = LB_selected[i];
+    if(p){
+      var isR = !!p.rumoured;
+      var top = isR ? 'R' : (p.num!=null ? p.num : '&mdash;');
+      var ttl = escapeHtml(p.n)+(isR?(' — rumoured · '+escapeHtml(p.club||'')):'')+' ('+s.pos+')';
+      return '<button type="button" class="lb-slot filled'+(isR?' rumoured':'')+'" style="left:'+s.x+'%;top:'+s.y+'%" data-i="'+i+'" data-pos="'+s.pos+'" title="'+ttl+'" aria-label="'+s.pos+': '+escapeHtml(p.n)+(isR?', rumoured':'')+', tap to change" onclick="lb_openPicker('+i+')">'+
+        '<span class="lb-slot-x" role="button" tabindex="0" aria-label="Remove '+escapeHtml(p.n)+'" title="Remove" onclick="lb_clearSlot('+i+',event)">&times;</span>'+
+        '<span class="lb-slot-top">'+top+'</span>'+
+        '<span class="lb-slot-name">'+escapeHtml(lb_shortName(p.n))+'</span>'+
+      '</button>';
+    }
+    return '<button type="button" class="lb-slot" style="left:'+s.x+'%;top:'+s.y+'%" data-i="'+i+'" data-pos="'+s.pos+'" title="'+s.pos+' — empty" aria-label="'+s.pos+' position, empty, tap to add a player" onclick="lb_openPicker('+i+')">'+
       '<span class="lb-plus" aria-hidden="true">+</span>'+
       '<span class="lb-slot-pos">'+s.pos+'</span>'+
     '</button>';
   }).join('');
   document.getElementById('lb-pitch').innerHTML = lb_pitchSVG() + slots;
+  lb_updateActions();
 }
 
 /* ── Formation picker (site .pos-filters segmented style) ── */
@@ -1797,12 +1975,27 @@ function lb_renderPicker(){
   }).join('');
 }
 function lb_setFormation(name){
-  if(!LB_FORMATIONS[name]) return;
+  if(!LB_FORMATIONS[name] || name===LB_current) return;
+  /* Retention: keep each selected player if the new formation still has a slot of
+     the same position code (matched greedily). Drop the rest and report the count. */
+  var oldSlots = LB_FORMATIONS[LB_current].slots;
+  var carried = Object.keys(LB_selected).map(function(k){ return { p: LB_selected[k], pos: oldSlots[k].pos }; });
+  var newSlots = LB_FORMATIONS[name].slots;
+  var next = {}, taken = {}, dropped = 0;
+  carried.forEach(function(item){
+    var placed = false;
+    for(var i=0;i<newSlots.length;i++){
+      if(newSlots[i].pos===item.pos && !taken[i]){ next[i]=item.p; taken[i]=true; placed=true; break; }
+    }
+    if(!placed) dropped++;
+  });
+  LB_selected = next;
   LB_current = name;
   [].forEach.call(document.querySelectorAll('#lb-formationPicker button'), function(b){
     b.classList.toggle('on', b.dataset.f===name);
   });
   lb_render();
+  lb_setMsg(dropped ? (dropped+' player'+(dropped>1?'s':'')+' cleared — no matching position in '+name+'.') : '');
 }
 
 /* ── Build the tab shell ── */
@@ -1816,7 +2009,22 @@ function lb_init(){
         '<div class="pos-filters" id="lb-formationPicker"></div>'+
       '</div>'+
       '<div class="lb-pitch" id="lb-pitch"></div>'+
-      '<div class="lb-hint">Tap a position to add a player &mdash; coming soon.</div>'+
+      '<div class="lb-actions">'+
+        '<span class="lb-count" id="lb-count"></span>'+
+        '<button type="button" class="lb-clearall" id="lb-clearall" onclick="lb_clearAll()">Clear all</button>'+
+      '</div>'+
+      '<div class="lb-msg" id="lb-msg" role="status" aria-live="polite"></div>'+
+      '<div class="lb-hint">Tap a position to pick a player. Rumoured targets are marked and not yet signed.</div>'+
+    '</div>'+
+    '<div class="lb-picker-overlay" id="lb-picker-overlay" onclick="if(event.target===this)lb_closePicker()">'+
+      '<div class="lb-picker" role="dialog" aria-modal="true" aria-labelledby="lb-picker-title">'+
+        '<div class="lb-picker-head">'+
+          '<div class="lb-picker-title" id="lb-picker-title"></div>'+
+          '<button type="button" class="lb-picker-close" onclick="lb_closePicker()" aria-label="Close">&times;</button>'+
+        '</div>'+
+        '<div class="lb-picker-body" id="lb-picker-body"></div>'+
+        '<div class="lb-picker-foot" id="lb-picker-foot"></div>'+
+      '</div>'+
     '</div>';
   lb_renderPicker();
   lb_render();
