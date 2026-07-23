@@ -351,6 +351,23 @@
   .embed-live blockquote { max-width: 100% !important; margin: 0 auto !important; }
   /* prevent embed clicks bubbling to card/rumour onclick */
   .embed-wrap { pointer-events: auto; }
+
+  /* ── Lineup Builder (scoped .lb-) ── */
+  .lb-wrap { max-width: 520px; margin: 0 auto; }
+  .lb-pitch { position: relative; width: 100%; aspect-ratio: 68 / 96; border-radius: var(--radius); overflow: hidden; background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+  .lb-pitch::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.10) 0%, transparent 60%); pointer-events: none; }
+  .lb-pitch > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .lb-pitch .lb-line { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 3; }
+  .lb-pitch .lb-dot { fill: rgba(255,255,255,0.5); }
+  .lb-slot { position: absolute; transform: translate(-50%,-50%); width: clamp(42px, 12.5%, 58px); aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.55); background: rgba(255,255,255,0.10); color: var(--surface); font-family: var(--sans); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0; z-index: 2; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); transition: background .15s, border-color .15s, transform .15s; }
+  .lb-slot:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.92); transform: translate(-50%,-50%) scale(1.07); }
+  .lb-slot:focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
+  .lb-slot .lb-plus { font-size: clamp(11px, 3vw, 15px); line-height: 1; font-weight: 400; opacity: 0.75; }
+  .lb-slot .lb-slot-pos { font-size: clamp(9px, 2.6vw, 11px); font-weight: 700; letter-spacing: 0.04em; }
+  .lb-hint { text-align: center; font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-16); }
+  .lb-controls { display: flex; gap: var(--space-8); align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: var(--space-16); }
+  .lb-controls-label { font-size: var(--text-xs); font-weight: 600; color: var(--gray-500); margin-right: var(--space-4); }
+  .lb-controls .pos-filters { margin-bottom: 0; justify-content: center; }
 </style>
 </head>
 <body>
@@ -464,6 +481,11 @@
     <div class="pos-filters" id="posFilters"></div>
     <div class="player-grid" id="playerGrid"></div>
   </div>
+  <div class="page" id="page-lineup">
+    <div class="page-title">Lineup Builder</div>
+    <div class="page-sub">Pick a formation and build your Chelsea XI on the pitch. Choose a shape below to get started.</div>
+    <div id="lineup-root"></div>
+  </div>
   <div class="page" id="page-quotes">
     <div class="page-title">Quotes</div>
     <div class="page-sub">Straight from the players, the manager, and around the club.</div>
@@ -533,7 +555,7 @@ function starRating(val){
 function probColor(p){ if(p>=70) return 'var(--accent)'; if(p>=45) return 'var(--gray-500)'; return 'var(--gray-300)'; }
 
 /* ── Nav ── */
-var navItems=[["home","Home"],["discuss","Discuss"],["news","News"],["transfers","Transfers"],["rumours","Rumours"],["players","Players"],["quotes","Quotes"],["fixtures","Fixtures"]];
+var navItems=[["home","Home"],["discuss","Discuss"],["news","News"],["transfers","Transfers"],["rumours","Rumours"],["players","Players"],["lineup","Lineup Builder"],["quotes","Quotes"],["fixtures","Fixtures"]];
 document.getElementById('nav-links').innerHTML=navItems.map(function(x){return '<button data-p="'+x[0]+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>';}).join('');
 function go(id){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
@@ -1635,6 +1657,171 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal
 renderPlayers();
 
 function openSource(url){ window.open(url,'_blank'); }
+</script>
+
+<script>
+/* ════════════════════════════════════════════
+   LINEUP BUILDER  (scoped: all vars/classes prefixed LB_ / .lb-)
+   Session 1: tab shell, formation data, pitch + empty slots, picker.
+   Player selection is intentionally NOT built here.
+   ════════════════════════════════════════════ */
+
+/* ── Formation data ──
+   Each slot: { pos:<code>, x:0–100 left→right, y:0 (attack/top) → 100 (own goal/bottom) }
+   Exactly 11 slots, exactly one GK at the back. Specific flank codes so the
+   player picker (next session) can filter by position. */
+var LB_FORMATIONS = {
+  "4-3-3": { name:"4-3-3", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"CDM", x:50, y:58}, {pos:"CM", x:30, y:46}, {pos:"CM", x:70, y:46},
+    {pos:"LW", x:16, y:20}, {pos:"ST", x:50, y:13}, {pos:"RW", x:84, y:20}
+  ]},
+  "4-2-3-1": { name:"4-2-3-1", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"CDM", x:35, y:60}, {pos:"CDM", x:65, y:60},
+    {pos:"LW", x:16, y:36}, {pos:"CAM", x:50, y:38}, {pos:"RW", x:84, y:36},
+    {pos:"ST", x:50, y:14}
+  ]},
+  "4-4-2": { name:"4-4-2", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"LM", x:14, y:50}, {pos:"CM", x:38, y:52}, {pos:"CM", x:62, y:52}, {pos:"RM", x:86, y:50},
+    {pos:"ST", x:38, y:16}, {pos:"ST", x:62, y:16}
+  ]},
+  "4-1-4-1": { name:"4-1-4-1", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"CDM", x:50, y:60},
+    {pos:"LM", x:14, y:42}, {pos:"CM", x:38, y:44}, {pos:"CM", x:62, y:44}, {pos:"RM", x:86, y:42},
+    {pos:"ST", x:50, y:15}
+  ]},
+  "4-3-1-2": { name:"4-3-1-2", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"CDM", x:50, y:60}, {pos:"CM", x:30, y:50}, {pos:"CM", x:70, y:50},
+    {pos:"CAM", x:50, y:36},
+    {pos:"ST", x:38, y:16}, {pos:"ST", x:62, y:16}
+  ]},
+  "4-4-1-1": { name:"4-4-1-1", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"LM", x:14, y:52}, {pos:"CM", x:38, y:54}, {pos:"CM", x:62, y:54}, {pos:"RM", x:86, y:52},
+    {pos:"CAM", x:50, y:32},
+    {pos:"ST", x:50, y:15}
+  ]},
+  "3-4-3": { name:"3-4-3", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"CB", x:27, y:78}, {pos:"CB", x:50, y:79}, {pos:"CB", x:73, y:78},
+    {pos:"LM", x:12, y:52}, {pos:"CM", x:38, y:54}, {pos:"CM", x:62, y:54}, {pos:"RM", x:88, y:52},
+    {pos:"LW", x:18, y:18}, {pos:"ST", x:50, y:13}, {pos:"RW", x:82, y:18}
+  ]},
+  "3-5-2": { name:"3-5-2", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"CB", x:27, y:78}, {pos:"CB", x:50, y:79}, {pos:"CB", x:73, y:78},
+    {pos:"LWB", x:10, y:50}, {pos:"CDM", x:50, y:60}, {pos:"CM", x:33, y:46}, {pos:"CM", x:67, y:46}, {pos:"RWB", x:90, y:50},
+    {pos:"ST", x:38, y:16}, {pos:"ST", x:62, y:16}
+  ]},
+  "3-4-2-1": { name:"3-4-2-1", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"CB", x:27, y:78}, {pos:"CB", x:50, y:79}, {pos:"CB", x:73, y:78},
+    {pos:"LM", x:12, y:54}, {pos:"CM", x:38, y:55}, {pos:"CM", x:62, y:55}, {pos:"RM", x:88, y:54},
+    {pos:"CAM", x:35, y:32}, {pos:"CAM", x:65, y:32},
+    {pos:"ST", x:50, y:14}
+  ]},
+  "5-3-2": { name:"5-3-2", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LWB", x:8, y:70}, {pos:"CB", x:28, y:78}, {pos:"CB", x:50, y:79}, {pos:"CB", x:72, y:78}, {pos:"RWB", x:92, y:70},
+    {pos:"CDM", x:50, y:58}, {pos:"CM", x:30, y:48}, {pos:"CM", x:70, y:48},
+    {pos:"ST", x:38, y:16}, {pos:"ST", x:62, y:16}
+  ]},
+  "5-4-1": { name:"5-4-1", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LWB", x:8, y:70}, {pos:"CB", x:28, y:78}, {pos:"CB", x:50, y:79}, {pos:"CB", x:72, y:78}, {pos:"RWB", x:92, y:70},
+    {pos:"LM", x:14, y:50}, {pos:"CM", x:38, y:52}, {pos:"CM", x:62, y:52}, {pos:"RM", x:86, y:50},
+    {pos:"ST", x:50, y:15}
+  ]},
+  "4-2-2-2": { name:"4-2-2-2", slots:[
+    {pos:"GK", x:50, y:93},
+    {pos:"LB", x:12, y:74}, {pos:"CB", x:37, y:77}, {pos:"CB", x:63, y:77}, {pos:"RB", x:88, y:74},
+    {pos:"CDM", x:35, y:58}, {pos:"CDM", x:65, y:58},
+    {pos:"LM", x:18, y:38}, {pos:"RM", x:82, y:38},
+    {pos:"ST", x:38, y:16}, {pos:"ST", x:62, y:16}
+  ]}
+};
+var LB_ORDER = ["4-3-3","4-2-3-1","4-4-2","4-1-4-1","4-3-1-2","4-4-1-1","3-4-3","3-5-2","3-4-2-1","5-3-2","5-4-1","4-2-2-2"];
+
+var LB_current = "4-3-3";
+
+/* ── Pitch markings (SVG space 680×960 = 68/96 portrait, navy turf / white lines) ── */
+function lb_pitchSVG(){
+  return '<svg viewBox="0 0 680 960" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+
+    '<rect class="lb-line" x="12" y="12" width="656" height="936" rx="4"/>'+
+    '<line class="lb-line" x1="12" y1="480" x2="668" y2="480"/>'+
+    '<circle class="lb-line" cx="340" cy="480" r="70"/>'+
+    '<circle class="lb-dot" cx="340" cy="480" r="4"/>'+
+    /* top end */
+    '<rect class="lb-line" x="140" y="12" width="400" height="150"/>'+
+    '<rect class="lb-line" x="240" y="12" width="200" height="60"/>'+
+    '<circle class="lb-dot" cx="340" cy="112" r="4"/>'+
+    '<path class="lb-line" d="M291 162 A70 70 0 0 1 389 162"/>'+
+    '<rect class="lb-line" x="298" y="6" width="84" height="6"/>'+
+    /* bottom end */
+    '<rect class="lb-line" x="140" y="798" width="400" height="150"/>'+
+    '<rect class="lb-line" x="240" y="888" width="200" height="60"/>'+
+    '<circle class="lb-dot" cx="340" cy="848" r="4"/>'+
+    '<path class="lb-line" d="M291 798 A70 70 0 0 0 389 798"/>'+
+    '<rect class="lb-line" x="298" y="948" width="84" height="6"/>'+
+  '</svg>';
+}
+
+/* ── Render the selected formation's empty slots onto the pitch ── */
+function lb_render(){
+  var f = LB_FORMATIONS[LB_current];
+  var slots = f.slots.map(function(s,i){
+    return '<button type="button" class="lb-slot" style="left:'+s.x+'%;top:'+s.y+'%" data-i="'+i+'" data-pos="'+s.pos+'" title="'+s.pos+' — empty" aria-label="'+s.pos+' position, empty">'+
+      '<span class="lb-plus" aria-hidden="true">+</span>'+
+      '<span class="lb-slot-pos">'+s.pos+'</span>'+
+    '</button>';
+  }).join('');
+  document.getElementById('lb-pitch').innerHTML = lb_pitchSVG() + slots;
+}
+
+/* ── Formation picker (site .pos-filters segmented style) ── */
+function lb_renderPicker(){
+  var el = document.getElementById('lb-formationPicker');
+  if(!el) return;
+  el.innerHTML = LB_ORDER.map(function(name){
+    return '<button type="button" class="'+(name===LB_current?'on':'')+'" data-f="'+name+'" onclick="lb_setFormation(\''+name+'\')">'+name+'</button>';
+  }).join('');
+}
+function lb_setFormation(name){
+  if(!LB_FORMATIONS[name]) return;
+  LB_current = name;
+  [].forEach.call(document.querySelectorAll('#lb-formationPicker button'), function(b){
+    b.classList.toggle('on', b.dataset.f===name);
+  });
+  lb_render();
+}
+
+/* ── Build the tab shell ── */
+function lb_init(){
+  var root = document.getElementById('lineup-root');
+  if(!root) return;
+  root.innerHTML =
+    '<div class="lb-wrap">'+
+      '<div class="lb-controls">'+
+        '<span class="lb-controls-label">Formation</span>'+
+        '<div class="pos-filters" id="lb-formationPicker"></div>'+
+      '</div>'+
+      '<div class="lb-pitch" id="lb-pitch"></div>'+
+      '<div class="lb-hint">Tap a position to add a player &mdash; coming soon.</div>'+
+    '</div>';
+  lb_renderPicker();
+  lb_render();
+}
+lb_init();
 </script>
 
 <div class="modal-overlay" id="playerModal" onclick="if(event.target===this)closeModal()">
