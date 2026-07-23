@@ -105,8 +105,9 @@
   .photo .ph-init { font-family: var(--serif); font-weight: 800; color: rgba(255,255,255,0.92); letter-spacing: -0.02em; }
   .photo .ph-tag { position: absolute; bottom: var(--space-8); left: var(--space-8); font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-weight: 600; }
   .photo.has-photo { background-size: cover; background-repeat: no-repeat; }
-  .pc-photo.has-photo, .modal-photo.has-photo, .card-photo.has-photo { background-position: center 15%; background-size: 135%; }
-  .hero-photo.has-photo { background-position: center 12%; background-size: 130%; }
+  .pc-photo.has-photo, .modal-photo.has-photo { background-position: center 15%; background-size: 135%; }
+  .card-photo.has-photo { background-position: center 20%; }
+  .hero-photo.has-photo { background-position: center 18%; }
   .q-photo.has-photo, .rumour-photo.has-photo { background-position: center 22%; background-size: 155%; }
   .photo-credit { position: absolute; font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.02em; color: rgba(255,255,255,0.9); text-decoration: none; background: rgba(0,0,0,0.4); padding: var(--space-4) var(--space-8); border-radius: var(--radius); z-index: 2; white-space: nowrap; }
   .photo-credit:hover { color: var(--surface); background: rgba(0,0,0,0.6); }
@@ -132,7 +133,7 @@
   .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
   .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: background .15s; }
   .card:hover { background: var(--gray-100); }
-  .card .card-photo { height: 132px; }
+  .card .card-photo { height: 180px; }
   .card .card-photo .ph-init { font-size: var(--text-2xl); }
   .card .card-body { padding: var(--space-16); }
   .card .cat { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: var(--space-8); }
@@ -386,15 +387,15 @@
   <div class="page active" id="page-home">
     <div class="grid">
       <div class="main">
-        <div class="hero-story" onclick="openSource('https://www.chelseafc.com/en/news/article/morgan-rogers-signs-for-chelsea')">
-          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/morgan-rogers-ghana.jpg')">
+        <div class="hero-story" onclick="openSource('https://www.caughtoffside.com/2026/07/22/chelsea-maxence-lacroix-transfer-romano-update/')">
+          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/maxence-lacroix.jpg')">
           </div>
-          <div class="photo-attribution">Photo by Bryan Berlin / WikiPortraits, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
+          <div class="photo-attribution">Photo by Bryan Berlin / WikiPortraits, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Maxence_Lacroix_France_v_Spain_7.24.26-172.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
           <div class="hero-body">
-            <span class="hero-badge">&#9889; Done deal</span>
-            <h1>Morgan Rogers signs for Chelsea in record British deal, takes No.17</h1>
-            <p>Chelsea have completed the signing of Morgan Rogers from Aston Villa on a seven-year contract until 2033. At &pound;117m the 23-year-old becomes the most expensive British player of all time, surpassing Elliot Anderson's &pound;116m move to Manchester City, and will wear the No.17 shirt in Xabi Alonso's squad for the 2026/27 season.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">Chelsea FC</span></span><span>&middot;</span><span>22 Jul 2026</span></div>
+            <span class="hero-badge">&#9889; Transfer</span>
+            <h1>Chelsea closing in on Maxence Lacroix as Palace talks reach final stage</h1>
+            <p>Chelsea are pushing to finalise a deal for Crystal Palace centre-back Maxence Lacroix, with Fabrizio Romano reporting the clubs are in direct contact and Chelsea confident of reaching an agreement. The 26-year-old France international is understood to want the move and personal terms have reportedly been agreed; the gap is the fee, with Chelsea reported around &pound;52-55m and Palace holding out for closer to &pound;60m.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">CaughtOffside</span> &middot; <span class="src">Fabrizio Romano</span></span><span>&middot;</span><span>23 Jul 2026</span></div>
           </div>
         </div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
@@ -624,7 +625,7 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 /* ── Ticker ── */
-var tickerItems=["Chelsea complete British-record £117m deal for Morgan Rogers","Spurs offer Cristian Romero as Neto linked with move the other way","Bournemouth reject Chelsea's £64m Alex Scott bid","Garnacho pushes for exit with Real Madrid in mind","Alonso confirms Reece James stays captain","Chelsea depart for Sydney Super Cup pre-season tour","Gusto-Man City talks stall over £75m valuation"];
+var tickerItems=["Chelsea closing in on Maxence Lacroix as Palace talks reach final stage","Garnacho joins Aston Villa on loan with obligation to buy","Chelsea want £65m for Nicolas Jackson as Villa circle","Rogers completes British-record £117m move to Chelsea","Alonso confirms Reece James stays captain","Chelsea depart for Sydney Super Cup pre-season tour","Gusto-Man City talks stall over £75m valuation"];
 document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
 
 /* ════════════════════════════════════════════
@@ -714,6 +715,45 @@ function embedHTML(embed){
 
 /* ── News ── */
 var news=[
+  {
+    cat:"Transfer",cc:"",init:"ML",
+    h:"Chelsea closing in on Maxence Lacroix as Palace talks reach final stage",
+    p:"Chelsea are pushing to finalise a deal for Crystal Palace centre-back Maxence Lacroix, with Fabrizio Romano reporting the clubs are in direct contact and Chelsea confident of reaching an agreement. The 26-year-old France international is understood to want the move and personal terms have reportedly been agreed; the remaining gap is the fee, with Chelsea reported at around £52-55m and Palace holding out for closer to £60m. Lacroix, who joined Palace from Wolfsburg in 2024 and played for France at the 2026 World Cup, is Xabi Alonso's priority defensive signing as Chelsea look to reshape a back line that shipped goals on the way to a 10th-place finish. Arsenal have also been credited with interest. Nothing is agreed yet.",
+    src:"CaughtOffside · Fabrizio Romano",when:"23 Jul",
+    url:"https://www.caughtoffside.com/2026/07/22/chelsea-maxence-lacroix-transfer-romano-update/",
+    photo:"images/players/maxence-lacroix.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Maxence_Lacroix_France_v_Spain_7.24.26-172.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoAttribution:true,photoPos:"center 20%"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"AG",
+    h:"Rogers in for £117m, Garnacho out to Villa on loan with obligation",
+    p:"Chelsea's business with Aston Villa has run both ways in the space of 48 hours. Morgan Rogers completed a British-record £117m move to Stamford Bridge on a seven-year deal, taking the No.17 shirt. Villa have now confirmed the signing of Alejandro Garnacho on a season-long loan with a conditional obligation to buy, reported at around £42.5m and understood to be triggered by a minimum number of appearances — a threshold both clubs expect to be met comfortably. Sky Sports report Chelsea wanted £42.6m for the Argentina winger and that the total package including the loan fee meets their valuation. Garnacho, who cost £40m from Manchester United last summer and started just 22 games in his one season in west London, has pre-agreed a four-year contract at Villa Park should the move become permanent. Manchester United are due roughly £260,000 through a 10 per cent sell-on clause if it does.",
+    src:"Sky Sports",when:"23 Jul",
+    url:"https://www.skysports.com/football/news/11095/13566112/alejandro-garnacho-transfer-news-aston-villa-sign-chelsea-winger-on-initial-loan-deal-with-conditional-obligation-to-buy",
+    photo:"images/players/morgan-rogers-panama-110.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Panama_27_June_26-110.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoAttribution:true,photoPos:"center 30%"
+  },
+  {
+    cat:"Transfer",cc:"",init:"MM",
+    h:"Chelsea have the funds for a marquee midfielder — but who?",
+    p:"With Marc Cucurella and Andrey Santos sold, Garnacho's exit banked and a £65m price set on Nicolas Jackson, Chelsea have built the war chest for a significant central-midfield signing. Finding the player has proved harder. The pursuit of Granit Xhaka collapsed after Sunderland refused to sell, Bournemouth rejected a £64m bid for Alex Scott and signalled further approaches will be turned down, and Crystal Palace's £100m valuation of Adam Wharton is widely reported to be contingent on Enzo Fernández leaving first. Fernández's own future remains unresolved: Chelsea are said to want a fee north of £120m, Real Madrid have publicly denied interest, and Arsenal and Manchester City have been credited with gathering information. Manu Koné of Roma is among the other names on the radar, while Valentín Barco is expected to arrive from sister club Strasbourg. All reported links, not confirmed moves.",
+    src:"Football365 · The Chelsea Chronicle",when:"23 Jul",
+    url:"https://www.football365.com/news/enzo-fernandez-throw-towel-chelsea-replacement-manu-kone",
+    photo:"images/players/marquee-midfielder-placeholder.svg",photoSrc:"https://commons.wikimedia.org/wiki/File:Person_placeholder_with_question_mark.svg",photoBy:"Kamil Kulawik",photoLic:"CC BY 4.0",photoLicUrl:"https://creativecommons.org/licenses/by/4.0/deed.en",photoAttribution:true,photoSize:"contain",photoPos:"center"
+  },
+  {
+    cat:"Transfer",cc:"",init:"NJ",
+    h:"Chelsea want £65m for Nicolas Jackson as Villa circle",
+    p:"Chelsea have set a £65m asking price for Nicolas Jackson after an enquiry from Aston Villa, according to BBC Sport and The Athletic. The 25-year-old Senegal striker has returned from a season on loan at Bayern Munich — 11 goals and four assists in 34 games — after the German champions declined to trigger a £56m purchase option. His route to minutes at Stamford Bridge has narrowed: João Pedro is expected to lead the line and Rogers has been earmarked for the left, leaving Jackson competing with Emmanuel Emegha and Marc Guiu. Unai Emery, who managed him at Villarreal, is reported to be keen on a reunion. Jackson has 30 goals in 81 Chelsea appearances and is expected to travel on the pre-season tour to Sydney. No club-to-club talks are reported to have taken place.",
+    src:"Yahoo Sports · BBC Sport",when:"23 Jul",
+    url:"https://ca.sports.yahoo.com/news/chelsea-slap-65m-price-tag-132500442.html",
+    photo:"images/players/nicolas-jackson-369.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Nicolas_Jackson_France_v_Senegal_16_June_2026-369.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoAttribution:true,photoPos:"center 18%"
+  },
+  {
+    cat:"News",cc:"",init:"CN",
+    h:"Chelsea news in brief: defensive clear-out, keeper questions, pre-season underway",
+    p:"Chelsea are expected to sanction permanent exits for Trevoh Chalobah, Axel Disasi and Benoit Badiashile, with Wesley Fofana's future also uncertain, as the club reshapes a defence ahead of Lacroix's expected arrival. Filip Jorgensen is pushing for regular football elsewhere with Mike Penders due back from his loan at Strasbourg. Missing out on European football after finishing 10th is reported to cost the club in excess of £80m in prize and broadcast revenue next season, which is why player trading has been so aggressive this window. Chelsea open pre-season against Western Sydney Wanderers on 28 July.",
+    src:"Sports Mole",when:"23 Jul",
+    url:"https://www.sportsmole.co.uk/football/chelsea/transfer-talk/news/chelsea-defender-badiashile-very-likely-to-leave-amid-interest-from-three-european-clubs_591593.html"
+  },
   {
     cat:"Done deal",cc:"done",init:"MR",
     h:"Morgan Rogers signs for Chelsea in record British deal, takes No.17",
@@ -1451,11 +1491,12 @@ pfEl.innerHTML=pfDefs.map(function(x,i){ return '<button class="'+(i===0?'on':''
 function setPlayerFilter(f,btn){ playerFilter=f; [].forEach.call(pfEl.children,function(b){b.classList.remove('on');}); btn.classList.add('on'); renderPlayers(); }
 
 function tenure(p){ var ys=Object.keys(p.r).sort(); return ys[0].split('-')[0]+'–'+ys[ys.length-1].split('-')[1]; }
-function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')"':''; }
+function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')'+(p.photoPos?'; background-position:'+p.photoPos:'')+(p.photoSize?'; background-size:'+p.photoSize:'')+'"':''; }
 function photoCredit(p){ return p.photo?'<a class="photo-credit" href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" title="Photo: '+p.photoBy+' · '+p.photoLic+' · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>':''; }
 function photoAttributionHTML(p){
   if(!p.photoAttribution) return '';
-  return '<div class="photo-attribution">Photo by '+p.photoBy+', licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+p.photoLic+'</a>, via <a href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.'+(p.photoModified?' Modified.':'')+'</div>';
+  var licUrl=p.photoLicUrl||'https://creativecommons.org/licenses/by-sa/4.0/deed.en';
+  return '<div class="photo-attribution">Photo by '+p.photoBy+', licensed under <a href="'+licUrl+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+p.photoLic+'</a>, via <a href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.'+(p.photoModified?' Modified.':'')+'</div>';
 }
 
 function renderPlayers(){
