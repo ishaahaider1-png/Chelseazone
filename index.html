@@ -606,13 +606,32 @@ function probColor(p){ if(p>=70) return 'var(--accent)'; if(p>=45) return 'var(-
 /* ── Nav ── */
 var navItems=[["home","Home"],["discuss","Discuss"],["news","News"],["transfers","Transfers"],["rumours","Rumours"],["players","Players"],["lineup","Lineup Builder"],["quotes","Quotes"],["fixtures","Fixtures"]];
 document.getElementById('nav-links').innerHTML=navItems.map(function(x){return '<button data-p="'+x[0]+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>';}).join('');
-function go(id){
+/* Two-way map between tab id and clean URL path (lineup tab lives at /lineup-builder). */
+var TAB_PATHS={home:'/',discuss:'/discuss',news:'/news',transfers:'/transfers',rumours:'/rumours',players:'/players',lineup:'/lineup-builder',quotes:'/quotes',fixtures:'/fixtures'};
+function pathForTab(id){ return TAB_PATHS[id]||'/'; }
+function tabForPath(p){
+  p=(p||'/').replace(/\/+$/,'')||'/';
+  for(var id in TAB_PATHS){ if(TAB_PATHS[id]===p) return id; }
+  return 'home';
+}
+function go(id,push){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.nav-links button').forEach(function(b){b.classList.toggle('active',b.dataset.p===id);});
+  if(push!==false){ var path=pathForTab(id); if(location.pathname!==path){ history.pushState({tab:id},'',path); } }
   window.scrollTo({top:0,behavior:'smooth'});
 }
-document.querySelector('.nav-links button').classList.add('active');
+/* On load: open the tab matching the current URL (unknown paths fall back to home). */
+(function(){
+  var initial=tabForPath(location.pathname);
+  history.replaceState({tab:initial},'',pathForTab(initial));
+  go(initial,false);
+})();
+/* Back/forward: move between tabs instead of leaving the site (don't push a new entry). */
+window.addEventListener('popstate',function(e){
+  var id=(e.state&&e.state.tab)||tabForPath(location.pathname);
+  go(id,false);
+});
 function scrollToDiscuss(){ go('discuss'); setTimeout(function(){var t=document.getElementById('cText'); if(t) t.focus();},120); }
 
 /* ── Auth (Supabase + Google) ── */

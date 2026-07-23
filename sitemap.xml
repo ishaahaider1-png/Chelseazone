@@ -2,6 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://thechelseazone.com/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/news</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/transfers</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/rumours</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/players</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/lineup-builder</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/quotes</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/fixtures</loc>
+    <lastmod>2026-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/discuss</loc>
+    <lastmod>2026-07-23</lastmod>
   </url>
 </urlset>
