@@ -173,6 +173,9 @@
   .fixture-row .comp { font-size: var(--text-2xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-300); width: 62px; flex-shrink: 0; }
   .fixture-row .teams { flex: 1; font-weight: 500; }
   .fixture-row .when { color: var(--gray-500); font-size: var(--text-xs); flex-shrink: 0; }
+  .fixture-row .score { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; font-size: var(--text-xs); flex-shrink: 0; padding: var(--space-4) var(--space-8); border-radius: var(--radius); background: var(--gray-100); color: var(--ink); }
+  .fixture-row .score.w { background: var(--accent-tint); color: var(--accent); }
+  .fixture-row .score.l { background: var(--gray-100); color: var(--gray-500); }
   .poll-opt { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12); background: var(--surface); border-radius: var(--radius); margin-bottom: var(--space-8); cursor: pointer; font-size: var(--text-sm); font-weight: 500; transition: background .12s; position: relative; overflow: hidden; }
   .poll-opt:hover { background: var(--gray-100); }
   .poll-opt .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent-tint); width: 0; transition: width .5s ease; z-index: 0; }
@@ -513,14 +516,11 @@
     <div class="grid">
       <div class="main">
         <div class="hero-story" onclick="goArticle(news[0].slug)">
-          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/maxence-lacroix.jpg')">
-          </div>
-          <div class="photo-attribution">Photo by Bryan Berlin / WikiPortraits, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Maxence_Lacroix_France_v_Spain_7.24.26-170.jpg" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.</div>
           <div class="hero-body">
-            <span class="hero-badge">&#9889; Transfer</span>
-            <h1>Chelsea closing in on Maxence Lacroix as Palace talks reach final stage</h1>
-            <p>Chelsea are pushing to finalise a deal for Crystal Palace centre-back Maxence Lacroix, with Fabrizio Romano reporting the clubs are in direct contact and Chelsea confident of reaching an agreement. The 26-year-old France international is understood to want the move and personal terms have reportedly been agreed; the gap is the fee, with Chelsea reported around &pound;52-55m and Palace holding out for closer to &pound;60m.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">CaughtOffside</span> &middot; <span class="src">Fabrizio Romano</span></span><span>&middot;</span><span>23 Jul 2026</span></div>
+            <span class="hero-badge">&#9889; Season opener</span>
+            <h1>Chelsea open the season at Fulham on Monday night</h1>
+            <p>Xabi Alonso's first competitive match in charge is a west London derby at Craven Cottage on Monday 24 August, kicking off at 8pm and live on Sky Sports. Chelsea finished 10th last season and have rebuilt heavily since, adding Morgan Rogers, Maxence Lacroix, Danny Welbeck and Jordan Henderson. Alonso says he has no fresh injury concerns and that the squad's World Cup returnees are available for selection.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">Sky Sports</span> &middot; <span class="src">Chelsea FC</span></span><span>&middot;</span><span>22 Aug 2026</span></div>
           </div>
         </div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
@@ -800,7 +800,7 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 /* ── Ticker ── */
-var tickerItems=["Chelsea closing in on Maxence Lacroix as Palace talks reach final stage","Garnacho joins Aston Villa on loan with obligation to buy","Chelsea want £65m for Nicolas Jackson as Villa circle","Rogers completes British-record £117m move to Chelsea","Alonso confirms Reece James stays captain","Chelsea depart for Sydney Super Cup pre-season tour","Gusto-Man City talks stall over £75m valuation"];
+var tickerItems=["Chelsea open the season at Fulham on Monday, 8pm","João Pedro signs new long-term deal and takes the No.9","Alonso reports no fresh injury concerns for the opener","Enzo Fernández to stay after £120m deadline passes","Badiashile to Napoli and Disasi to Palace on loan","Atlético Madrid in talks over a Nicolas Jackson loan","Lacroix completes £51m move from Crystal Palace","Henderson and Welbeck add experience to Alonso's squad","Chelsea 3-1 Real Sociedad ends pre-season at the Bridge"];
 document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
 
 /* ════════════════════════════════════════════
@@ -949,6 +949,111 @@ function articleTweetHTML(block){
 
 /* ── News ── */
 var news=[
+  {
+    cat:"News",cc:"",init:"XA",
+    h:"Chelsea open the season at Fulham on Monday night",
+    p:"Xabi Alonso's first competitive match in charge is a west London derby at Craven Cottage on Monday 24 August, kicking off at 8pm and live on Sky Sports. Chelsea finished 10th last season and have rebuilt heavily since, adding Morgan Rogers, Maxence Lacroix, Danny Welbeck and Jordan Henderson. Alonso says he has no fresh injury concerns and that the squad's World Cup returnees are available for selection.",
+    src:"Sky Sports",when:"22 Aug",
+    url:"https://www.skysports.com/football/news/11095/13555669/chelsea-premier-league-2026-27-fixtures-and-schedule"
+  },
+  {
+    cat:"News",cc:"",init:"JP",
+    h:"João Pedro signs new long-term Chelsea deal and takes the No.9 shirt",
+    p:"Chelsea have handed João Pedro an improved long-term contract after a debut season that brought 20 goals, including strikes in the Club World Cup semi-final and final. The Brazil forward, signed from Brighton in July 2025, also takes the No.9 shirt from Liam Delap for 2026/27. Reported contract lengths differ between outlets; most describe a deal running to 2032 with an option of two further years.",
+    src:"Yahoo Sports · Chelsea FC",when:"22 Aug",
+    url:"https://uk.sports.yahoo.com/news/joao-pedro-extends-chelsea-stay-162337852.html"
+  },
+  {
+    cat:"News",cc:"",init:"XA",
+    h:"Alonso reports no fresh injury concerns ahead of the Fulham opener",
+    p:"Chelsea's head coach goes into Monday's opener with a clean bill of health. On Danny Welbeck, restricted to two pre-season appearances, Alonso said: “He can be involved. He just needs a couple of days not training that much because of a little thing. But we are expecting him to be back on Saturday.” He confirmed the World Cup returnees are available and said Enzo Fernández has been “training really well since he started 10 days ago with the team, very integrated”. Emanuel Emegha is back in training after a hamstring problem but did not feature in the final friendly.",
+    src:"Chelsea FC",when:"21 Aug",
+    url:"https://www.chelseafc.com/en/news/article/xabi-alonso-delivers-the-latest-chelsea-team-news-ahead-of-fulham"
+  },
+  {
+    cat:"Transfer",cc:"",init:"BB",
+    h:"Badiashile to Napoli, Disasi to Crystal Palace as the defensive clear-out lands",
+    p:"Two of Chelsea's surplus centre-backs are moving on loan. Benoît Badiashile joins Napoli in a paid loan reported at €3m for the season, with an option to buy next June for a further €27m. Axel Disasi returns to Crystal Palace on a paid season-long loan, reported to carry no option to buy, and has completed a medical. Both follow Trevoh Chalobah out of the squad.",
+    src:"FootballTransfers",when:"21 Aug",
+    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/08/chelsea-transfer-news-axel-disasi-crystal-palace-13-exits-deadline-day"
+  },
+  {
+    cat:"Transfer",cc:"",init:"NJ",
+    h:"Atlético Madrid in talks over a loan for Nicolas Jackson",
+    p:"Atlético Madrid have held talks in London over a season-long loan for Nicolas Jackson, with Aston Villa also credited with interest, according to ESPN. Jackson has been training away from the first-team group as he looks to finalise an exit before the deadline; Chelsea set a £65m asking price earlier in the window. Nothing is signed.",
+    src:"ESPN",when:"20 Aug",
+    url:"https://www.espn.com/soccer/story/_/id/49678731/atletico-madrid-loan-deal-chelsea-nicolas-jackson-aston-villa-interested"
+  },
+  {
+    cat:"News",cc:"",init:"RS",
+    h:"Chelsea 3-1 Real Sociedad: winning end to pre-season at the Bridge",
+    p:"Chelsea closed their pre-season with a 3-1 win over Real Sociedad at Stamford Bridge — Xabi Alonso's first match in charge in front of a home crowd. Morgan Rogers opened the scoring and João Pedro added two.",
+    src:"ESPN",when:"15 Aug",
+    url:"https://www.espn.com/soccer/match/_/gameId/401900324/real-sociedad-chelsea"
+  },
+  {
+    cat:"News",cc:"",init:"EF",
+    h:"Enzo Fernández to stay after no club meets Chelsea's £120m valuation",
+    p:"Chelsea expect Enzo Fernández to remain for the season after their self-imposed deadline passed on Friday with no formal bid matching a £120m valuation, sources told ESPN. Manchester City, whose interest was complicated by Rodri's own situation, did not bid, and neither did Real Madrid. The terms Chelsea had communicated to Fernández and his representatives have now expired. He is contracted to 2032, and the club were adamant about securing a profit on the £107m paid to Benfica in February 2023.",
+    src:"ESPN",when:"14 Aug",
+    url:"https://www.espn.com/soccer/story/_/id/49610484/enzo-fernandez-set-chelsea-stay-manchester-city-miss-deadline-sources"
+  },
+  {
+    cat:"News",cc:"",init:"AT",
+    h:"Asia tour: Chelsea beat AC Milan 3-0 then draw 3-3 with Johor Darul Ta'zim",
+    p:"Chelsea's pre-season trip took in Jakarta and Malaysia inside 48 hours — a 3-0 win over AC Milan at GBK Stadium on 8 August, followed by a 3-3 draw with Johor Darul Ta'zim at Sultan Ibrahim Stadium the next day.",
+    src:"Yahoo Sports",when:"9 Aug",
+    url:"https://sports.yahoo.com/articles/chelsea-preseason-schedule-results-2026-181439551.html"
+  },
+  {
+    cat:"News",cc:"",init:"JU",
+    h:"Chelsea 0-1 Juventus in Hong Kong as Zhegrova settles it",
+    p:"Edon Zhegrova's curled finish on 68 minutes, laid off by Kenan Yildiz, was enough for Juventus at Kai Tak Sports Park — Chelsea's first appearance in Hong Kong since 2011.",
+    src:"Sky Sports",when:"5 Aug",
+    url:"https://www.skysports.com/football/chelsea-vs-juventus/556017"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"JH",
+    h:"Jordan Henderson joins Chelsea on a two-year deal after Brentford exit",
+    p:"Chelsea have signed the 36-year-old England midfielder on a two-year contract following his departure from Brentford. He is the oldest signing the club has made since the BlueCo takeover in 2022 — an explicit move to add senior experience to Xabi Alonso's squad.",
+    src:"Fox Sports · Washington Post",when:"3 Aug",
+    url:"https://www.washingtonpost.com/sports/soccer/2026/08/03/chelsea-henderson-signing/c7d3a012-8f61-11f1-9fdc-0a725c989a7b_story.html"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"TC",
+    h:"Trevoh Chalobah joins Como on a permanent deal",
+    p:"Chelsea have sold Chalobah to Cesc Fàbregas's Como for an initial €30m (about £25.7m) plus €6m in add-ons and a sell-on clause, with the defender signing a five-year contract. Fabrizio Romano first reported the agreement on 3 August.",
+    src:"Fabrizio Romano · Yahoo Sports",when:"3 Aug",
+    url:"https://sports.yahoo.com/articles/trevoh-chalobah-completes-permanent-como-181012712.html"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"DW",
+    h:"Danny Welbeck signs for Chelsea from Brighton",
+    p:"The 35-year-old England forward has joined on a two-year deal for an undisclosed fee — a notable break from the under-25 recruitment policy Chelsea have run since 2022, and the first of two moves for senior experience alongside Jordan Henderson.",
+    src:"Sky Sports",when:"1 Aug",
+    url:"https://www.skysports.com/football/news/11668/13568440/chelsea-transfer-news-danny-welbeck-completes-move-to-stamford-bridge-from-brighton-for-undisclosed-fee"
+  },
+  {
+    cat:"News",cc:"",init:"TH",
+    h:"Chelsea 1-2 Tottenham: Richarlison stoppage-time winner takes the Sydney Super Cup",
+    p:"Sandro Tonali opened the scoring on 21 minutes with his first goal since a £100m move from Newcastle and Estêvão headed Chelsea level, before Kevin Danso was sent off four minutes after coming on at half-time. Ten-man Spurs still won it, Richarlison striking in the 92nd minute.",
+    src:"Sky Sports",when:"1 Aug",
+    url:"https://www.skysports.com/football/news/11095/13568994/chelsea-1-2-tottenham-richarlison-scores-injury-time-winner-in-sydney-friendly-as-10-man-spurs-win-again-despite-kevin-danso-red-card"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"ML",
+    h:"Chelsea complete £51m signing of Maxence Lacroix",
+    p:"The France centre-back has joined from Crystal Palace on a six-year contract in a deal reported at £51m (€60.7m), two seasons after Palace bought him from Wolfsburg for around €18m. He is Alonso's headline defensive addition following Chelsea's 10th-place finish.",
+    src:"Sky Sports",when:"29 Jul",
+    url:"https://www.skysports.com/football/news/11095/13566543/maxence-lacroix-transfer-news-chelsea-complete-signing-of-france-defender-from-crystal-palace"
+  },
+  {
+    cat:"Quote",cc:"quote",init:"XA",
+    h:"Alonso asks for patience as his Chelsea reign begins",
+    p:"Opening pre-season in Sydney, the head coach declined to set a league target: “We need to go step by step. We want to have a good start, but for that we need to create good energies, good chemistry within the team, clear ideas.” He added that “the team that will start in August won't be the same team that we finish with in May”.",
+    src:"ESPN",when:"27 Jul",
+    url:"https://www.espn.com/soccer/story/_/id/49460704/xabi-alonso-chelsea-premier-league"
+  },
   {
     cat:"Transfer",cc:"",init:"ML",
     h:"Chelsea closing in on Maxence Lacroix as Palace talks reach final stage",
@@ -1244,6 +1349,24 @@ observeEmbeds();
 /* ── Rumours ── */
 var rumours=[
   {
+    init:"NJ",h:"Atlético Madrid in talks over a Nicolas Jackson loan",
+    p:"Atlético have held talks in London over a season-long loan, with an option to buy expected to be included and Aston Villa also credited with interest. Jackson is training away from the first-team group as he looks to finalise an exit before the deadline. Not signed.",
+    src:"ESPN",rel:4.5,prob:70,
+    url:"https://www.espn.com/soccer/story/_/id/49678731/atletico-madrid-loan-deal-chelsea-nicolas-jackson-aston-villa-interested"
+  },
+  {
+    init:"MG",h:"Gusto among the names Chelsea are willing to sell",
+    p:"With the window closing, Sky Sports list Malo Gusto alongside Nicolas Jackson among the players Chelsea are open to moving on as they look to balance the books after heavy spending.",
+    src:"Sky Sports",rel:4.2,prob:30,
+    url:"https://www.skysports.com/football/news/11668/13572382/chelsea-transfer-news-enzo-fernandez-nicolas-jackson-malo-gusto-and-more-in-spotlight-as-blues-look-to-player-sales"
+  },
+  {
+    init:"LC",h:"Chelsea join the race for Monaco's Lamine Camara",
+    p:"ESPN report Chelsea are monitoring the Monaco midfielder, with Liverpool and Manchester United also credited with interest. An early-stage link rather than a live negotiation.",
+    src:"ESPN",rel:4.0,prob:20,
+    url:"https://www.espn.com/soccer/story/_/id/49597770/transfer-rumors-news-chelsea-eye-arsenal-zubimendi-replace-man-city-target-enzo-fernandez"
+  },
+  {
     init:"CR",h:"Spurs offer Cristian Romero to Chelsea",
     p:"Tottenham have reportedly offered club captain Cristian Romero, with the Argentine said to be keen and Enzo Fernández encouraging the move; Spurs have separately made a verbal bid for Pedro Neto. Nothing is agreed \u2014 treat as rumour.",
     src:"Football Transfers",rel:2.4,prob:30,
@@ -1261,18 +1384,6 @@ var rumours=[
     p:"A reported \"firm agreement\" with the Rayo Vallecano left-back, who wants to join compatriot Xabi Alonso — but Rayo president Raúl Presa may hold out for a fixed €25m fee.",
     src:"FootballTransfers · Marca",rel:4.0,prob:72,
     url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-pep-chavarria-rayo-vallecano-25m-offer-prepared-summer-2026"
-  },
-  {
-    init:"TC",h:"Chalobah eyed by Inter and Como",
-    p:"His agent has reportedly met Inter Milan, with Como also keen and a bid around £30m mooted for the England defender.",
-    src:"Football Transfer League",rel:2.8,prob:42,
-    url:"https://www.footballtransferleague.co.uk/clubs/chelsea"
-  },
-  {
-    init:"EF",h:"Arsenal and Man City ‘gathering info’ on Enzo",
-    p:"After Real Madrid pulled out, Longari claims domestic rivals are monitoring Fernández — but Chelsea’s £120m+ valuation is a major hurdle.",
-    src:"Gianluigi Longari",rel:2.6,prob:28,
-    url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-alejandro-garnacho-granit-xhaka-gilberto-mora"
   },
   {
     init:"DV",h:"Vlahović floated as a striker option",
@@ -1308,6 +1419,18 @@ observeEmbeds();
 
 /* ── Quotes ── */
 var quotes=[
+  {
+    init:"XA",
+    q:"We need to go step by step. We want to have a good start, but for that we need to create good energies, good chemistry within the team, clear ideas.",
+    who:"Xabi Alonso",role:"asking for patience as pre-season opens in Sydney, to ESPN",
+    url:"https://www.espn.com/soccer/story/_/id/49460704/xabi-alonso-chelsea-premier-league"
+  },
+  {
+    init:"XA",
+    q:"He's training really well since he started 10 days ago with the team, very integrated, and we are happy with him, and he's getting ready for Monday.",
+    who:"Xabi Alonso",role:"on Enzo Fernández ahead of the Fulham opener, to Chelsea FC",
+    url:"https://www.chelseafc.com/en/news/article/xabi-alonso-delivers-the-latest-chelsea-team-news-ahead-of-fulham"
+  },
   {
     init:"XA",
     q:"You need to give everything you have for the benefit of the team. The team is always the most important thing.",
@@ -1355,13 +1478,20 @@ observeEmbeds();
 /* ── Transfers sidebar ── */
 var transfers=[
   {dir:"in",name:"Morgan Rogers",club:"from Aston Villa",fee:"£117m",s:false},
+  {dir:"in",name:"Maxence Lacroix",club:"from Crystal Palace",fee:"£51m",s:false},
   {dir:"in",name:"Marco Palestra",club:"from Atalanta",fee:"£43m",s:false},
-  {dir:"in",name:"Valentín Barco",club:"from Strasbourg",fee:"Agreed",s:true},
+  {dir:"in",name:"Danny Welbeck",club:"from Brighton",fee:"Undisclosed",s:false},
+  {dir:"in",name:"Jordan Henderson",club:"from Brentford",fee:"Free",s:false},
+  {dir:"in",name:"Valentín Barco",club:"from Strasbourg",fee:"Undisclosed",s:false},
   {dir:"in",name:"Pep Chavarría",club:"bid prepared - Rayo Vallecano",fee:"~€25m",s:true},
-  {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
   {dir:"out",name:"Marc Cucurella",club:"to Real Madrid",fee:"£51.8m",s:false},
+  {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
+  {dir:"out",name:"Alejandro Garnacho",club:"to Aston Villa (loan)",fee:"~£42.5m obligation",s:false},
+  {dir:"out",name:"Trevoh Chalobah",club:"to Como",fee:"€30m+€6m",s:false},
   {dir:"out",name:"Tyrique George",club:"to Everton",fee:"~£18m",s:false},
-  {dir:"out",name:"Alejandro Garnacho",club:"to Aston Villa (loan)",fee:"~£42.5m obligation",s:false}
+  {dir:"out",name:"Benoît Badiashile",club:"to Napoli (loan)",fee:"€3m + €27m option",s:false},
+  {dir:"out",name:"Axel Disasi",club:"to Crystal Palace (loan)",fee:"Paid loan",s:false},
+  {dir:"out",name:"Nicolas Jackson",club:"Atlético Madrid loan talks",fee:"In talks",s:true}
 ];
 function trHTML(t){ return '<div class="transfer-row"><div class="dir '+t.dir+'">'+(t.dir==='in'?'↓':'↑')+'</div><div class="tinfo"><div class="name">'+t.name+'</div><div class="club">'+t.club+'</div></div><div class="fee '+(t.s?'status':'')+'">'+t.fee+'</div></div>'; }
 document.getElementById('transfer-list').innerHTML=transfers.map(trHTML).join('');
@@ -1519,12 +1649,28 @@ function renderTransferHistory(){
 renderTransferHistory();
 
 /* ── Fixtures ── */
+/* Upcoming fixtures carry `when` (date + kick-off). Played matches carry a
+   `score` instead, and `res` ("w"/"l"/"d") tints it. Both render through the
+   same row; the score simply takes the slot the kick-off time would occupy. */
 var fixtures=[
-  {comp:"Friendly",teams:"Western Sydney Wanderers vs Chelsea",when:"28 Jul"},
-  {comp:"Friendly",teams:"Chelsea vs Tottenham Hotspur",when:"1 Aug"},
-  {comp:"Pre-season",teams:"Asia tour - vs Serie A side",when:"Aug"}
+  {comp:"Premier League",teams:"Fulham vs Chelsea",when:"Mon 24 Aug - 8:00pm"},
+  {comp:"Premier League",teams:"Chelsea vs Brighton",when:"Sat 29 Aug"},
+  {comp:"Premier League",teams:"Arsenal vs Chelsea",when:"Sat 5 Sep"},
+  {comp:"Premier League",teams:"Chelsea vs Hull City",when:"Sat 12 Sep"},
+  {comp:"Premier League",teams:"Brentford vs Chelsea",when:"Sat 19 Sep"},
+  {comp:"Friendly",teams:"Chelsea vs Real Sociedad",when:"15 Aug",score:"3-1",res:"w"},
+  {comp:"Friendly",teams:"Chelsea vs Johor Darul Ta'zim",when:"9 Aug",score:"3-3",res:"d"},
+  {comp:"Friendly",teams:"Chelsea vs AC Milan",when:"8 Aug",score:"3-0",res:"w"},
+  {comp:"Friendly",teams:"Chelsea vs Juventus",when:"5 Aug",score:"0-1",res:"l"},
+  {comp:"Sydney Cup",teams:"Chelsea vs Tottenham Hotspur",when:"1 Aug",score:"1-2",res:"l"},
+  {comp:"Sydney Cup",teams:"Western Sydney Wanderers vs Chelsea",when:"28 Jul",score:"4-6",res:"w"}
 ];
-function fxHTML(f){ return '<div class="fixture-row"><div class="comp">'+f.comp+'</div><div class="teams">'+f.teams+'</div><div class="when">'+f.when+'</div></div>'; }
+function fxHTML(f){
+  var right=f.score
+    ? '<div class="score '+(f.res||'')+'">'+f.score+'</div><div class="when">'+f.when+'</div>'
+    : '<div class="when">'+f.when+'</div>';
+  return '<div class="fixture-row"><div class="comp">'+f.comp+'</div><div class="teams">'+f.teams+'</div>'+right+'</div>';
+}
 document.getElementById('fixture-list').innerHTML=fixtures.map(fxHTML).join('');
 document.getElementById('fixture-list-full').innerHTML=fixtures.map(fxHTML).join('');
 
