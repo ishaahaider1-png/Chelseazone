@@ -516,11 +516,14 @@
     <div class="grid">
       <div class="main">
         <div class="hero-story" onclick="goArticle(news[0].slug)">
+          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/Enzofernandez.jpeg'); background-position:center 20%">
+          </div>
+          <div class="photo-attribution">Photo by Getty Images.</div>
           <div class="hero-body">
-            <span class="hero-badge">&#9889; Season opener</span>
-            <h1>Chelsea open the season at Fulham on Monday night</h1>
-            <p>Xabi Alonso's first competitive match in charge is a west London derby at Craven Cottage on Monday 24 August, kicking off at 8pm and live on Sky Sports. Chelsea finished 10th last season and have rebuilt heavily since, adding Morgan Rogers, Maxence Lacroix, Danny Welbeck and Jordan Henderson. Alonso says he has no fresh injury concerns and that the squad's World Cup returnees are available for selection.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">Sky Sports</span> &middot; <span class="src">Chelsea FC</span></span><span>&middot;</span><span>22 Aug 2026</span></div>
+            <span class="hero-badge">&#9889; Analysis</span>
+            <h1>Enzo Fern&aacute;ndez: Chelsea or Manchester City?</h1>
+            <p>With four days of the window left, Sky Sports report Chelsea are prepared to sell Enzo Fern&aacute;ndez to Manchester City for the right price &mdash; but also that there have still been no club-to-club talks, and no formal bid has arrived at any point this summer. Where the story actually stands, what would have to happen for him to go, and who Chelsea would turn to if he did.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">Sky Sports</span> &middot; <span class="src">ESPN</span></span><span>&middot;</span><span>28 Aug 2026</span></div>
           </div>
         </div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
@@ -800,7 +803,7 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 /* ── Ticker ── */
-var tickerItems=["Chelsea open the season at Fulham on Monday, 8pm","João Pedro signs new long-term deal and takes the No.9","Alonso reports no fresh injury concerns for the opener","Enzo Fernández to stay after £120m deadline passes","Badiashile to Napoli and Disasi to Palace on loan","Atlético Madrid in talks over a Nicolas Jackson loan","Lacroix completes £51m move from Crystal Palace","Henderson and Welbeck add experience to Alonso's squad","Chelsea 3-1 Real Sociedad ends pre-season at the Bridge"];
+var tickerItems=["Enzo Fernández: Chelsea or Manchester City?","Sky: no club-to-club talks yet over Enzo, window shuts 1 Sep","Lamine Camara reported as Chelsea's leading midfield target","João Pedro signs new long-term deal and takes the No.9","Alonso reports no fresh injury concerns for the opener","Enzo Fernández to stay after £120m deadline passes","Badiashile to Napoli and Disasi to Palace on loan","Atlético Madrid in talks over a Nicolas Jackson loan","Lacroix completes £51m move from Crystal Palace","Henderson and Welbeck add experience to Alonso's squad","Chelsea 3-1 Real Sociedad ends pre-season at the Bridge"];
 document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
 
 /* ════════════════════════════════════════════
@@ -949,6 +952,44 @@ function articleTweetHTML(block){
 
 /* ── News ── */
 var news=[
+  {
+    cat:"Transfer",cc:"",init:"EF",
+    h:"Enzo Fernández: Chelsea or Manchester City?",
+    p:"With four days of the window left, Sky Sports report Chelsea are prepared to sell Enzo Fernández to Manchester City for the right price — but also that there have still been no club-to-club talks, and no formal bid has arrived at any point this summer. Where the story actually stands, what would have to happen for him to go, and who Chelsea would turn to if he did.",
+    src:"Sky Sports · ESPN",when:"28 Aug",
+    url:"https://www.skysports.com/football/news/11095/13578017/enzo-fernandez-transfer-news-chelsea-prepared-to-sell-argentina-midfielder-to-manchester-city-for-right-price",
+    body:[
+      {type:"heading",text:"Where things actually stand"},
+      {type:"paragraph",text:"Sky Sports reported on the morning of Friday 28 August that Chelsea are prepared to sell Enzo Fernández to Manchester City “for the right price — and if they can improve their squad before the window closes”. The more important line sits further down the same report: “There are not believed to have been any club-to-club talks between City and Chelsea yet.”"},
+      {type:"paragraph",text:"That is the honest state of play. Despite a summer of noise, <strong>no formal bid for Fernández has been reported at any stage</strong> — not by City, not by anyone. What exists is interest, a willingness to sell, and a price."},
+      {type:"paragraph",text:"The spine of the story is a deadline that came and went. Chelsea agreed with Fernández's representatives that he could leave for £120m if an offer arrived by 14 August. None did. ESPN reported at the time that the terms Chelsea had communicated to the player and his camp had expired, and that the club expected him to stay for the full campaign. City's interest simply never went away."},
+      {type:"paragraph",text:"The contractual position gives Chelsea every card. Fernández is 25 and signed to 2032. Chelsea paid Benfica £107m for him in February 2023 and have been consistent that they want a profit on that fee. He is also coming off the best goalscoring season of his career — 10 goals and four assists in 36 Premier League appearances in 2025/26."},
+      {type:"paragraph",text:"On the pitch it has been visibly unsettled. Fernández did not start the opening 3-2 win at Fulham on 24 August, came on in the second half, and was booed by sections of the ground amid the City speculation. He was then left out of the squad for Thursday's Carabao Cup tie, which Xabi Alonso attributed to rotation rather than the transfer story. Ten days before the opener, Alonso had said he was “training really well since he started 10 days ago with the team, very integrated”."},
+      {type:"heading",text:"The case for leaving"},
+      {type:"paragraph",text:"The pull is a specific one, and it is a real, documented connection rather than a rumour: <strong>Enzo Maresca</strong>. City appointed him on 29 June 2026 as Pep Guardiola's successor, on a three-year deal and for around £17m in compensation paid to Chelsea — the club where Maresca had managed Fernández directly. Multiple outlets report Fernández is open to the reunion."},
+      {type:"paragraph",text:"<em>Analysis, not reporting:</em> the football logic is easy to construct. Maresca knows exactly how to use him, City are rebuilding a midfield in transition, and Fernández would arrive as a first-choice starter in a side expected to challenge for the title."},
+      {type:"paragraph",text:"<em>Analysis:</em> from Chelsea's side, a fee north of £120m for a player they can clearly replace is the kind of trade this ownership has made repeatedly. Chelsea finished 10th last season and are out of Europe, which sharpens the incentive to bank a profit and reinvest."},
+      {type:"heading",text:"The case for staying"},
+      {type:"paragraph",text:"The strongest argument is procedural rather than emotional. There is no bid, there are no club-to-club talks, and there are four days left. Assembling a nine-figure transfer from a standing start in that window is a great deal of business to complete — and Chelsea, holding a contract to 2032, have no obligation to help it along."},
+      {type:"paragraph",text:"Chelsea's valuation has not moved either. £120m was the number in mid-August and it remains the reference point; the club's public position throughout has been that they are relaxed and under no pressure to sell."},
+      {type:"paragraph",text:"<em>Analysis:</em> there is also a squad argument. Fernández is Chelsea's set-piece taker and the most natural progressive passer in the midfield. Selling him this late, with a replacement not yet signed, would mean starting the season a key player short in the position Chelsea have spent all summer failing to strengthen."},
+      {type:"heading",text:"If he does go: timeline and fee"},
+      {type:"paragraph",text:"The timeline is not really open to interpretation. <strong>The window closes on 1 September.</strong> A deal happens in the next four days or it does not happen at all, and Fernández stays until at least January."},
+      {type:"paragraph",text:"On the fee, the only figure with any standing is <strong>£120m — and that is Chelsea's asking price, not an offer</strong>. Some outlets have reported a €140m deal as already agreed. That is contradicted by Sky Sports' reporting on the same day that no club-to-club talks have taken place, and we are not treating it as fact. Any specific number beyond Chelsea's own valuation should be read as speculation until a bid is actually reported."},
+      {type:"heading",text:"Who replaces him?"},
+      {type:"image",src:"/images/players/LamineCamara.jpeg",caption:"Lamine Camara, the Monaco midfielder reported as Chelsea's leading replacement option, pictured on international duty with Senegal.",credit:"Getty Images"},
+      {type:"paragraph",text:"The name most consistently attached to the vacancy is <strong>Lamine Camara</strong>. The Senegal international is 22, plays for Monaco, and is under contract there until 2029. Reports say Chelsea have identified him as the replacement and are weighing an opening offer, with Monaco holding out for a figure in the €50-60m range against a market valuation nearer €33m. <strong>No bid has been confirmed</strong>, and the reporting here is from transfer aggregators rather than tier-one outlets — treat it accordingly."},
+      {type:"paragraph",text:"<em>Analysis:</em> Camara is the most logical of the names floated. He is a deep-lying midfielder who can carry the ball out of pressure, he is young enough to fit the recruitment model Chelsea have run since 2022, and at €50-60m he would cost less than half of what Fernández would raise — which is precisely the arbitrage the club keeps looking for."},
+      {type:"paragraph",text:"He is not the only option. Chelsea have had three bids for Bournemouth's <strong>Alex Scott</strong> rejected this summer, reported between £62m and £68m, and talkSPORT report a four-man shortlist of <strong>Adam Wharton</strong>, Scott, <strong>Manu Koné</strong> and <strong>Eduardo Camavinga</strong>. Adam Wharton has been linked to Chelsea for two windows without a deal ever getting close to Crystal Palace's valuation."},
+      {type:"paragraph",text:"<em>Analysis:</em> the uncomfortable part for Chelsea is that the replacement market is the same market that has frustrated them all summer. They failed to land Granit Xhaka, were priced out on Wharton, and had repeated bids knocked back for Scott. Selling Fernández in the last four days of the window would mean solving in ninety-six hours a problem they have not solved in three months."},
+      {type:"heading",text:"The bottom line"},
+      {type:"paragraph",text:"As things stand on 28 August: Chelsea would sell at the right price, City want him, the player is reported to be open to it — and none of those three things has yet produced a phone call between the clubs, let alone an offer. Everything beyond that is projection. If the window closes on Tuesday with no bid, this will have been the summer Chelsea kept Enzo Fernández by doing nothing at all."}
+    ],
+    photo:"images/players/Enzofernandez.jpeg",
+    photoBy:"Getty Images",
+    photoCaption:"Enzo Fernández, under contract at Chelsea until 2032, has four days to discover whether his future is at Stamford Bridge or the Etihad.",
+    photoAttribution:true,photoPos:"center 20%"
+  },
   {
     cat:"News",cc:"",init:"XA",
     h:"Chelsea open the season at Fulham on Monday night",
@@ -1953,10 +1994,19 @@ function setPlayerFilter(f,btn){ playerFilter=f; [].forEach.call(pfEl.children,f
 function tenure(p){ var ys=Object.keys(p.r).sort(); return ys[0].split('-')[0]+'–'+ys[ys.length-1].split('-')[1]; }
 function photoStyle(p){ return p.photo?' style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url(\''+p.photo+'\')'+(p.photoPos?'; background-position:'+p.photoPos:'')+(p.photoSize?'; background-size:'+p.photoSize:'')+'"':''; }
 function photoCredit(p){ return p.photo?'<a class="photo-credit" href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" title="Photo: '+p.photoBy+' · '+p.photoLic+' · Wikimedia Commons" onclick="event.stopPropagation()">Wikimedia Commons</a>':''; }
+/* Credit line under a card/hero photo. The licence and the "via Wikimedia
+   Commons" source link are BOTH optional: a photo with only a `photoBy`
+   (agency stock, e.g. Getty) renders as a plain "Photo by X." and never
+   claims a Creative Commons licence or a Wikimedia origin it doesn't have. */
 function photoAttributionHTML(p){
   if(!p.photoAttribution) return '';
-  var licUrl=p.photoLicUrl||'https://creativecommons.org/licenses/by-sa/4.0/deed.en';
-  return '<div class="photo-attribution">Photo by '+p.photoBy+', licensed under <a href="'+licUrl+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+p.photoLic+'</a>, via <a href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>.'+(p.photoModified?' Modified.':'')+'</div>';
+  var s='Photo by '+p.photoBy;
+  if(p.photoLic){
+    var licUrl=p.photoLicUrl||'https://creativecommons.org/licenses/by-sa/4.0/deed.en';
+    s+=', licensed under <a href="'+licUrl+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+p.photoLic+'</a>';
+  }
+  if(p.photoSrc) s+=', via <a href="'+p.photoSrc+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Wikimedia Commons</a>';
+  return '<div class="photo-attribution">'+s+'.'+(p.photoModified?' Modified.':'')+'</div>';
 }
 
 function renderPlayers(){
