@@ -243,6 +243,29 @@
   .discuss-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); flex-wrap: wrap; margin-bottom: var(--space-16); }
   .cat-select { font-size: var(--text-xs); font-weight: 600; padding: var(--space-8) var(--space-12); border: var(--hairline); background: var(--surface); color: var(--gray-700); border-radius: var(--radius); cursor: pointer; font-family: var(--sans); }
   .comment-box .cat-select { max-width: 160px; }
+
+  /* Reset banner — the comments table is wiped on a 14-day cycle, so the panel
+     says up front when the slate is next cleared. */
+  .discuss-reset { font-size: var(--text-xs); font-weight: 600; color: var(--accent); background: var(--accent-tint); border-radius: var(--radius); padding: var(--space-8) var(--space-12); margin-bottom: var(--space-16); }
+  .discuss-reset .dr-next { color: var(--gray-700); font-weight: 500; }
+
+  /* Threads — a comment plus its one level of replies share a hairline, so no
+     rule is drawn between a parent and the replies hanging off it. */
+  .cthread { border-bottom: var(--hairline); padding-bottom: var(--space-12); }
+  .cthread:last-child { border-bottom: none; padding-bottom: 0; }
+  .cthread > .comment { border-bottom: none; }
+  .comment .creplies { font-size: var(--text-xs); color: var(--gray-500); }
+  .reply-list, .reply-box { margin-top: var(--space-12); margin-left: var(--space-12); padding-left: var(--space-16); border-left: 2px solid var(--accent); }
+  .reply-list .comment { padding: var(--space-12) 0; border-bottom: none; }
+  .reply-list .comment .av { width: 28px; height: 28px; font-size: var(--text-xs); }
+  .reply-list .comment .ctext { font-size: var(--text-sm); }
+  .reply-toggle { display: block; background: none; border: none; padding: 0; margin: var(--space-4) 0; font-family: var(--sans); font-size: var(--text-xs); font-weight: 600; color: var(--accent); cursor: pointer; }
+  .reply-toggle:hover { color: var(--accent-deep); }
+  .reply-box textarea { width: 100%; border: var(--hairline); border-radius: var(--radius); padding: var(--space-8) var(--space-12); font-family: var(--sans); font-size: var(--text-sm); color: var(--ink); resize: vertical; min-height: 54px; outline: none; background: var(--bg); }
+  .reply-box textarea:focus { border-color: var(--accent); }
+  .reply-box .rb-foot { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-8); }
+  .reply-box .post-btn { font-size: var(--text-xs); font-weight: 600; padding: var(--space-4) var(--space-12); border-radius: var(--radius); border: none; color: var(--surface); background: var(--accent); cursor: pointer; transition: background .15s; }
+  .reply-box .post-btn:hover { background: var(--accent-deep); }
   .page-title { font-family: var(--serif); font-weight: 800; font-size: var(--text-2xl); letter-spacing: -0.01em; margin-bottom: var(--space-8); }
   .page-sub { font-size: var(--text-sm); color: var(--gray-500); margin-bottom: var(--space-24); }
   .rel-note { background: var(--accent-tint); border-radius: var(--radius); padding: var(--space-16); font-size: var(--text-xs); color: var(--accent-deep); line-height: 1.6; margin-bottom: var(--space-24); }
@@ -515,15 +538,12 @@
   <div class="page active" id="page-home">
     <div class="grid">
       <div class="main">
-        <div class="hero-story" onclick="goArticle(news[0].slug)">
-          <div class="photo hero-photo has-photo" style="background-image:linear-gradient(180deg, rgba(3,25,60,.1), rgba(3,25,60,.42)), url('images/players/Enzofernandez.jpeg'); background-position:center 20%">
-          </div>
-          <div class="photo-attribution">Photo by Getty Images.</div>
+        <div class="hero-story" onclick="goArticle(HERO_SLUG)">
           <div class="hero-body">
-            <span class="hero-badge">&#9889; Analysis</span>
-            <h1>Enzo Fern&aacute;ndez: Chelsea or Manchester City?</h1>
-            <p>With four days of the window left, Sky Sports report Chelsea are prepared to sell Enzo Fern&aacute;ndez to Manchester City for the right price &mdash; but also that there have still been no club-to-club talks, and no formal bid has arrived at any point this summer. Where the story actually stands, what would have to happen for him to go, and who Chelsea would turn to if he did.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">Sky Sports</span> &middot; <span class="src">ESPN</span></span><span>&middot;</span><span>28 Aug 2026</span></div>
+            <span class="hero-badge">&#9889; Next up</span>
+            <h1>Chelsea at Brentford on Friday night, with a lead to protect</h1>
+            <p>Chelsea travel to the Gtech Community Stadium on Friday 18 September for an 8pm kick-off. They have scored 18 goals in six games in all competitions &mdash; the problem has been what happens next, with leads repeatedly surrendered soon after they are taken.</p>
+            <div class="hero-meta"><span>Summarised from <span class="src">Chelsea FC</span></span><span>&middot;</span><span>17 Sep 2026</span></div>
           </div>
         </div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
@@ -594,7 +614,7 @@
   </div>
   <div class="page" id="page-lineup">
     <div class="page-title">Lineup Builder</div>
-    <div class="page-sub">Pick a formation and build your Chelsea XI on the pitch. Choose a shape below to get started.</div>
+    <div class="page-sub">Pick a formation and build your Chelsea XI on the pitch. Choose a shape below to get started. Players marked <strong>RUMOURED</strong> are drawn from the summer 2026 transfer window, which closed on 1 September &mdash; they were never signed and are kept in the picker as what-ifs only.</div>
     <div id="lineup-root"></div>
   </div>
   <div class="page" id="page-quotes">
@@ -612,6 +632,7 @@
     <div class="page-sub">Have your say on the latest Chelsea news, transfers, and team selection.</div>
     <div class="grid">
       <div class="main">
+        <div class="discuss-reset" id="discussReset"></div>
         <div class="comment-box">
           <div id="usernameGate" class="username-gate" style="display:none">
             <div class="ug-label" id="ugLabel">Choose a username to join the discussion</div>
@@ -803,7 +824,7 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 /* ── Ticker ── */
-var tickerItems=["Enzo Fernández: Chelsea or Manchester City?","Sky: no club-to-club talks yet over Enzo, window shuts 1 Sep","Lamine Camara reported as Chelsea's leading midfield target","João Pedro signs new long-term deal and takes the No.9","Alonso reports no fresh injury concerns for the opener","Enzo Fernández to stay after £120m deadline passes","Badiashile to Napoli and Disasi to Palace on loan","Atlético Madrid in talks over a Nicolas Jackson loan","Lacroix completes £51m move from Crystal Palace","Henderson and Welbeck add experience to Alonso's squad","Chelsea 3-1 Real Sociedad ends pre-season at the Bridge"];
+var tickerItems=["Brentford away on Friday, 8pm at the Gtech","Chelsea 2-2 Hull City - fourth, seven points from four","Alonso: ‘I hope one day you appreciate a boring game and we win’","Arsenal 2-1 Chelsea - Rogers scores but Arsenal turn it around","Enzo Fernández joins Manchester City as the window shuts","Nine senior signings in, Jackson, Delap and Adarabioyo out","João Pedro signs new deal to 2034 after a 20-goal season","Emiliano Martínez arrives from Aston Villa","International break runs 21 Sep to 6 Oct","Carabao Cup fourth round: Liverpool vs Chelsea"];
 document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
 
 /* ════════════════════════════════════════════
@@ -951,7 +972,265 @@ function articleTweetHTML(block){
 }
 
 /* ── News ── */
+/* The home hero is hand-written markup, so it names the article it leads
+   with rather than tracking news[0] — adding a newer item must not leave
+   the hero copy pointing at a different story. */
+var HERO_SLUG='chelsea-at-brentford-on-friday-night-with-a-lead-to-protect';
 var news=[
+  {
+    cat:"News",cc:"",init:"LI",
+    h:"Liverpool 1-1 Chelsea (6-5 pens): Blues out of the Carabao Cup",
+    p:"With Palmer serving his suspension, Rogers scored a 40th-minute penalty after Ryan Gravenberch fouled Moisés Caicedo. Three minutes later, Wesley Fofana handled from a corner and Cody Gakpo equalised from the spot. Maxence Lacroix limped off before half-time.",
+    src:"Sky Sports",when:"28 Oct",
+    url:"https://www.skysports.com/football/liverpool-vs-chelsea/6248478194645946232",
+    slug:"liverpool-1-1-chelsea-carabao-cup",
+    body:[
+      {type:"paragraph",text:"With Palmer serving his suspension, Rogers scored a 40th-minute penalty after Ryan Gravenberch fouled Moisés Caicedo. Three minutes later, Wesley Fofana handled from a corner and Cody Gakpo equalised from the spot. Maxence Lacroix limped off before half-time."},
+      {type:"paragraph",text:"In the shootout, Barco hit the post and Penders saved from Gravenberch. Debutant Emmanuel Emegha was then denied by Giorgi Mamardashvili, and Fofana sent the decisive kick over the bar. Alonso said the focus now turns to the league, starting with Manchester United on 31 October."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"TO",
+    h:"Chelsea 0-2 Tottenham: Penders error, Palmer red, rare Spurs win",
+    p:"João Pedro was ruled out after feeling something in training the day before. Rogers led the line, and Geovany Quenda made his first Premier League start.",
+    src:"Chelsea FC · The Analyst",when:"24 Oct",
+    url:"https://www.chelseafc.com/en/news/article/match-report-chelsea-0-2-tottenham-hotspur",
+    slug:"chelsea-0-2-tottenham",
+    body:[
+      {type:"paragraph",text:"João Pedro was ruled out after feeling something in training the day before. Rogers led the line, and Geovany Quenda made his first Premier League start."},
+      {type:"paragraph",text:"Mike Penders punched a 77th-minute corner into his own net. Three minutes later, Palmer was sent off for a second yellow card for a stamp on Conor Gallagher. Mathys Tel then scored a solo goal to seal Tottenham's first win at Stamford Bridge since 2018."},
+      {type:"paragraph",text:"Palmer's dismissal was Chelsea's 100th Premier League red card."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"EV",
+    h:"Everton 0-2 Chelsea: Neto double, but Martínez injury overshadows win",
+    p:"Pedro Neto scored 43 seconds after half-time and again in the 90th minute. The win ended Everton's unbeaten start and gave Chelsea their first league clean sheet of the season.",
+    src:"ESPN · Chelsea FC",when:"17 Oct",
+    url:"https://www.espn.com/soccer/story/_/id/50200995/emi-martinez-hospital-head-injury-chelsea-everton-premier-league",
+    slug:"everton-0-2-chelsea",
+    body:[
+      {type:"paragraph",text:"Pedro Neto scored 43 seconds after half-time and again in the 90th minute. The win ended Everton's unbeaten start and gave Chelsea their first league clean sheet of the season."},
+      {type:"heading",text:"Martínez injury"},
+      {type:"paragraph",text:"Emiliano Martínez was stretchered off after colliding with Jarrad Branthwaite while coming to punch a free-kick, and Mike Penders made his Premier League debut. Chelsea confirmed the next day that Martínez had successful surgery on a fractured jaw. Martínez said he would be back in a few weeks."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"RJ",
+    h:"Reece James undergoes knee surgery",
+    p:"Captain Reece James had what the club called minor knee surgery after an injury in training before the Bournemouth game.",
+    src:"Flashscore",when:"16 Oct",
+    url:"https://www.flashscore.com/news/soccer-premier-league-chelsea-confirm-captain-reece-james-undergoes-knee-surgery/fwShQXbn/",
+    slug:"reece-james-knee-surgery",
+    body:[
+      {type:"paragraph",text:"Captain Reece James had what the club called minor knee surgery after an injury in training before the Bournemouth game."},
+      {type:"paragraph",text:"Alonso said James will be out for several weeks and gave no exact timeline. British media reported a layoff of around three months."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"BM",
+    h:"Chelsea 5-1 Bournemouth: Henderson rolls back the years",
+    p:"Jordan Henderson scored inside the first two minutes, his first goal for Chelsea, and then set up Morgan Rogers. Rogers' shot deflected in off Antonio Silva.",
+    src:"The Analyst",when:"10 Oct",
+    url:"https://theanalyst.com/articles/chelsea-vs-bournemouth-stats-jordan-henderson-premier-league-10-2026",
+    slug:"chelsea-5-1-bournemouth",
+    body:[
+      {type:"paragraph",text:"Jordan Henderson scored inside the first two minutes, his first goal for Chelsea, and then set up Morgan Rogers. Rogers' shot deflected in off Antonio Silva."},
+      {type:"paragraph",text:"João Pedro, back from his knee injury, scored twice either side of an Evanilson goal. Henderson finished the scoring with a curled free-kick in the 70th minute."},
+      {type:"paragraph",text:"At 36, Henderson became the oldest Chelsea player to be directly involved in three goals in a Premier League game. Marco Palestra made his Chelsea debut."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"CP",
+    h:"Cole Palmer signs new deal to 2034",
+    p:"Cole Palmer extended his contract by a year, to 2034, on improved terms. He had 91 goal contributions in 138 Chelsea appearances at the time of signing.",
+    src:"Chelsea FC",when:"10 Oct",
+    url:"https://www.chelseafc.com/en/news/article/cole-palmer-signs-new-chelsea-contract-2034",
+    slug:"cole-palmer-contract-2034",
+    body:[
+      {type:"paragraph",text:"Cole Palmer extended his contract by a year, to 2034, on improved terms. He had 91 goal contributions in 138 Chelsea appearances at the time of signing."},
+      {type:"paragraph",text:"Palmer said Chelsea means a lot to him and that the club is heading in the right direction."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"BF",
+    h:"Brentford 3-0 Chelsea: Bees inflict heavy defeat before the break",
+    p:"Jaidon Anthony, Igor Thiago and Fábio Carvalho scored as Brentford beat Chelsea 3-0. João Pedro (knee) and Reece James missed the game.",
+    src:"ESPN",when:"18 Sep",
+    url:"https://www.espn.com/soccer/team/results/_/id/363/league/ENG.1",
+    slug:"brentford-3-0-chelsea",
+    body:[
+      {type:"paragraph",text:"Jaidon Anthony, Igor Thiago and Fábio Carvalho scored as Brentford beat Chelsea 3-0. João Pedro (knee) and Reece James missed the game."},
+      {type:"paragraph",text:"This was Chelsea's last match before a three-week international break, which merged the September and October windows. João Pedro withdrew from the Brazil squad. Cole Palmer missed England duty, and Thomas Tuchel publicly criticised his absences."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"BR",
+    h:"Chelsea at Brentford on Friday night, with a lead to protect",
+    p:"Chelsea travel to the Gtech Community Stadium on Friday 18 September for an 8pm kick-off. They have scored 18 goals in six games in all competitions — the problem has been what happens next.",
+    src:"Chelsea FC",when:"17 Sep",
+    url:"https://www.chelseafc.com/en/news/article/match-report-chelsea-2-2-hull",
+    body:[
+      {type:"paragraph",text:"Chelsea's next Premier League game is away at Brentford on Friday 18 September, kicking off at 8pm UK time at the Gtech Community Stadium."},
+      {type:"paragraph",text:"The attacking numbers are not the issue. Chelsea have scored 18 goals in six games in all competitions, a rate that would normally put a side near the top of the table."},
+      {type:"paragraph",text:"The issue is what follows. Chelsea have repeatedly conceded soon after going in front, a pattern that turned a 2-0 lead into a 2-2 draw against Hull City last weekend and has left Xabi Alonso talking about defensive fragility rather than attacking returns."},
+      {type:"paragraph",text:"A west London derby on a Friday night, against a side that will be happy to let Chelsea have the ball, is a reasonable test of whether that has been fixed."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"IB",
+    h:"International break: FIFA merges the September and October windows",
+    p:"There is no domestic football across two consecutive weekends as FIFA's combined international period runs from 21 September to 6 October. João Pedro and Estêvão were both recalled by Brazil, though João Pedro was later withdrawn.",
+    src:"Chelsea FC",when:"17 Sep",
+    url:"https://www.chelseafc.com/en/news/article/chelsea-international-call-ups-and-schedules-for-september-2026",
+    body:[
+      {type:"paragraph",text:"FIFA have merged what would previously have been two separate international breaks into a single period running from 21 September to 6 October. It means two consecutive weekends without domestic football, and up to four fixtures for some nations."},
+      {type:"paragraph",text:"For Chelsea, the notable call-ups were Brazilian. Carlo Ancelotti recalled both João Pedro and Estêvão Willian, neither of whom featured at the 2026 World Cup."},
+      {type:"paragraph",text:"Estêvão remained in the squad for Brazil's friendlies against Australia, twice, and India. João Pedro was withdrawn a few days after the initial announcement and did not take part."},
+      {type:"paragraph",text:"Chelsea's league campaign resumes after the window closes on 6 October."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"TB",
+    h:"Todd Boehly steps down as Chelsea chairman",
+    p:"Clearlake Capital has taken full control of Chelsea after acquiring the ownership stakes of Todd Boehly and Mark Walter. Boehly stepped down as chairman after four years, and Hansjörg Wyss remains a stakeholder.",
+    src:"Yahoo Sports",when:"16 Sep",
+    url:"https://sports.yahoo.com/articles/todd-boehly-leaves-chelsea-clearlake-225500046.html",
+    slug:"todd-boehly-steps-down",
+    body:[
+      {type:"paragraph",text:"Clearlake Capital has taken full control of Chelsea after acquiring the ownership stakes of Todd Boehly and Mark Walter. Boehly stepped down as chairman after four years, and Hansjörg Wyss remains a stakeholder."},
+      {type:"paragraph",text:"The club said there would be no changes to day-to-day operations, leadership or strategy. Clearlake co-founders Behdad Eghbali and José E. Feliciano thanked Boehly for his time as chairman."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"HU",
+    h:"Chelsea 2-2 Hull City: two Belloumi goals in six minutes undo a fast start",
+    p:"Morgan Rogers scored inside seven minutes at Stamford Bridge, but Mohamed Belloumi struck twice before the break and Chelsea could only draw. João Pedro equalised, Emi Martínez kept them level late, and Chelsea sit fourth on seven points from four games.",
+    src:"Chelsea FC",when:"12 Sep",
+    url:"https://www.chelseafc.com/en/news/article/match-report-chelsea-2-2-hull",
+    body:[
+      {type:"paragraph",text:"Chelsea started as well as they could have. Morgan Rogers took a pass from João Pedro and scored inside seven minutes at Stamford Bridge."},
+      {type:"paragraph",text:"Hull City turned the game around before half-time through Mohamed Belloumi, who scored twice in the space of six minutes — in the 28th and 34th — either side of a collision involving the goalkeeper. Chelsea went in behind."},
+      {type:"paragraph",text:"João Pedro levelled it in the 66th minute from a Cole Palmer cross. Chelsea pushed for a winner without finding one: Rogers had a chance from close range and Palmer's late free-kick cleared the bar. At the other end Emi Martínez had to save from Mohamed-Ali Cho as Hull threatened to win it."},
+      {type:"paragraph",text:"The draw leaves Chelsea fourth with seven points from four games. Xabi Alonso's assessment was that the side is taking steps forward but that its defensive fragility is holding it back — Chelsea have now conceded nine goals in four league matches. “I hope one day you appreciate a boring game and we win,” he said."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"HU",
+    h:"Chelsea 2-2 Hull City: Belloumi double earns promoted side a point",
+    p:"Rogers gave Chelsea a 7th-minute lead. Hull's Mohamed Belloumi then scored twice before half-time, and João Pedro equalised in the 66th minute.",
+    src:"ESPN",when:"12 Sep",
+    url:"https://www.espn.com/soccer/team/results/_/id/363/league/ENG.1",
+    slug:"chelsea-2-2-hull",
+    body:[
+      {type:"paragraph",text:"Rogers gave Chelsea a 7th-minute lead. Hull's Mohamed Belloumi then scored twice before half-time, and João Pedro equalised in the 66th minute."},
+      {type:"paragraph",text:"João Pedro played the full 90 minutes, but reports later said he had sprained knee ligaments in the match."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"PN",
+    h:"Pedro Neto signs new contract to 2032",
+    p:"Pedro Neto signed a new six-year contract, running to 2032. João Pedro signed his own extension to 2034 in August.",
+    src:"Chelsea FC",when:"11 Sep",
+    url:"https://www.chelseafc.com/en/news/article/pedro-neto-signs-new-chelsea-contract",
+    slug:"pedro-neto-new-contract",
+    body:[
+      {type:"paragraph",text:"Pedro Neto signed a new six-year contract, running to 2032. João Pedro signed his own extension to 2034 in August."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"LE",
+    h:"Chelsea 6-3 Leeds: Second-half blitz sends Blues through",
+    p:"Leeds led 2-0 early in the second half of this Carabao Cup third-round tie. Alonso then brought on Palmer, Rogers, Neto and Reece James at the break, and the game turned.",
+    src:"Sky Sports",when:"9 Sep",
+    url:"https://www.skysports.com/football/chelsea-vs-leeds-united/report/577586",
+    slug:"chelsea-6-3-leeds-carabao-cup",
+    body:[
+      {type:"paragraph",text:"Leeds led 2-0 early in the second half of this Carabao Cup third-round tie. Alonso then brought on Palmer, Rogers, Neto and Reece James at the break, and the game turned."},
+      {type:"paragraph",text:"Palmer scored twice, one from the penalty spot. Neto, Valentín Barco and Danny Welbeck, with two goals, added the rest. Rogers set up three goals off the bench. Dominic Calvert-Lewin scored Leeds' third."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"AR",
+    h:"Arsenal 2-1 Chelsea: Rogers scores first but Arsenal come back",
+    p:"Morgan Rogers put Chelsea in front at the Emirates, but Arsenal recovered to win 2-1 and hand Xabi Alonso his first league defeat of the season.",
+    src:"ESPN",when:"6 Sep",
+    url:"https://www.espn.com/soccer/story/_/id/49915725/xabi-alonso-wants-more-boring-wins-chelsea-slip-hull-draw",
+    body:[
+      {type:"paragraph",text:"Chelsea lost 2-1 away to Arsenal on 6 September."},
+      {type:"paragraph",text:"Morgan Rogers opened the scoring, continuing a strong start to his Chelsea career after his summer move from Aston Villa."},
+      {type:"paragraph",text:"Arsenal came back to win the game. It was Chelsea's first league defeat under Xabi Alonso, following the opening wins over Fulham and Brighton."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"AR",
+    h:"Arsenal 2-1 Chelsea: Rogers strikes early but champions turn it around",
+    p:"Morgan Rogers volleyed Chelsea ahead after 77 seconds at the Emirates. That made him the first Chelsea player since Eden Hazard in 2018-19 to score or assist in each of the club's first three league games of a season.",
+    src:"ESPN",when:"6 Sep",
+    url:"https://www.espn.com/soccer/match/_/gameId/401879292/chelsea-arsenal",
+    slug:"arsenal-2-1-chelsea",
+    body:[
+      {type:"paragraph",text:"Morgan Rogers volleyed Chelsea ahead after 77 seconds at the Emirates. That made him the first Chelsea player since Eden Hazard in 2018-19 to score or assist in each of the club's first three league games of a season."},
+      {type:"paragraph",text:"Kai Havertz equalised against his former club after 25 minutes. Martin Ødegaard scored the winner in the 50th minute after a Havertz dummy. It was Chelsea's first league defeat under Alonso."}
+    ]
+  },
+  {
+    cat:"Transfer",cc:"done",init:"WW",
+    h:"Window wrap: nine senior signings in, Enzo Fernández out to Manchester City",
+    p:"The summer window closed on 1 September. Chelsea brought in nine senior players, sold Enzo Fernández to Manchester City, moved on a long list of squad players permanently and loaned out nine more — and tied João Pedro down to 2034.",
+    src:"Chelsea FC",when:"1 Sep",
+    url:"https://www.chelseafc.com/en/news/article/summer-transfers-2026-all-the-chelsea-ins-outs-and-new-contracts-so-far",
+    body:[
+      {type:"heading",text:"In"},
+      {type:"paragraph",text:"Nine senior players arrived permanently: Marco Palestra from Atalanta, Morgan Rogers from Aston Villa, Maxence Lacroix from Crystal Palace, Emiliano Martínez from Aston Villa, Pep Chavarría from Rayo Vallecano, Jordan Henderson from Brentford, Danny Welbeck from Brighton, Valentín Barco from Strasbourg and Geovany Quenda from Sporting. Chelsea also agreed a deal for the 18-year-old Atalanta centre-back Honest Ahanor, who joins in 2027."},
+      {type:"paragraph",text:"The club did not disclose fees for most of these deals. Rogers was widely reported at £117m and Lacroix at £51m; Henderson arrived on a free."},
+      {type:"heading",text:"Out, permanently"},
+      {type:"paragraph",text:"The headline departure is Enzo Fernández, who joined Manchester City after a summer of speculation that had appeared to be going nowhere. Also gone permanently: Marc Cucurella to Real Madrid, Nicolas Jackson to Aston Villa, Liam Delap to Nottingham Forest, Trevoh Chalobah to Como, Tosin Adarabioyo to Tottenham, Andrey Santos to Manchester United, Tyrique George to Everton, Marc Guiu to RB Leipzig, David Fofana to Servette and Deivid Washington to Strasbourg."},
+      {type:"heading",text:"Out, on loan"},
+      {type:"paragraph",text:"Nine more left on season-long loans: Alejandro Garnacho to Aston Villa, Mykhailo Mudryk to Tottenham, Robert Sánchez to Como, Filip Jørgensen to Strasbourg, Benoît Badiashile to Napoli, Axel Disasi to Crystal Palace, Dario Essugo to Strasbourg, Mamadou Sarr to Real Sociedad and Caleb Wiley to Preston North End."},
+      {type:"heading",text:"New contract"},
+      {type:"paragraph",text:"João Pedro signed a new deal running to 2034 after a debut season that brought 20 goals and the club's Player of the Year award."}
+    ]
+  },
+  {
+    cat:"Transfer",cc:"done",init:"DD",
+    h:"Deadline day: Enzo Fernández joins Man City for £125m",
+    p:"Enzo Fernández joined Manchester City for £125m, a joint-British record fee, in the biggest move of deadline day.",
+    src:"BBC Sport · Football365",when:"1 Sep",
+    url:"https://www.bbc.com/sport/football/articles/cr7deg1ze03o",
+    slug:"deadline-day-enzo-fernandez-man-city",
+    body:[
+      {type:"paragraph",text:"Enzo Fernández joined Manchester City for £125m, a joint-British record fee, in the biggest move of deadline day."},
+      {type:"heading",text:"Other business"},
+      {type:"paragraph",text:"Tosin Adarabioyo joined Tottenham and Marc Guiu joined RB Leipzig for £14.6m. Deivid Washington moved permanently to Strasbourg. Mykhailo Mudryk joined Tottenham on a season-long loan, Robert Sánchez went to Como on loan, and Dário Essugo went to Strasbourg on loan."},
+      {type:"heading",text:"The Camara saga"},
+      {type:"paragraph",text:"Chelsea had two bids for Monaco midfielder Lamine Camara rejected before agreeing a deal late on, and Camara began a medical. Monaco then pulled out, and he stayed in France."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"BR",
+    h:"Chelsea 4-3 Brighton: Blues edge a seven-goal thriller",
+    p:"Chelsea made it two league wins from two under Xabi Alonso with a 4-3 win over Brighton at Stamford Bridge. Roméo Lavia, Pedro Neto, João Pedro and Cole Palmer scored.",
+    src:"VAVEL",when:"30 Aug",
+    url:"https://www.vavel.com/en/football/2026/08/31/brighton-hove-albion/1269722-chelsea-4-3-brighton-hove-albion-brighton-player-ratings.html",
+    slug:"chelsea-4-3-brighton",
+    body:[
+      {type:"paragraph",text:"Chelsea made it two league wins from two under Xabi Alonso with a 4-3 win over Brighton at Stamford Bridge. Roméo Lavia, Pedro Neto, João Pedro and Cole Palmer scored."},
+      {type:"paragraph",text:"The win followed a 3-2 opening-day victory at Fulham. João Pedro was later named Premier League Player of the Month for August."}
+    ]
+  },
+  {
+    cat:"Done deal",cc:"done",init:"EM",
+    h:"Emiliano Martínez signs from Aston Villa",
+    p:"Chelsea signed World Cup-winning goalkeeper Emiliano Martínez from Aston Villa for £7.5m, on a contract running to 2029.",
+    src:"Chelsea FC",when:"30 Aug",
+    url:"https://www.chelseafc.com/en/news/article/emiliano-martinez-signs-for-chelsea",
+    slug:"emiliano-martinez-signs",
+    body:[
+      {type:"paragraph",text:"Chelsea signed World Cup-winning goalkeeper Emiliano Martínez from Aston Villa for £7.5m, on a contract running to 2029."},
+      {type:"paragraph",text:"Martínez takes the No.1 role. Robert Sánchez left on loan before the deadline, and 21-year-old Mike Penders is the long-term understudy."}
+    ]
+  },
   {
     cat:"Transfer",cc:"",init:"EF",
     h:"Enzo Fernández: Chelsea or Manchester City?",
@@ -989,6 +1268,18 @@ var news=[
     photoBy:"Getty Images",
     photoCaption:"Enzo Fernández, under contract at Chelsea until 2032, has four days to discover whether his future is at Stamford Bridge or the Etihad.",
     photoAttribution:true,photoPos:"center 20%"
+  },
+  {
+    cat:"Done deal",cc:"done",init:"NJ",
+    h:"Nicolas Jackson joins Aston Villa",
+    p:"Chelsea sold Nicolas Jackson to Aston Villa for an initial £47.5m, with up to £17.5m more in add-ons. The sale followed Morgan Rogers' club-record arrival from Villa and Liam Delap's £45m move to Nottingham Forest a day earlier.",
+    src:"Chelsea FC",when:"28 Aug",
+    url:"https://www.chelseafc.com/en/news/article/nicolas-jackson-departs-chelsea-on-permanent-transfer",
+    slug:"nicolas-jackson-joins-aston-villa",
+    body:[
+      {type:"paragraph",text:"Chelsea sold Nicolas Jackson to Aston Villa for an initial £47.5m, with up to £17.5m more in add-ons. The sale followed Morgan Rogers' club-record arrival from Villa and Liam Delap's £45m move to Nottingham Forest a day earlier."},
+      {type:"paragraph",text:"On the same day, Mamadou Sarr joined Real Sociedad on loan and Caleb Wiley joined Preston North End on loan."}
+    ]
   },
   {
     cat:"News",cc:"",init:"XA",
@@ -1299,7 +1590,12 @@ function slugify(str){
 var NEWS_BY_SLUG={};
 (function(){
   var used={};
+  /* An item may carry its own `slug` (a shorter, hand-picked url than the
+     headline would produce). Those are claimed first so a later derived slug
+     can never take a url an explicit one is relying on. */
+  news.forEach(function(n){ if(n.slug){ used[n.slug]=true; NEWS_BY_SLUG[n.slug]=n; } });
   news.forEach(function(n){
+    if(n.slug) return;
     var base=slugify(n.h)||'article', s=base, i=2;
     while(used[s]){ s=base+'-'+i; i++; }
     used[s]=true; n.slug=s; NEWS_BY_SLUG[s]=n;
@@ -1381,7 +1677,8 @@ function clampNewsCards(){
   });
 }
 window.addEventListener('load',clampNewsCards);
-document.getElementById('news-grid').innerHTML=news.slice(1,5).map(cardHTML).join('');
+/* Four newest stories, minus whichever one the hero is already showing. */
+document.getElementById('news-grid').innerHTML=news.filter(function(n){ return n.slug!==HERO_SLUG; }).slice(0,4).map(cardHTML).join('');
 clampNewsCards();
 document.getElementById('news-grid-full').innerHTML=news.map(cardHTML).join('');
 document.getElementById('transfer-cards').innerHTML=news.filter(function(n){return n.cat==='Transfer'||n.cc==='done';}).map(cardHTML).join('');
@@ -1524,7 +1821,11 @@ var transfers=[
   {dir:"in",name:"Danny Welbeck",club:"from Brighton",fee:"Undisclosed",s:false},
   {dir:"in",name:"Jordan Henderson",club:"from Brentford",fee:"Free",s:false},
   {dir:"in",name:"Valentín Barco",club:"from Strasbourg",fee:"Undisclosed",s:false},
-  {dir:"in",name:"Pep Chavarría",club:"bid prepared - Rayo Vallecano",fee:"~€25m",s:true},
+  {dir:"in",name:"Pep Chavarría",club:"from Rayo Vallecano",fee:"Undisclosed",s:false},
+  {dir:"in",name:"Emiliano Martínez",club:"from Aston Villa",fee:"Undisclosed",s:false},
+  {dir:"in",name:"Geovany Quenda",club:"from Sporting CP",fee:"Undisclosed",s:false},
+  {dir:"in",name:"Honest Ahanor",club:"from Atalanta - joins 2027",fee:"Agreed",s:true},
+  {dir:"out",name:"Enzo Fernández",club:"to Manchester City",fee:"Undisclosed",s:false},
   {dir:"out",name:"Marc Cucurella",club:"to Real Madrid",fee:"£51.8m",s:false},
   {dir:"out",name:"Andrey Santos",club:"to Man United",fee:"£48m+£2m",s:false},
   {dir:"out",name:"Alejandro Garnacho",club:"to Aston Villa (loan)",fee:"~£42.5m obligation",s:false},
@@ -1532,7 +1833,18 @@ var transfers=[
   {dir:"out",name:"Tyrique George",club:"to Everton",fee:"~£18m",s:false},
   {dir:"out",name:"Benoît Badiashile",club:"to Napoli (loan)",fee:"€3m + €27m option",s:false},
   {dir:"out",name:"Axel Disasi",club:"to Crystal Palace (loan)",fee:"Paid loan",s:false},
-  {dir:"out",name:"Nicolas Jackson",club:"Atlético Madrid loan talks",fee:"In talks",s:true}
+  {dir:"out",name:"Nicolas Jackson",club:"to Aston Villa",fee:"Undisclosed",s:false},
+  {dir:"out",name:"Liam Delap",club:"to Nottingham Forest",fee:"Undisclosed",s:false},
+  {dir:"out",name:"Tosin Adarabioyo",club:"to Tottenham",fee:"Undisclosed",s:false},
+  {dir:"out",name:"Marc Guiu",club:"to RB Leipzig",fee:"Undisclosed",s:false},
+  {dir:"out",name:"David Fofana",club:"to Servette",fee:"Undisclosed",s:false},
+  {dir:"out",name:"Deivid Washington",club:"to Strasbourg",fee:"Undisclosed",s:false},
+  {dir:"out",name:"Mykhailo Mudryk",club:"to Tottenham (loan)",fee:"Season loan",s:false},
+  {dir:"out",name:"Robert Sánchez",club:"to Como (loan)",fee:"Season loan",s:false},
+  {dir:"out",name:"Filip Jørgensen",club:"to Strasbourg (loan)",fee:"Season loan",s:false},
+  {dir:"out",name:"Dario Essugo",club:"to Strasbourg (loan)",fee:"Season loan",s:false},
+  {dir:"out",name:"Mamadou Sarr",club:"to Real Sociedad (loan)",fee:"Season loan",s:false},
+  {dir:"out",name:"Caleb Wiley",club:"to Preston (loan)",fee:"Season loan",s:false}
 ];
 function trHTML(t){ return '<div class="transfer-row"><div class="dir '+t.dir+'">'+(t.dir==='in'?'↓':'↑')+'</div><div class="tinfo"><div class="name">'+t.name+'</div><div class="club">'+t.club+'</div></div><div class="fee '+(t.s?'status':'')+'">'+t.fee+'</div></div>'; }
 document.getElementById('transfer-list').innerHTML=transfers.map(trHTML).join('');
@@ -1694,11 +2006,12 @@ renderTransferHistory();
    `score` instead, and `res` ("w"/"l"/"d") tints it. Both render through the
    same row; the score simply takes the slot the kick-off time would occupy. */
 var fixtures=[
-  {comp:"Premier League",teams:"Fulham vs Chelsea",when:"Mon 24 Aug - 8:00pm"},
-  {comp:"Premier League",teams:"Chelsea vs Brighton",when:"Sat 29 Aug"},
-  {comp:"Premier League",teams:"Arsenal vs Chelsea",when:"Sat 5 Sep"},
-  {comp:"Premier League",teams:"Chelsea vs Hull City",when:"Sat 12 Sep"},
-  {comp:"Premier League",teams:"Brentford vs Chelsea",when:"Sat 19 Sep"},
+  {comp:"Premier League",teams:"Brentford vs Chelsea",when:"Fri 18 Sep - 8:00pm"},
+  {comp:"Carabao Cup",teams:"Liverpool vs Chelsea",when:"Fourth round - date TBC"},
+  {comp:"Premier League",teams:"Chelsea vs Hull City",when:"12 Sep",score:"2-2",res:"d"},
+  {comp:"Premier League",teams:"Arsenal vs Chelsea",when:"6 Sep",score:"2-1",res:"l"},
+  {comp:"Premier League",teams:"Chelsea vs Brighton",when:"30 Aug",score:"4-3",res:"w"},
+  {comp:"Premier League",teams:"Fulham vs Chelsea",when:"24 Aug",score:"2-3",res:"w"},
   {comp:"Friendly",teams:"Chelsea vs Real Sociedad",when:"15 Aug",score:"3-1",res:"w"},
   {comp:"Friendly",teams:"Chelsea vs Johor Darul Ta'zim",when:"9 Aug",score:"3-3",res:"d"},
   {comp:"Friendly",teams:"Chelsea vs AC Milan",when:"8 Aug",score:"3-0",res:"w"},
@@ -1778,7 +2091,47 @@ var ccfEl=document.getElementById('commentCatFilter');
 ccfEl.innerHTML=["All"].concat(commentCats).map(function(c,i){ return '<button class="'+(i===0?'on':'')+'" data-c="'+c+'" onclick="setCommentCat(\''+c+'\',this)">'+c+'</button>'; }).join('');
 function setCommentCat(c,btn){ commentCatFilter=c; [].forEach.call(ccfEl.children,function(b){b.classList.remove('on');}); btn.classList.add('on'); renderComments(); }
 document.getElementById('cCat').innerHTML=commentCats.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
+/* ── Discussion reset cycle ──
+   A scheduled job empties the comments table every 14 days, anchored at
+   1 Nov 2026 00:00 UTC. The same arithmetic is mirrored here twice: once to
+   tell readers when the slate is next cleared, and once to bound the fetch so
+   a cron run that fires late can never surface a previous cycle's comments. */
+var RESET_ANCHOR=Date.UTC(2026,10,1);     /* 1 Nov 2026 00:00 UTC */
+var CYCLE_MS=14*24*60*60*1000;            /* 14 days */
+function nextReset(now){
+  now=(now==null)?Date.now():now;
+  if(now<RESET_ANCHOR) return RESET_ANCHOR;
+  return RESET_ANCHOR+Math.ceil((now-RESET_ANCHOR)/CYCLE_MS)*CYCLE_MS;
+}
+/* Start of the cycle currently running — i.e. the most recent wipe. Before the
+   first one there is nothing a late job could have left behind, so this returns
+   null and the fetch is left unbounded rather than hiding real comments. */
+function cycleStart(now){
+  now=(now==null)?Date.now():now;
+  if(now<RESET_ANCHOR) return null;
+  return nextReset(now)-CYCLE_MS;
+}
+function renderResetBanner(){
+  var el=document.getElementById('discussReset');
+  if(!el) return;
+  var now=Date.now(), next=nextReset(now);
+  var days=Math.ceil((next-now)/86400000);
+  var when=new Date(next).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+  var left=days<=0?'today':(days===1?'in 1 day':'in '+days+' days');
+  el.innerHTML='Discussion resets every 2 weeks <span class="dr-next">&middot; next reset '+left+' ('+when+')</span>';
+}
+
+/* ── Comment state ──
+   `comments` holds top-level rows only; replies live in `replies` keyed by
+   parent id, oldest first. A database trigger flattens anything deeper, so one
+   level is all this ever has to render. */
 var comments=[];
+var replies={};
+var replyOpen=null;        /* id of the thread whose reply box is open, if any */
+var replyDrafts={};        /* thread id → in-progress text, kept across re-renders */
+var repliesExpanded={};    /* thread id → true once the reader asks for the full thread */
+var REPLY_PREVIEW=2;       /* replies shown before the "show more" toggle kicks in */
+
 function timeAgo(iso){
   var d=new Date(iso), s=Math.floor((Date.now()-d.getTime())/1000);
   if(isNaN(s)) return '';
@@ -1788,12 +2141,21 @@ function timeAgo(iso){
   var dd=Math.floor(h/24); if(dd<7) return dd+'d ago';
   return d.toLocaleDateString();
 }
-function mapRow(r){ return {id:r.id,user_id:r.user_id,name:r.display_name,cat:r.category,text:r.body,created_at:r.created_at,time:timeAgo(r.created_at),likes:0,liked:false}; }
+function mapRow(r){ return {id:r.id,parent_id:r.parent_id||null,user_id:r.user_id,name:r.display_name,cat:r.category,text:r.body,created_at:r.created_at,time:timeAgo(r.created_at),likes:0,liked:false}; }
 function loadComments(){
-  sb.from('comments').select('*').eq('article_id','discuss').order('created_at',{ascending:false}).then(function(res){
+  renderResetBanner();
+  var q=sb.from('comments').select('*').eq('article_id','discuss');
+  var since=cycleStart();
+  if(since!=null) q=q.gte('created_at',new Date(since).toISOString());
+  q.order('created_at',{ascending:false}).then(function(res){
     if(res.error){ console.error('load comments',res.error); return; }
-    comments=(res.data||[]).map(mapRow);
-    var ids=comments.map(function(c){ return c.id; });
+    var rows=(res.data||[]).map(mapRow);
+    comments=rows.filter(function(c){ return !c.parent_id; });
+    replies={};
+    rows.filter(function(c){ return c.parent_id; })
+        .slice().reverse()                      /* fetch is newest-first → replies oldest first */
+        .forEach(function(c){ (replies[c.parent_id]=replies[c.parent_id]||[]).push(c); });
+    var ids=rows.map(function(c){ return c.id; });
     if(!ids.length){ renderComments(); return; }
     sb.from('comment_votes').select('comment_id,user_id').in('comment_id',ids).then(function(vr){
       if(vr.error){ console.error('load votes',vr.error); renderComments(); return; }
@@ -1802,13 +2164,49 @@ function loadComments(){
         counts[v.comment_id]=(counts[v.comment_id]||0)+1;
         if(currentUser && v.user_id===currentUser.id) mine[v.comment_id]=true;
       });
-      comments.forEach(function(c){ c.likes=counts[c.id]||0; c.liked=!!mine[c.id]; });
+      rows.forEach(function(c){ c.likes=counts[c.id]||0; c.liked=!!mine[c.id]; });
       renderComments();
     });
   });
 }
 function initials(n){ return String(n||'').replace(/[^a-zA-Z0-9]/g,'').slice(0,2).toUpperCase(); }
+/* Lookup across both levels — the vote and reply handlers are shared. */
+function findComment(id){
+  for(var i=0;i<comments.length;i++){ if(comments[i].id===id) return comments[i]; }
+  for(var k in replies){
+    if(!Object.prototype.hasOwnProperty.call(replies,k)) continue;
+    for(var j=0;j<replies[k].length;j++){ if(replies[k][j].id===id) return replies[k][j]; }
+  }
+  return null;
+}
+function voteHTML(c){
+  return '<span class="cact '+(c.liked?'liked':'')+'" onclick="toggleVote(this,\''+c.id+'\')">&#9650; '+c.likes+'</span>';
+}
+/* Reply rows carry no category tag or top-comment badge — both belong to the
+   thread, not to an individual answer inside it. */
+function replyRowHTML(c,i,threadId){
+  return '<div class="comment"><div class="av" style="background:'+avatarColors[i%avatarColors.length]+';">'+initials(c.name)+'</div>'+
+    '<div class="cmain">'+
+      '<div class="chead"><span class="cname">'+escapeHtml(c.name)+'</span><span class="ctime">'+escapeHtml(c.time)+'</span></div>'+
+      '<div class="ctext">'+escapeHtml(c.text)+'</div>'+
+      '<div class="cactions">'+voteHTML(c)+
+        '<span class="cact" onclick="openReply(\''+threadId+'\',\''+c.id+'\')">&#8617; Reply</span>'+
+      '</div>'+
+    '</div></div>';
+}
+function replyBoxHTML(c){
+  return '<div class="reply-box">'+
+    '<textarea id="replyText" placeholder="Reply to '+escapeHtml(c.name)+'..." oninput="stashReply(this,\''+c.id+'\')">'+escapeHtml(replyDrafts[c.id]||'')+'</textarea>'+
+    '<div class="rb-foot">'+
+      '<button class="post-btn" type="button" onclick="postReply(\''+c.id+'\')">Post reply</button>'+
+      '<button class="nav-textbtn" type="button" onclick="closeReply()">Cancel</button>'+
+    '</div>'+
+  '</div>';
+}
 function renderComments(){
+  renderResetBanner();
+  /* The count, the sort and the category filter all describe top-level
+     comments; replies ride along with whichever thread survives the filter. */
   document.getElementById('cCount').textContent=comments.length+(comments.length===1?' comment':' comments');
   var topIdx=-1,topLikes=-1;
   comments.forEach(function(c,i){ if(c.likes>topLikes){topLikes=c.likes;topIdx=i;} });
@@ -1818,12 +2216,36 @@ function renderComments(){
   else { rows.sort(function(a,b){ return new Date(b.c.created_at)-new Date(a.c.created_at); }); }
   document.getElementById('comments').innerHTML=rows.map(function(r){
     var c=r.c,i=r.i;
-    return '<div class="comment"><div class="av" style="background:'+avatarColors[i%avatarColors.length]+';">'+initials(c.name)+'</div><div class="cmain"><div class="chead"><span class="cname">'+escapeHtml(c.name)+'</span>'+(i===topIdx&&topLikes>0?'<span class="ctop">Top comment</span>':'')+'<span class="ctag">'+escapeHtml(c.cat)+'</span><span class="ctime">'+escapeHtml(c.time)+'</span></div><div class="ctext">'+escapeHtml(c.text)+'</div><div class="cactions"><span class="cact '+(c.liked?'liked':'')+'" onclick="toggleVote(this,\''+c.id+'\')">▲ '+c.likes+'</span><span class="cact" onclick="scrollToDiscuss()">↩ Reply</span></div></div></div>';
+    var list=replies[c.id]||[];
+    /* Collapsed threads keep the latest REPLY_PREVIEW; the older ones sit
+       behind a toggle placed above them, where they would have appeared. */
+    var expanded=!!repliesExpanded[c.id]||list.length<=REPLY_PREVIEW;
+    var shown=expanded?list:list.slice(-REPLY_PREVIEW);
+    var hidden=list.length-shown.length;
+    var toggle='';
+    if(hidden>0) toggle='<button class="reply-toggle" type="button" onclick="toggleReplies(\''+c.id+'\')">Show '+hidden+' more '+(hidden===1?'reply':'replies')+'</button>';
+    else if(repliesExpanded[c.id]&&list.length>REPLY_PREVIEW) toggle='<button class="reply-toggle" type="button" onclick="toggleReplies(\''+c.id+'\')">Show fewer replies</button>';
+    var replyList=list.length
+      ? '<div class="reply-list">'+toggle+shown.map(function(rc,ri){ return replyRowHTML(rc,ri,c.id); }).join('')+'</div>'
+      : '';
+    var count=list.length?'<span class="creplies">'+list.length+(list.length===1?' reply':' replies')+'</span>':'';
+    return '<div class="cthread">'+
+      '<div class="comment"><div class="av" style="background:'+avatarColors[i%avatarColors.length]+';">'+initials(c.name)+'</div>'+
+        '<div class="cmain">'+
+          '<div class="chead"><span class="cname">'+escapeHtml(c.name)+'</span>'+(i===topIdx&&topLikes>0?'<span class="ctop">Top comment</span>':'')+'<span class="ctag">'+escapeHtml(c.cat)+'</span><span class="ctime">'+escapeHtml(c.time)+'</span></div>'+
+          '<div class="ctext">'+escapeHtml(c.text)+'</div>'+
+          '<div class="cactions">'+voteHTML(c)+
+            '<span class="cact" onclick="openReply(\''+c.id+'\')">&#8617; Reply</span>'+count+
+          '</div>'+
+        '</div></div>'+
+      replyList+
+      (replyOpen===c.id?replyBoxHTML(c):'')+
+    '</div>';
   }).join('');
 }
 function toggleVote(el,id){
   if(!currentUser){ signInGoogle(); return; }
-  var c=null; for(var i=0;i<comments.length;i++){ if(comments[i].id===id){ c=comments[i]; break; } }
+  var c=findComment(id);
   if(!c) return;
   var wasLiked=c.liked;
   c.liked=!wasLiked; c.likes+=c.liked?1:-1; renderComments();
@@ -1832,6 +2254,39 @@ function toggleVote(el,id){
     : sb.from('comment_votes').insert({comment_id:id,user_id:currentUser.id});
   op.then(function(res){
     if(res.error){ console.error('vote',res.error); c.liked=wasLiked; c.likes+=(wasLiked?1:-1); renderComments(); }
+  });
+}
+function toggleReplies(id){ repliesExpanded[id]=!repliesExpanded[id]; renderComments(); }
+function stashReply(el,id){ replyDrafts[id]=el.value; }
+function closeReply(){ replyOpen=null; renderComments(); }
+/* threadId is always the top-level comment: replying to a reply opens that same
+   thread's box, prefilled with the handle being answered. */
+function openReply(threadId,fromId){
+  if(!currentUser){ signInGoogle(); return; }
+  if(!currentUsername){ go('discuss'); refreshComposer(); return; }
+  if(fromId&&fromId!==threadId&&!replyDrafts[threadId]){
+    var from=findComment(fromId);
+    if(from&&from.name) replyDrafts[threadId]='@'+from.name+' ';
+  }
+  replyOpen=threadId;
+  renderComments();
+  var t=document.getElementById('replyText');
+  if(t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); }
+}
+function postReply(threadId){
+  if(!currentUser){ signInGoogle(); return; }
+  if(!currentUsername){ refreshComposer(); return; }
+  var parent=findComment(threadId);
+  if(!parent) return;
+  var el=document.getElementById('replyText');
+  var text=((el?el.value:replyDrafts[threadId])||'').trim();
+  if(!text) return;
+  /* A reply inherits its parent's category so the filter keeps whole threads
+     together, and takes its username from the profiles table like any post. */
+  sb.from('comments').insert({article_id:'discuss',user_id:currentUser.id,display_name:currentUsername,body:text,category:parent.cat,parent_id:threadId}).then(function(res){
+    if(res.error){ console.error('post reply',res.error); alert('Could not post your reply. Please try again.'); return; }
+    replyDrafts[threadId]=''; replyOpen=null; repliesExpanded[threadId]=true;
+    loadComments();
   });
 }
 function postComment(){
@@ -1846,6 +2301,7 @@ function postComment(){
     loadComments();
   });
 }
+renderResetBanner();
 loadComments();
 
 /* ════════════════════════════════════════════
@@ -1857,11 +2313,13 @@ var SEASONS=["2020-21","2021-22","2022-23","2023-24","2024-25","2025-26","2026-2
 var currentSeason="2026-27";
 var squad=[
   /* ── Goalkeepers ── */
-  {n:"Robert Sánchez",      num:1,  pos:"Goalkeeper",positions:["GK"],   grp:"GK",  init:"RS",from:"Brighton",          fee:"~£25m",       joinedY:"2023",age:28,mv:22,r:{"2023-24":75,"2024-25":78,"2025-26":80,"2026-27":null},
+  {n:"Robert Sánchez",      num:1,  pos:"Goalkeeper",positions:["GK"],departed:true,   grp:"GK",  init:"RS",from:"Brighton",          fee:"~£25m",       joinedY:"2023",age:28,mv:22,r:{"2023-24":75,"2024-25":78,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Robert_S%C3%A1nchez_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Robert_Sánchez_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Filip Jørgensen",     num:12, pos:"Goalkeeper",positions:["GK"],   grp:"GK",  init:"FJ",from:"Villarreal",         fee:"~£20m",       joinedY:"2024",age:24,mv:15,r:{"2024-25":73,"2025-26":74,"2026-27":null},
+  {n:"Filip Jørgensen",     num:12, pos:"Goalkeeper",positions:["GK"],departed:true,   grp:"GK",  init:"FJ",from:"Villarreal",         fee:"~£20m",       joinedY:"2024",age:24,mv:15,r:{"2024-25":73,"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Filip_J%C3%B6rgensen_20042025_(1).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Filip_Jörgensen_20042025_(1).jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
   {n:"Mike Penders",        num:null, pos:"Goalkeeper",positions:["GK"],   grp:"GK",  init:"MP",from:"Genk",              fee:"~£16m",       joinedY:"2025",age:21,mv:18,r:{"2025-26":71,"2026-27":null}},
+  /* 2026 window arrival — squad number not yet confirmed, fee undisclosed by the club. */
+  {n:"Emiliano Martínez",   num:null, pos:"Goalkeeper",positions:["GK"],   grp:"GK",  init:"EM",from:"Aston Villa",       fee:"",            joinedY:"2026",age:34,mv:null,r:{"2026-27":null}},
 
   /* ── Defenders ── */
   {n:"Reece James",              num:24, pos:"Right-back",positions:["RB","RWB","CM","CDM","LB","LWB","CB","RM","LM","RW","LW"],   grp:"DEF", init:"RJ",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2019",age:26,mv:60,r:{"2020-21":78,"2021-22":83,"2022-23":81,"2023-24":76,"2024-25":80,"2025-26":82,"2026-27":null},
@@ -1870,32 +2328,37 @@ var squad=[
   {n:"Malo Gusto",               num:27, pos:"Right-back",positions:["RB","RWB","LB","LWB"],   grp:"DEF", init:"MG",from:"Lyon",               fee:"~£26m",       joinedY:"2023",age:23,mv:35,r:{"2023-24":74,"2024-25":77,"2025-26":76,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/a/a2/Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Malo_Gusto_France_v_Senegal_16_June_2026-399.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
   {n:"Josh Acheampong",          num:34, pos:"Right-back",positions:["RB","RWB","CB","LB","LWB"],   grp:"DEF", init:"JA",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2024",age:20,mv:25,r:{"2024-25":69,"2025-26":73,"2026-27":null}},
-  {n:"Caleb Wiley",              num:null, pos:"Left-back",positions:["LB","LWB","RB","RWB"],    grp:"DEF", init:"CW",from:"Atlanta United",     fee:"~£10m",       joinedY:"2025",age:21,mv:8,r:{"2025-26":72,"2026-27":null},
+  {n:"Caleb Wiley",              num:null, pos:"Left-back",positions:["LB","LWB","RB","RWB"],departed:true,    grp:"DEF", init:"CW",from:"Atlanta United",     fee:"~£10m",       joinedY:"2025",age:21,mv:8,r:{"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/7/7b/Wiley_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wiley_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
   {n:"Levi Colwill",             num:6,  pos:"Centre-back",positions:["CB","LB","LWB","RB","RWB"],  grp:"DEF", init:"LC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2023",age:23,mv:50,r:{"2023-24":78,"2024-25":81,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Levi_Colwill_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Tosin Adarabioyo",         num:4,  pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"TA",from:"Fulham",             fee:"Free",             joinedY:"2024",age:28,mv:16,r:{"2024-25":78,"2025-26":80,"2026-27":null},
+  {n:"Tosin Adarabioyo",         num:4,  pos:"Centre-back",positions:["CB"],departed:true,  grp:"DEF", init:"TA",from:"Fulham",             fee:"Free",             joinedY:"2024",age:28,mv:16,r:{"2024-25":78,"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/2/2d/Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Tosin_Adarabioyo_FIFA_Club_World_Cup_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
   {n:"Wesley Fofana",            num:29, pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"WF",from:"Leicester City",     fee:"~£70m",       joinedY:"2022",age:25,mv:28,r:{"2022-23":76,"2023-24":70,"2024-25":72,"2025-26":73,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/f/f6/Wesley_Fofana_2022.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Wesley_Fofana_2022.jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
-  {n:"Trevoh Chalobah",          num:23, pos:"Centre-back",positions:["CB","RB","RWB","CDM","LB","LWB"],  grp:"DEF", init:"TC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2021",age:26,mv:40,r:{"2021-22":74,"2022-23":73,"2023-24":72,"2024-25":76,"2025-26":77,"2026-27":null},
+  {n:"Trevoh Chalobah",          num:23, pos:"Centre-back",positions:["CB","RB","RWB","CDM","LB","LWB"],departed:true,  grp:"DEF", init:"TC",from:"Cobham academy",     fee:"Homegrown",        joinedY:"2021",age:26,mv:40,r:{"2021-22":74,"2022-23":73,"2023-24":72,"2024-25":76,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Trevor_Chalobah_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Axel Disasi",              num:2,  pos:"Centre-back",positions:["CB","RB","RWB","LB","LWB"],  grp:"DEF", init:"AX",from:"Monaco",             fee:"~£38m",       joinedY:"2023",age:28,mv:15,r:{"2023-24":74,"2024-25":76,"2025-26":77,"2026-27":null},
+  {n:"Axel Disasi",              num:2,  pos:"Centre-back",positions:["CB","RB","RWB","LB","LWB"],departed:true,  grp:"DEF", init:"AX",from:"Monaco",             fee:"~£38m",       joinedY:"2023",age:28,mv:15,r:{"2023-24":74,"2024-25":76,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b4/AxelDisasi_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:AxelDisasi_(cropped).jpg",photoBy:"Ksiamon",photoLic:"CC BY-SA 4.0"},
-  {n:"Benoit Badiashile",        num:5,  pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"BB",from:"Monaco",             fee:"~£33m",       joinedY:"2023",age:25,mv:15,r:{"2023-24":73,"2024-25":75,"2025-26":77,"2026-27":null},
+  {n:"Benoit Badiashile",        num:5,  pos:"Centre-back",positions:["CB"],departed:true,  grp:"DEF", init:"BB",from:"Monaco",             fee:"~£33m",       joinedY:"2023",age:25,mv:15,r:{"2023-24":73,"2024-25":75,"2025-26":77,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Beno%C3%AEt_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Benoît_Badiashile_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
   {n:"Aaron Anselmino",          num:null, pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"AA",from:"Boca Juniors",       fee:"~€23m",       joinedY:"2024",age:21,mv:10,r:{"2024-25":70,"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Aaron_Anselmino_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
-  {n:"Mamadou Sarr",             num:19, pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"MS",from:"Strasbourg",         fee:"~€9m",        joinedY:"2024",age:20,mv:22,r:{"2024-25":68,"2025-26":71,"2026-27":null},
+  {n:"Mamadou Sarr",             num:19, pos:"Centre-back",positions:["CB"],departed:true,  grp:"DEF", init:"MS",from:"Strasbourg",         fee:"~€9m",        joinedY:"2024",age:20,mv:22,r:{"2024-25":68,"2025-26":71,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sarr_asse_rcsa_2425.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Sarr_asse_rcsa_2425.jpg",photoBy:"Paté kroute",photoLic:"CC0 1.0"},
   {n:"Renato Veiga",             num:31, pos:"Centre-back",  grp:"DEF", init:"RV",from:"Basel",              fee:"~£12m",       joinedY:"2024",r:{"2024-25":73},
    photo:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Renato_Veiga_USMNT_v_Portugal_Mar_31_2026-20.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
   {n:"Jorrel Hato",              num:21, pos:"Left-back",positions:["LB","LWB","CB","RB","RWB"],    grp:"DEF", init:"JH",from:"Ajax",               fee:"undisclosed",      joinedY:"2025",age:20,mv:40,r:{"2025-26":72,"2026-27":null}},
+  /* 2026 window arrivals — squad numbers not yet confirmed. Fees left blank where
+     the club did not disclose one; Lacroix's was widely reported at £51m. */
+  {n:"Maxence Lacroix",          num:null, pos:"Centre-back",positions:["CB"],  grp:"DEF", init:"ML",from:"Crystal Palace",    fee:"£51m",             joinedY:"2026",age:26,mv:null,r:{"2026-27":null}},
+  {n:"Pep Chavarría",            num:null, pos:"Left-back",positions:["LB","LWB","LM"],    grp:"DEF", init:"PC",from:"Rayo Vallecano",   fee:"",                 joinedY:"2026",age:28,mv:null,r:{"2026-27":null}},
+  {n:"Valentín Barco",           num:null, pos:"Left-back",positions:["LB","LWB","LM","CDM","CM","CAM"],    grp:"DEF", init:"VB",from:"Strasbourg",       fee:"",                 joinedY:"2026",age:22,mv:null,r:{"2026-27":null}},
 
   /* ── Midfielders ── */
   {n:"Moíses Caicedo",      num:25, pos:"Defensive mid",positions:["CDM","CM","RB","LB"],grp:"MID", init:"MC",from:"Brighton",           fee:"~£115m",      joinedY:"2023",age:24,mv:100,r:{"2023-24":78,"2024-25":82,"2025-26":84,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/0/0e/Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Moises_Caicedo_Ecuador_v_Germany_25_June_2026-051_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Enzo Fernández",      num:8,  pos:"Central mid",positions:["CM","CDM","CAM"],  grp:"MID", init:"EF",from:"Benfica",            fee:"£106.8m",     joinedY:"2023",age:25,mv:90,r:{"2022-23":79,"2023-24":82,"2024-25":84,"2025-26":85,"2026-27":null},
+  {n:"Enzo Fernández",      num:8,  pos:"Central mid",positions:["CM","CDM","CAM"],departed:true,  grp:"MID", init:"EF",from:"Benfica",            fee:"£106.8m",     joinedY:"2023",age:25,mv:90,r:{"2022-23":79,"2023-24":82,"2024-25":84,"2025-26":85,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",
    embed:{type:"twitter",url:"https://twitter.com/ChelseaFC/status/REPLACE_ENZO_TWEET_ID",example:true}},
   {n:"Cole Palmer",              num:10, pos:"Attacking mid",positions:["CAM","RW","CM","RM","LW","LM"],grp:"MID", init:"CP",from:"Manchester City",    fee:"~£40m",       joinedY:"2023",age:24,mv:100,r:{"2023-24":86,"2024-25":88,"2025-26":89,"2026-27":null},
@@ -1905,8 +2368,9 @@ var squad=[
    photo:"https://upload.wikimedia.org/wikipedia/commons/f/fb/Rom%C3%A9o_Lavia_20042025_(1)_cropped.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Roméo_Lavia_20042025_(1)_cropped.jpg",photoBy:"Timmy96",photoLic:"CC0 1.0"},
   {n:"Kiernan Dewsbury-Hall",    num:22, pos:"Central mid",  grp:"MID", init:"KD",from:"Leicester City",     fee:"~£30m",       joinedY:"2024",r:{"2024-25":76},
    photo:"https://upload.wikimedia.org/wikipedia/commons/7/77/Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Kiernan_Dewsbury-Hall_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House (Daniel Torok)",photoLic:"Public domain"},
-  {n:"Dario Essugo",             num:14, pos:"Central mid",positions:["CM","CDM"],  grp:"MID", init:"DE",from:"Sporting CP",        fee:"~€15m",       joinedY:"2024",age:21,mv:15,r:{"2024-25":70,"2025-26":73,"2026-27":null},
+  {n:"Dario Essugo",             num:14, pos:"Central mid",positions:["CM","CDM"],departed:true,  grp:"MID", init:"DE",from:"Sporting CP",        fee:"~€15m",       joinedY:"2024",age:21,mv:15,r:{"2024-25":70,"2025-26":73,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/8/8f/Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dario_Essugo_Chelsea_AC_Milan_warm_up.jpg",photoBy:"Oscar0123",photoLic:"CC BY 4.0"},
+  {n:"Jordan Henderson",         num:null, pos:"Central mid",positions:["CM","CDM"],  grp:"MID", init:"JH",from:"Brentford",         fee:"Free",        joinedY:"2026",age:36,mv:null,r:{"2026-27":null}},
   {n:"Marco Palestra",           num:null, pos:"Right-back",positions:["RB","RWB","RM","LB","LWB","LM","RW","LW"],  grp:"DEF", init:"MP",from:"Atalanta",           fee:"~£43m",        joinedY:"2026",age:21,mv:35,r:{"2026-27":null}},
 
   /* ── Forwards ── */
@@ -1915,17 +2379,18 @@ var squad=[
   {n:"Noni Madueke",             num:null, pos:"Winger",       grp:"FWD", init:"NM",from:"PSV Eindhoven",      fee:"~£29m",       joinedY:"2023",r:{"2023-24":73,"2024-25":77},
    photo:"https://upload.wikimedia.org/wikipedia/commons/e/ed/Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Team_England_England_v_Ghana_at_2026_Fifa_World_Cup_by_YantsImages_03_(Noni_Madueke)_(cropped).jpg",photoBy:"YantsImages / Asatur Yesayants",photoLic:"CC BY-SA 4.0"},
   {n:"Jamie Gittens",            num:11, pos:"Winger",positions:["LW","RW","RM","LM"],       grp:"FWD", init:"JG",from:"Borussia Dortmund",  fee:"~£55m",       joinedY:"2025",age:21,mv:30,r:{"2025-26":81,"2026-27":null}},
+  {n:"Danny Welbeck",            num:null, pos:"Striker",positions:["ST","LW","RW","CAM"],      grp:"FWD", init:"DW",from:"Brighton",           fee:"",            joinedY:"2026",age:35,mv:null,r:{"2026-27":null}},
   {n:"Estêvão Willian",num:41, pos:"Forward",positions:["RW","LW","CAM","RM","LM"],      grp:"FWD", init:"EW",from:"Palmeiras",          fee:"£29m+add-ons",joinedY:"2025",age:19,mv:80,r:{"2025-26":80,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/b/b3/Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Estevao-Palmeiras-Liverpool-abr24_(cropped).jpg",photoBy:"Sepguilherme",photoLic:"CC BY-SA 4.0"},
   {n:"Alejandro Garnacho",       num:49, pos:"Winger",positions:["LW","RW","RM","LM"],departed:true,       grp:"FWD", init:"AG",from:"Manchester United",  fee:"~£40m",       joinedY:"2025",age:21,mv:28,r:{"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Alejandro_Garnacho_7_August_2022_(cropped).jpg",photoBy:"Ardfern",photoLic:"CC BY-SA 4.0"},
   {n:"João Pedro",          num:20, pos:"Forward",positions:["ST","CAM"],      grp:"FWD", init:"JP",from:"Brighton",           fee:"~£60m",       joinedY:"2025",age:24,mv:80,r:{"2025-26":87,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/1/1d/Jo%C3%A3o_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:João_Pedro,_2025_FIFA_Club_World_Cup_final_(54654843615).jpg",photoBy:"Mikaela McGee (DHS)",photoLic:"Public domain"},
-  {n:"Liam Delap",               num:9,  pos:"Striker",positions:["ST"],      grp:"FWD", init:"LD",from:"Ipswich Town",       fee:"~£30m",       joinedY:"2025",age:23,mv:28,r:{"2025-26":74,"2026-27":null},
+  {n:"Liam Delap",               num:9,  pos:"Striker",positions:["ST"],departed:true,      grp:"FWD", init:"LD",from:"Ipswich Town",       fee:"~£30m",       joinedY:"2025",age:23,mv:28,r:{"2025-26":74,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/6/66/Liam_Delap_in_2025.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Liam_Delap_in_2025.jpg",photoBy:"Daniel Torok / The White House",photoLic:"Public domain"},
-  {n:"Nicolas Jackson",          num:15, pos:"Striker",positions:["ST","LW","RW","RM","LM"],      grp:"FWD", init:"NJ",from:"Villarreal",         fee:"~£30m",       joinedY:"2023",age:25,mv:40,r:{"2023-24":74,"2024-25":76,"2025-26":75,"2026-27":null},
+  {n:"Nicolas Jackson",          num:15, pos:"Striker",positions:["ST","LW","RW","RM","LM"],departed:true,      grp:"FWD", init:"NJ",from:"Villarreal",         fee:"~£30m",       joinedY:"2023",age:25,mv:40,r:{"2023-24":74,"2024-25":76,"2025-26":75,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/3/35/Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Nicolas_Jackson_France_v_Senegal_16_June_2026-369_(cropped).jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
-  {n:"Marc Guiu",                num:38, pos:"Striker",positions:["ST"],      grp:"FWD", init:"MG",from:"Barcelona",          fee:"~€5m",        joinedY:"2024",age:20,mv:12,r:{"2024-25":69,"2025-26":72,"2026-27":null},
+  {n:"Marc Guiu",                num:38, pos:"Striker",positions:["ST"],departed:true,      grp:"FWD", init:"MG",from:"Barcelona",          fee:"~€5m",        joinedY:"2024",age:20,mv:12,r:{"2024-25":69,"2025-26":72,"2026-27":null},
    photo:"https://upload.wikimedia.org/wikipedia/commons/5/53/Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Marc_Guiu_FIFA_Club_World_Cup_final_extraction.jpg",photoBy:"The White House",photoLic:"Public domain"},
   {n:"Emmanuel Emegha",          num:null, pos:"Striker",positions:["ST"],      grp:"FWD", init:"EE",from:"RC Strasbourg",      fee:"~£22m",        joinedY:"2026",age:23,mv:25,r:{"2026-27":null}},
   {n:"Geovany Quenda",           num:null, pos:"Winger",positions:["RW","RWB","LW","LWB","RM","LM"],       grp:"FWD", init:"GQ",from:"Sporting CP",        fee:"£40m",         joinedY:"2026",age:19,mv:42,r:{"2026-27":null}},
@@ -1933,7 +2398,7 @@ var squad=[
    photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"},
 
   /* ── Historical squad members (appear in earlier seasons) ── */
-  {n:"Marc Cucurella",           num:3,  pos:"Left-back",    grp:"DEF", init:"MU",from:"Brighton",           fee:"~£60m",       joinedY:"2022",r:{"2022-23":70,"2023-24":74,"2024-25":80},
+  {n:"Marc Cucurella",           num:3,  pos:"Left-back",departed:true,    grp:"DEF", init:"MU",from:"Brighton",           fee:"~£60m",       joinedY:"2022",r:{"2022-23":70,"2023-24":74,"2024-25":80},
    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c7/Marc_Cucurella_%28cropped%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Marc_Cucurella_(cropped).jpg",photoBy:"Soccer.ru",photoLic:"CC BY-SA 3.0"},
   {n:"Ben Chilwell",             num:21, pos:"Left-back",    grp:"DEF", init:"BC",from:"Leicester City",     fee:"~£45m",       joinedY:"2020",r:{"2020-21":79,"2021-22":78,"2022-23":74,"2023-24":73},
    photo:"https://upload.wikimedia.org/wikipedia/commons/1/1a/Ben_Chilwell_2020.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Ben_Chilwell_2020.jpg",photoBy:"Dmitry Pukalik",photoLic:"CC BY-SA 3.0"},
@@ -1971,11 +2436,11 @@ var rumouredPlayers=[
   {n:"Bruno Guimarães",    pos:"Central mid",   positions:["CM","CDM","CAM"],                 club:"Newcastle",       rumoured:true},
   {n:"Adam Wharton",       pos:"Defensive mid", positions:["CDM","CM"],                       club:"Crystal Palace",  rumoured:true},
   {n:"Carlos Baleba",      pos:"Defensive mid", positions:["CDM","CM"],                       club:"Brighton",        rumoured:true},
-  {n:"Maxence Lacroix",    pos:"Centre-back",   positions:["CB"],                             club:"Crystal Palace",  rumoured:true},
   {n:"Jacobo Ramón",       pos:"Centre-back",   positions:["CB"],                             club:"Real Madrid",     rumoured:true},
-  {n:"Kerim Alajbegović",  pos:"Winger",        positions:["LW","LF","CAM","LM","RM","RW","RF"],             club:"Bayer Leverkusen",rumoured:true},
-  {n:"Valentín Barco",     pos:"Left-back",     positions:["LB","LWB","LM","CDM","CM","CAM","RB","RWB","RM","LW","RW"], club:"Strasbourg",      rumoured:true}
+  {n:"Kerim Alajbegović",  pos:"Winger",        positions:["LW","LF","CAM","LM","RM","RW","RF"],             club:"Bayer Leverkusen",rumoured:true}
 ];
+/* Maxence Lacroix and Valentín Barco were removed from this pool on 17 Sep 2026:
+   both signed, so they now live in `squad` and must not appear as unsigned links. */
 
 /* ── Season bar ── */
 var sbEl=document.getElementById('seasonBar');
