@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The Chelsea Zone — Chelsea FC News, Transfers & Rumours</title>
-<meta name="description" content="The Chelsea Zone is a Chelsea FC fan site covering the latest squad news, transfers and rumours, with fixtures and player profiles all in one place.">
+<meta name="description" content="The Chelsea Zone, founded by Ishaan Haider in 2025, is a Chelsea FC fan site covering the latest squad news, transfers and rumours, with fixtures and player profiles all in one place.">
 <link rel="canonical" href="https://thechelseazone.com/">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 116'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0.8' y2='1'%3E%3Cstop offset='0%25' stop-color='%23034694'/%3E%3Cstop offset='100%25' stop-color='%23012c5e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50,4 C66,4 80,8 88,14 L88,52 C88,82 72,100 50,112 C28,100 12,82 12,52 L12,14 C20,8 34,4 50,4 Z' fill='url(%23g)'/%3E%3Ctext x='50' y='74' text-anchor='middle' font-family='Georgia, serif' font-weight='800' font-size='48' letter-spacing='-3' fill='%23fff'%3ECZ%3C/text%3E%3C/svg%3E" />
 <style>
@@ -243,6 +243,13 @@
   .discuss-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); flex-wrap: wrap; margin-bottom: var(--space-16); }
   .cat-select { font-size: var(--text-xs); font-weight: 600; padding: var(--space-8) var(--space-12); border: var(--hairline); background: var(--surface); color: var(--gray-700); border-radius: var(--radius); cursor: pointer; font-family: var(--sans); }
   .comment-box .cat-select { max-width: 160px; }
+  footer .founded { font-size: var(--text-sm); color: var(--gray-700); margin-bottom: var(--space-8); }
+  footer .founded strong { color: var(--accent); }
+  .rum-outcome { display: block; margin-top: var(--space-8); font-size: var(--text-sm); color: var(--gray-700); }
+  .rum-outcome strong { color: var(--accent); }
+  .rum-outcome-link { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .rel-note-closed { border-left: 2px solid var(--accent); }
+  .fixture-row .fx-note { display: block; font-size: var(--text-2xs); color: var(--gray-500); font-weight: 500; margin-top: 2px; }
 
   /* Reset banner — the comments table is wiped on a 14-day cycle, so the panel
      says up front when the slate is next cleared. */
@@ -538,14 +545,7 @@
   <div class="page active" id="page-home">
     <div class="grid">
       <div class="main">
-        <div class="hero-story" onclick="goArticle(HERO_SLUG)">
-          <div class="hero-body">
-            <span class="hero-badge">&#9889; Next up</span>
-            <h1>Chelsea at Brentford on Friday night, with a lead to protect</h1>
-            <p>Chelsea travel to the Gtech Community Stadium on Friday 18 September for an 8pm kick-off. They have scored 18 goals in six games in all competitions &mdash; the problem has been what happens next, with leads repeatedly surrendered soon after they are taken.</p>
-            <div class="hero-meta"><span>Summarised from <span class="src">Chelsea FC</span></span><span>&middot;</span><span>17 Sep 2026</span></div>
-          </div>
-        </div>
+        <div id="hero-story"></div>
         <div class="section-head"><div class="bar"></div><h2>Latest news</h2><span class="more" onclick="go('news')">View all &rarr;</span></div>
         <div class="news-grid" id="news-grid"></div>
         <div class="section-head spaced"><div class="bar"></div><h2>Rumour mill</h2><span class="more" onclick="go('rumours')">All rumours &rarr;</span></div>
@@ -597,7 +597,8 @@
   </div>
   <div class="page" id="page-rumours">
     <div class="page-title">Rumour mill</div>
-    <div class="page-sub">Every live rumour, rated by source reliability and how likely we think it is to happen.</div>
+    <div class="page-sub">Every rumour we tracked, rated by source reliability and how likely we thought it was to happen &mdash; each one now carries what actually happened.</div>
+    <div class="rel-note rel-note-closed"><strong>Summer 2026 window closed on 1 September.</strong> Every rumour below has now resolved, and the outcome is noted on each card. The January window opens on 1 January 2027.</div>
     <div class="rel-note"><strong>How to read this:</strong> &#9733; stars rate how reliable the <strong>reporting source</strong> is on Chelsea deals (track record, not the story). The <strong>likelihood</strong> bar is our read on how probable the move actually is &mdash; a trusted source can still report a deal that falls through.</div>
     <div id="rumour-full"></div>
   </div>
@@ -672,6 +673,7 @@
   </div>
 </div>
 <footer>
+  <div class="founded">Founded by <strong>Ishaan Haider</strong> in 2025.</div>
   <div class="disc"><strong>The Chelsea Zone</strong> is an independent fan site, not affiliated with Chelsea Football Club. News is summarised in our own words with links to the original reporting.</div>
 </footer>
 
@@ -824,8 +826,14 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 /* ── Ticker ── */
-var tickerItems=["Brentford away on Friday, 8pm at the Gtech","Chelsea 2-2 Hull City - fourth, seven points from four","Alonso: ‘I hope one day you appreciate a boring game and we win’","Arsenal 2-1 Chelsea - Rogers scores but Arsenal turn it around","Enzo Fernández joins Manchester City as the window shuts","Nine senior signings in, Jackson, Delap and Adarabioyo out","João Pedro signs new deal to 2034 after a 20-goal season","Emiliano Martínez arrives from Aston Villa","International break runs 21 Sep to 6 Oct","Carabao Cup fourth round: Liverpool vs Chelsea"];
-document.getElementById('ticker-track').innerHTML=tickerItems.concat(tickerItems).map(function(t){return '<span>'+t+'</span>';}).join('');
+/* The ticker and the home hero are both generated from the top of the news
+   array, so neither can drift out of date when a newer story is added.
+   Both are populated below, once `news` has actually been defined. */
+function renderTicker(){
+  var items=news.slice(0,10).map(function(n){ return n.h; });
+  document.getElementById('ticker-track').innerHTML=items.concat(items)
+    .map(function(t){ return '<span>'+escapeHtml(t)+'</span>'; }).join('');
+}
 
 /* ════════════════════════════════════════════
    SOCIAL EMBED SYSTEM
@@ -972,10 +980,6 @@ function articleTweetHTML(block){
 }
 
 /* ── News ── */
-/* The home hero is hand-written markup, so it names the article it leads
-   with rather than tracking news[0] — adding a newer item must not leave
-   the hero copy pointing at a different story. */
-var HERO_SLUG='chelsea-at-brentford-on-friday-night-with-a-lead-to-protect';
 var news=[
   {
     cat:"News",cc:"",init:"LI",
@@ -983,7 +987,11 @@ var news=[
     p:"With Palmer serving his suspension, Rogers scored a 40th-minute penalty after Ryan Gravenberch fouled Moisés Caicedo. Three minutes later, Wesley Fofana handled from a corner and Cody Gakpo equalised from the spot. Maxence Lacroix limped off before half-time.",
     src:"Sky Sports",when:"28 Oct",
     url:"https://www.skysports.com/football/liverpool-vs-chelsea/6248478194645946232",
-    slug:"liverpool-1-1-chelsea-carabao-cup",
+    slug:"liverpool-1-1-chelsea-carabao-cup",date:"2026-10-28",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Paisley_Gateway%2C_Anfield.jpg/1920px-Paisley_Gateway%2C_Anfield.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Paisley_Gateway,_Anfield.jpg",
+    photoBy:"Rodhullandemu",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Anfield, where Chelsea went out of the Carabao Cup on penalties.",
+    photoAttribution:true,photoPos:"center 40%",heroPosition:"center 40%",
     body:[
       {type:"paragraph",text:"With Palmer serving his suspension, Rogers scored a 40th-minute penalty after Ryan Gravenberch fouled Moisés Caicedo. Three minutes later, Wesley Fofana handled from a corner and Cody Gakpo equalised from the spot. Maxence Lacroix limped off before half-time."},
       {type:"paragraph",text:"In the shootout, Barco hit the post and Penders saved from Gravenberch. Debutant Emmanuel Emegha was then denied by Giorgi Mamardashvili, and Fofana sent the decisive kick over the bar. Alonso said the focus now turns to the league, starting with Manchester United on 31 October."}
@@ -995,7 +1003,11 @@ var news=[
     p:"João Pedro was ruled out after feeling something in training the day before. Rogers led the line, and Geovany Quenda made his first Premier League start.",
     src:"Chelsea FC · The Analyst",when:"24 Oct",
     url:"https://www.chelseafc.com/en/news/article/match-report-chelsea-0-2-tottenham-hotspur",
-    slug:"chelsea-0-2-tottenham",
+    slug:"chelsea-0-2-tottenham",date:"2026-10-24",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Mike_Penders_Belgium_v_USA_6_July_2026-155.jpg/1920px-Mike_Penders_Belgium_v_USA_6_July_2026-155.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Mike_Penders_Belgium_v_USA_6_July_2026-155.jpg",
+    photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Mike Penders, who turned a corner into his own net, pictured on international duty with Belgium.",
+    photoAttribution:true,photoPos:"center 15%",heroPosition:"center 15%",
     body:[
       {type:"paragraph",text:"João Pedro was ruled out after feeling something in training the day before. Rogers led the line, and Geovany Quenda made his first Premier League start."},
       {type:"paragraph",text:"Mike Penders punched a 77th-minute corner into his own net. Three minutes later, Palmer was sent off for a second yellow card for a stamp on Conor Gallagher. Mathys Tel then scored a solo goal to seal Tottenham's first win at Stamford Bridge since 2018."},
@@ -1008,7 +1020,11 @@ var news=[
     p:"Pedro Neto scored 43 seconds after half-time and again in the 90th minute. The win ended Everton's unbeaten start and gave Chelsea their first league clean sheet of the season.",
     src:"ESPN · Chelsea FC",when:"17 Oct",
     url:"https://www.espn.com/soccer/story/_/id/50200995/emi-martinez-hospital-head-injury-chelsea-everton-premier-league",
-    slug:"everton-0-2-chelsea",
+    slug:"everton-0-2-chelsea",date:"2026-10-17",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Pedro_Neto%2C_Wolves_and_West_Ham_%2851908024381%29.jpg/1920px-Pedro_Neto%2C_Wolves_and_West_Ham_%2851908024381%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Pedro_Neto,_Wolves_and_West_Ham_(51908024381).jpg",
+    photoBy:"Bex Walton",photoLic:"CC BY 2.0",photoLicUrl:"https://creativecommons.org/licenses/by/2.0",
+    photoCaption:"Pedro Neto, who scored both goals at Goodison Park, pictured in an earlier appearance.",
+    photoAttribution:true,photoPos:"center 35%",heroPosition:"center 35%",
     body:[
       {type:"paragraph",text:"Pedro Neto scored 43 seconds after half-time and again in the 90th minute. The win ended Everton's unbeaten start and gave Chelsea their first league clean sheet of the season."},
       {type:"heading",text:"Martínez injury"},
@@ -1021,7 +1037,11 @@ var news=[
     p:"Captain Reece James had what the club called minor knee surgery after an injury in training before the Bournemouth game.",
     src:"Flashscore",when:"16 Oct",
     url:"https://www.flashscore.com/news/soccer-premier-league-chelsea-confirm-captain-reece-james-undergoes-knee-surgery/fwShQXbn/",
-    slug:"reece-james-knee-surgery",
+    slug:"reece-james-knee-surgery",date:"2026-10-16",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg",
+    photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Reece James, out for several weeks after knee surgery, pictured on international duty with England.",
+    photoAttribution:true,photoPos:"center 18%",heroPosition:"center 18%",
     body:[
       {type:"paragraph",text:"Captain Reece James had what the club called minor knee surgery after an injury in training before the Bournemouth game."},
       {type:"paragraph",text:"Alonso said James will be out for several weeks and gave no exact timeline. British media reported a layoff of around three months."}
@@ -1033,7 +1053,11 @@ var news=[
     p:"Jordan Henderson scored inside the first two minutes, his first goal for Chelsea, and then set up Morgan Rogers. Rogers' shot deflected in off Antonio Silva.",
     src:"The Analyst",when:"10 Oct",
     url:"https://theanalyst.com/articles/chelsea-vs-bournemouth-stats-jordan-henderson-premier-league-10-2026",
-    slug:"chelsea-5-1-bournemouth",
+    slug:"chelsea-5-1-bournemouth",date:"2026-10-10",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Jordan_Henderson_2022.jpg/1920px-Jordan_Henderson_2022.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Jordan_Henderson_2022.jpg",
+    photoBy:"Steffen Prößdorf",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Jordan Henderson, who scored twice against Bournemouth, pictured in 2022.",
+    photoAttribution:true,photoPos:"center 18%",heroPosition:"center 18%",
     body:[
       {type:"paragraph",text:"Jordan Henderson scored inside the first two minutes, his first goal for Chelsea, and then set up Morgan Rogers. Rogers' shot deflected in off Antonio Silva."},
       {type:"paragraph",text:"João Pedro, back from his knee injury, scored twice either side of an Evanilson goal. Henderson finished the scoring with a curled free-kick in the 70th minute."},
@@ -1046,7 +1070,11 @@ var news=[
     p:"Cole Palmer extended his contract by a year, to 2034, on improved terms. He had 91 goal contributions in 138 Chelsea appearances at the time of signing.",
     src:"Chelsea FC",when:"10 Oct",
     url:"https://www.chelseafc.com/en/news/article/cole-palmer-signs-new-chelsea-contract-2034",
-    slug:"cole-palmer-contract-2034",
+    slug:"cole-palmer-contract-2034",date:"2026-10-10",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Cole_Palmer_dribbling_vs_Southampton_crowd_view.jpg/1920px-Cole_Palmer_dribbling_vs_Southampton_crowd_view.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cole_Palmer_dribbling_vs_Southampton_crowd_view.jpg",
+    photoBy:"Ollie Noori",photoLic:"CC0 1.0",photoLicUrl:"https://creativecommons.org/publicdomain/zero/1.0/",
+    photoCaption:"Cole Palmer, now contracted to Chelsea until 2034, pictured in an earlier appearance.",
+    photoAttribution:true,photoPos:"center 25%",heroPosition:"center 25%",
     body:[
       {type:"paragraph",text:"Cole Palmer extended his contract by a year, to 2034, on improved terms. He had 91 goal contributions in 138 Chelsea appearances at the time of signing."},
       {type:"paragraph",text:"Palmer said Chelsea means a lot to him and that the club is heading in the right direction."}
@@ -1058,7 +1086,11 @@ var news=[
     p:"Jaidon Anthony, Igor Thiago and Fábio Carvalho scored as Brentford beat Chelsea 3-0. João Pedro (knee) and Reece James missed the game.",
     src:"ESPN",when:"18 Sep",
     url:"https://www.espn.com/soccer/team/results/_/id/363/league/ENG.1",
-    slug:"brentford-3-0-chelsea",
+    slug:"brentford-3-0-chelsea",date:"2026-09-18",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Brentford_Community_Stadium_2020.jpg/1920px-Brentford_Community_Stadium_2020.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Brentford_Community_Stadium_2020.jpg",
+    photoBy:"AndyScott",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"The Gtech Community Stadium, where Chelsea lost 3-0 to Brentford.",
+    photoAttribution:true,photoPos:"center 50%",heroPosition:"center 50%",
     body:[
       {type:"paragraph",text:"Jaidon Anthony, Igor Thiago and Fábio Carvalho scored as Brentford beat Chelsea 3-0. João Pedro (knee) and Reece James missed the game."},
       {type:"paragraph",text:"This was Chelsea's last match before a three-week international break, which merged the September and October windows. João Pedro withdrew from the Brazil squad. Cole Palmer missed England duty, and Thomas Tuchel publicly criticised his absences."}
@@ -1096,7 +1128,11 @@ var news=[
     p:"Clearlake Capital has taken full control of Chelsea after acquiring the ownership stakes of Todd Boehly and Mark Walter. Boehly stepped down as chairman after four years, and Hansjörg Wyss remains a stakeholder.",
     src:"Yahoo Sports",when:"16 Sep",
     url:"https://sports.yahoo.com/articles/todd-boehly-leaves-chelsea-clearlake-225500046.html",
-    slug:"todd-boehly-steps-down",
+    slug:"todd-boehly-steps-down",date:"2026-09-16",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Todd_Boehly_at_2026_SXSW_London_03.jpg/1920px-Todd_Boehly_at_2026_SXSW_London_03.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Todd_Boehly_at_2026_SXSW_London_03.jpg",
+    photoBy:"DavidPMaynard",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Todd Boehly, who has stepped down as Chelsea chairman, pictured at SXSW London in 2026.",
+    photoAttribution:true,photoPos:"center 30%",heroPosition:"center 30%",
     body:[
       {type:"paragraph",text:"Clearlake Capital has taken full control of Chelsea after acquiring the ownership stakes of Todd Boehly and Mark Walter. Boehly stepped down as chairman after four years, and Hansjörg Wyss remains a stakeholder."},
       {type:"paragraph",text:"The club said there would be no changes to day-to-day operations, leadership or strategy. Clearlake co-founders Behdad Eghbali and José E. Feliciano thanked Boehly for his time as chairman."}
@@ -1121,7 +1157,11 @@ var news=[
     p:"Rogers gave Chelsea a 7th-minute lead. Hull's Mohamed Belloumi then scored twice before half-time, and João Pedro equalised in the 66th minute.",
     src:"ESPN",when:"12 Sep",
     url:"https://www.espn.com/soccer/team/results/_/id/363/league/ENG.1",
-    slug:"chelsea-2-2-hull",
+    slug:"chelsea-2-2-hull",date:"2026-09-12",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Chelsea_Football_Club%2C_Stamford_Bridge_07.jpg/1920px-Chelsea_Football_Club%2C_Stamford_Bridge_07.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Chelsea_Football_Club,_Stamford_Bridge_07.jpg",
+    photoBy:"Ank kumar",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Stamford Bridge, where Chelsea dropped two points against Hull City.",
+    photoAttribution:true,photoPos:"center 50%",heroPosition:"center 50%",
     body:[
       {type:"paragraph",text:"Rogers gave Chelsea a 7th-minute lead. Hull's Mohamed Belloumi then scored twice before half-time, and João Pedro equalised in the 66th minute."},
       {type:"paragraph",text:"João Pedro played the full 90 minutes, but reports later said he had sprained knee ligaments in the match."}
@@ -1133,7 +1173,11 @@ var news=[
     p:"Pedro Neto signed a new six-year contract, running to 2032. João Pedro signed his own extension to 2034 in August.",
     src:"Chelsea FC",when:"11 Sep",
     url:"https://www.chelseafc.com/en/news/article/pedro-neto-signs-new-chelsea-contract",
-    slug:"pedro-neto-new-contract",
+    slug:"pedro-neto-new-contract",date:"2026-09-11",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Pedro_Neto_Croatia_v_Portugal_2_July_2026-001.jpg/1920px-Pedro_Neto_Croatia_v_Portugal_2_July_2026-001.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Pedro_Neto_Croatia_v_Portugal_2_July_2026-001.jpg",
+    photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Pedro Neto, now contracted to Chelsea until 2032, pictured on international duty with Portugal.",
+    photoAttribution:true,photoPos:"center 15%",heroPosition:"center 15%",
     body:[
       {type:"paragraph",text:"Pedro Neto signed a new six-year contract, running to 2032. João Pedro signed his own extension to 2034 in August."}
     ]
@@ -1144,7 +1188,11 @@ var news=[
     p:"Leeds led 2-0 early in the second half of this Carabao Cup third-round tie. Alonso then brought on Palmer, Rogers, Neto and Reece James at the break, and the game turned.",
     src:"Sky Sports",when:"9 Sep",
     url:"https://www.skysports.com/football/chelsea-vs-leeds-united/report/577586",
-    slug:"chelsea-6-3-leeds-carabao-cup",
+    slug:"chelsea-6-3-leeds-carabao-cup",date:"2026-09-09",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/f/fe/Cole_Palmer_20042025_%281%29.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cole_Palmer_20042025_(1).jpg",
+    photoBy:"Timmy96",photoLic:"CC0 1.0",photoLicUrl:"https://creativecommons.org/publicdomain/zero/1.0/",
+    photoCaption:"Cole Palmer, who scored twice off the bench against Leeds, pictured in an earlier appearance.",
+    photoAttribution:true,photoPos:"center 20%",heroPosition:"center 20%",
     body:[
       {type:"paragraph",text:"Leeds led 2-0 early in the second half of this Carabao Cup third-round tie. Alonso then brought on Palmer, Rogers, Neto and Reece James at the break, and the game turned."},
       {type:"paragraph",text:"Palmer scored twice, one from the penalty spot. Neto, Valentín Barco and Danny Welbeck, with two goals, added the rest. Rogers set up three goals off the bench. Dominic Calvert-Lewin scored Leeds' third."}
@@ -1168,7 +1216,11 @@ var news=[
     p:"Morgan Rogers volleyed Chelsea ahead after 77 seconds at the Emirates. That made him the first Chelsea player since Eden Hazard in 2018-19 to score or assist in each of the club's first three league games of a season.",
     src:"ESPN",when:"6 Sep",
     url:"https://www.espn.com/soccer/match/_/gameId/401879292/chelsea-arsenal",
-    slug:"arsenal-2-1-chelsea",
+    slug:"arsenal-2-1-chelsea",date:"2026-09-06",
+    photo:"images/players/morgan-rogers.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Panama_27_June_26-144.jpg",
+    photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Morgan Rogers, who opened the scoring at the Emirates, pictured on international duty with England.",
+    photoAttribution:true,photoPos:"center 22%",heroPosition:"center 22%",
     body:[
       {type:"paragraph",text:"Morgan Rogers volleyed Chelsea ahead after 77 seconds at the Emirates. That made him the first Chelsea player since Eden Hazard in 2018-19 to score or assist in each of the club's first three league games of a season."},
       {type:"paragraph",text:"Kai Havertz equalised against his former club after 25 minutes. Martin Ødegaard scored the winner in the 50th minute after a Havertz dummy. It was Chelsea's first league defeat under Alonso."}
@@ -1198,7 +1250,11 @@ var news=[
     p:"Enzo Fernández joined Manchester City for £125m, a joint-British record fee, in the biggest move of deadline day.",
     src:"BBC Sport · Football365",when:"1 Sep",
     url:"https://www.bbc.com/sport/football/articles/cr7deg1ze03o",
-    slug:"deadline-day-enzo-fernandez-man-city",
+    slug:"deadline-day-enzo-fernandez-man-city",date:"2026-09-01",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Enzo_Fernandez_Argentina_v_Egypt_7_July_2026-127.jpg",
+    photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Enzo Fernández, now a Manchester City player, pictured on international duty with Argentina.",
+    photoAttribution:true,photoPos:"center 18%",heroPosition:"center 18%",
     body:[
       {type:"paragraph",text:"Enzo Fernández joined Manchester City for £125m, a joint-British record fee, in the biggest move of deadline day."},
       {type:"heading",text:"Other business"},
@@ -1213,7 +1269,11 @@ var news=[
     p:"Chelsea made it two league wins from two under Xabi Alonso with a 4-3 win over Brighton at Stamford Bridge. Roméo Lavia, Pedro Neto, João Pedro and Cole Palmer scored.",
     src:"VAVEL",when:"30 Aug",
     url:"https://www.vavel.com/en/football/2026/08/31/brighton-hove-albion/1269722-chelsea-4-3-brighton-hove-albion-brighton-player-ratings.html",
-    slug:"chelsea-4-3-brighton",
+    slug:"chelsea-4-3-brighton",date:"2026-08-30",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Joao_Pedro.jpg/1920px-Joao_Pedro.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Joao_Pedro.jpg",
+    photoBy:"Jimmy Baikovicius",photoLic:"CC BY-SA 2.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/2.0",
+    photoCaption:"João Pedro, one of the four Chelsea scorers against Brighton, pictured in an earlier appearance.",
+    photoAttribution:true,photoPos:"center 20%",heroPosition:"center 20%",
     body:[
       {type:"paragraph",text:"Chelsea made it two league wins from two under Xabi Alonso with a 4-3 win over Brighton at Stamford Bridge. Roméo Lavia, Pedro Neto, João Pedro and Cole Palmer scored."},
       {type:"paragraph",text:"The win followed a 3-2 opening-day victory at Fulham. João Pedro was later named Premier League Player of the Month for August."}
@@ -1225,7 +1285,11 @@ var news=[
     p:"Chelsea signed World Cup-winning goalkeeper Emiliano Martínez from Aston Villa for £7.5m, on a contract running to 2029.",
     src:"Chelsea FC",when:"30 Aug",
     url:"https://www.chelseafc.com/en/news/article/emiliano-martinez-signs-for-chelsea",
-    slug:"emiliano-martinez-signs",
+    slug:"emiliano-martinez-signs",date:"2026-08-30",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/9/93/Dibu_Mart%C3%ADnez_-_ARG_v_CAN_-_2024-07-09.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Dibu_Mart%C3%ADnez_-_ARG_v_CAN_-_2024-07-09.jpg",
+    photoBy:"Sebas",photoLic:"CC BY 3.0",photoLicUrl:"https://creativecommons.org/licenses/by/3.0",
+    photoCaption:"Emiliano Martínez, Chelsea's new goalkeeper, pictured on international duty with Argentina in 2024.",
+    photoAttribution:true,photoPos:"center 30%",heroPosition:"center 30%",
     body:[
       {type:"paragraph",text:"Chelsea signed World Cup-winning goalkeeper Emiliano Martínez from Aston Villa for £7.5m, on a contract running to 2029."},
       {type:"paragraph",text:"Martínez takes the No.1 role. Robert Sánchez left on loan before the deadline, and 21-year-old Mike Penders is the long-term understudy."}
@@ -1275,7 +1339,11 @@ var news=[
     p:"Chelsea sold Nicolas Jackson to Aston Villa for an initial £47.5m, with up to £17.5m more in add-ons. The sale followed Morgan Rogers' club-record arrival from Villa and Liam Delap's £45m move to Nottingham Forest a day earlier.",
     src:"Chelsea FC",when:"28 Aug",
     url:"https://www.chelseafc.com/en/news/article/nicolas-jackson-departs-chelsea-on-permanent-transfer",
-    slug:"nicolas-jackson-joins-aston-villa",
+    slug:"nicolas-jackson-joins-aston-villa",date:"2026-08-28",
+    photo:"images/players/nicolas-jackson-369.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Nicolas_Jackson_France_v_Senegal_16_June_2026-369.jpg",
+    photoBy:"Bryan Berlin",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Nicolas Jackson, who has left Chelsea for Aston Villa, pictured on international duty with Senegal.",
+    photoAttribution:true,photoPos:"center 18%",heroPosition:"center 18%",
     body:[
       {type:"paragraph",text:"Chelsea sold Nicolas Jackson to Aston Villa for an initial £47.5m, with up to £17.5m more in add-ons. The sale followed Morgan Rogers' club-record arrival from Villa and Liam Delap's £45m move to Nottingham Forest a day earlier."},
       {type:"paragraph",text:"On the same day, Mamadou Sarr joined Real Sociedad on loan and Caleb Wiley joined Preston North End on loan."}
@@ -1677,8 +1745,32 @@ function clampNewsCards(){
   });
 }
 window.addEventListener('load',clampNewsCards);
-/* Four newest stories, minus whichever one the hero is already showing. */
-document.getElementById('news-grid').innerHTML=news.filter(function(n){ return n.slug!==HERO_SLUG; }).slice(0,4).map(cardHTML).join('');
+/* ── Home hero ──
+   Always the newest story in the array. It used to be hand-written markup
+   that had to be rewritten by hand for every new lead, which is exactly how
+   it ended up six weeks behind the news list sitting underneath it. */
+function articleDate(n){
+  if(!n.date) return n.when||'';
+  var d=new Date(n.date+'T00:00:00Z');
+  return isNaN(d.getTime())?(n.when||''):d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+}
+function heroHTML(n){
+  var showPhoto=n.photo&&n.photoAttribution;
+  return '<div class="hero-story" onclick="goArticle(\''+n.slug+'\')">'+
+    (showPhoto?'<div class="photo hero-photo has-photo"'+photoStyle(n)+'></div>':'')+
+    '<div class="hero-body">'+
+      '<span class="hero-badge">&#9889; '+escapeHtml(n.cat||'News')+'</span>'+
+      '<h1>'+n.h+'</h1>'+
+      '<p>'+n.p+'</p>'+
+      '<div class="hero-meta"><span>Summarised from <span class="src">'+escapeHtml(n.src)+'</span></span>'+
+        '<span>&middot;</span><span>'+escapeHtml(articleDate(n))+'</span></div>'+
+    '</div>'+
+  '</div>'+(showPhoto?photoAttributionHTML(n):'');
+}
+document.getElementById('hero-story').innerHTML=heroHTML(news[0]);
+renderTicker();
+/* Four newest stories after the one the hero is already leading with. */
+document.getElementById('news-grid').innerHTML=news.slice(1,5).map(cardHTML).join('');
 clampNewsCards();
 document.getElementById('news-grid-full').innerHTML=news.map(cardHTML).join('');
 document.getElementById('transfer-cards').innerHTML=news.filter(function(n){return n.cat==='Transfer'||n.cc==='done';}).map(cardHTML).join('');
@@ -1688,50 +1780,50 @@ observeEmbeds();
 var rumours=[
   {
     init:"NJ",h:"Atlético Madrid in talks over a Nicolas Jackson loan",
-    p:"Atlético have held talks in London over a season-long loan, with an option to buy expected to be included and Aston Villa also credited with interest. Jackson is training away from the first-team group as he looks to finalise an exit before the deadline. Not signed.",
+    p:"Atlético have held talks in London over a season-long loan, with an option to buy expected to be included and Aston Villa also credited with interest. Jackson is training away from the first-team group as he looks to finalise an exit before the deadline. Not signed. <span class=\"rum-outcome\"><strong>Outcome:</strong> Jackson joined Aston Villa permanently on 28 August for an initial £47.5m, not Atlético on loan. <a class=\"rum-outcome-link\" href=\"/article/nicolas-jackson-joins-aston-villa\" onclick=\"event.stopPropagation();event.preventDefault();goArticle('nicolas-jackson-joins-aston-villa')\">Read more &rarr;</a></span>",
     src:"ESPN",rel:4.5,prob:70,
     url:"https://www.espn.com/soccer/story/_/id/49678731/atletico-madrid-loan-deal-chelsea-nicolas-jackson-aston-villa-interested"
   },
   {
     init:"MG",h:"Gusto among the names Chelsea are willing to sell",
-    p:"With the window closing, Sky Sports list Malo Gusto alongside Nicolas Jackson among the players Chelsea are open to moving on as they look to balance the books after heavy spending.",
+    p:"With the window closing, Sky Sports list Malo Gusto alongside Nicolas Jackson among the players Chelsea are open to moving on as they look to balance the books after heavy spending. <span class=\"rum-outcome\"><strong>Outcome:</strong> Gusto was not sold. The window closed on 1 September with him still at Chelsea.</span>",
     src:"Sky Sports",rel:4.2,prob:30,
     url:"https://www.skysports.com/football/news/11668/13572382/chelsea-transfer-news-enzo-fernandez-nicolas-jackson-malo-gusto-and-more-in-spotlight-as-blues-look-to-player-sales"
   },
   {
     init:"LC",h:"Chelsea join the race for Monaco's Lamine Camara",
-    p:"ESPN report Chelsea are monitoring the Monaco midfielder, with Liverpool and Manchester United also credited with interest. An early-stage link rather than a live negotiation.",
+    p:"ESPN report Chelsea are monitoring the Monaco midfielder, with Liverpool and Manchester United also credited with interest. An early-stage link rather than a live negotiation. <span class=\"rum-outcome\"><strong>Outcome:</strong> Chelsea had two bids rejected and agreed a deal late on deadline day, but Monaco pulled out and Camara stayed in France. <a class=\"rum-outcome-link\" href=\"/article/deadline-day-enzo-fernandez-man-city\" onclick=\"event.stopPropagation();event.preventDefault();goArticle('deadline-day-enzo-fernandez-man-city')\">Read more &rarr;</a></span>",
     src:"ESPN",rel:4.0,prob:20,
     url:"https://www.espn.com/soccer/story/_/id/49597770/transfer-rumors-news-chelsea-eye-arsenal-zubimendi-replace-man-city-target-enzo-fernandez"
   },
   {
     init:"CR",h:"Spurs offer Cristian Romero to Chelsea",
-    p:"Tottenham have reportedly offered club captain Cristian Romero, with the Argentine said to be keen and Enzo Fernández encouraging the move; Spurs have separately made a verbal bid for Pedro Neto. Nothing is agreed \u2014 treat as rumour.",
+    p:"Tottenham have reportedly offered club captain Cristian Romero, with the Argentine said to be keen and Enzo Fernández encouraging the move; Spurs have separately made a verbal bid for Pedro Neto. Nothing is agreed \u2014 treat as rumour. <span class=\"rum-outcome\"><strong>Outcome:</strong> No deal happened. Tosin Adarabioyo went the other way, joining Tottenham on deadline day. <a class=\"rum-outcome-link\" href=\"/article/deadline-day-enzo-fernandez-man-city\" onclick=\"event.stopPropagation();event.preventDefault();goArticle('deadline-day-enzo-fernandez-man-city')\">Read more &rarr;</a></span>",
     src:"Football Transfers",rel:2.4,prob:30,
     url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/transfer-rumours-22-july-arsenal-chelsea-man-utd-alex-scott-alejandro-garnacho-bruno-guimaraes",
     photo:"images/players/cristian-romero.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Cristian_Romero_Argentina_v_Egypt_7_July_2026-108.jpg",photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0"
   },
   {
     init:"AS",h:"Chelsea chase Bournemouth's Alex Scott",
-    p:"Chelsea remain keen on the 22-year-old midfielder after a \u00a364m bid was rejected, with Bournemouth valuing him nearer \u00a380m and intent on keeping him for their European campaign.",
+    p:"Chelsea remain keen on the 22-year-old midfielder after a \u00a364m bid was rejected, with Bournemouth valuing him nearer \u00a380m and intent on keeping him for their European campaign. <span class=\"rum-outcome\"><strong>Outcome:</strong> Scott did not join. Chelsea ended the window without signing a senior central midfielder.</span>",
     src:"CaughtOffside",rel:3.0,prob:35,
     url:"https://www.caughtoffside.com/2026/07/22/chelsea-alex-scott-transfer-bid-rejected/"
   },
   {
     init:"PC",h:"Chelsea prepare improved bid for Pep Chavarría",
-    p:"A reported \"firm agreement\" with the Rayo Vallecano left-back, who wants to join compatriot Xabi Alonso — but Rayo president Raúl Presa may hold out for a fixed €25m fee.",
+    p:"A reported \"firm agreement\" with the Rayo Vallecano left-back, who wants to join compatriot Xabi Alonso — but Rayo president Raúl Presa may hold out for a fixed €25m fee. <span class=\"rum-outcome\"><strong>Outcome:</strong> Chavarría signed, one of nine senior arrivals in the summer window.</span>",
     src:"FootballTransfers · Marca",rel:4.0,prob:72,
     url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-pep-chavarria-rayo-vallecano-25m-offer-prepared-summer-2026"
   },
   {
     init:"DV",h:"Vlahović floated as a striker option",
-    p:"Speculative link suggesting the Juventus forward could be considered if Chelsea revamp their attack. Thin sourcing so far.",
+    p:"Speculative link suggesting the Juventus forward could be considered if Chelsea revamp their attack. Thin sourcing so far. <span class=\"rum-outcome\"><strong>Outcome:</strong> Vlahović did not join. Chelsea signed Danny Welbeck and sold Nicolas Jackson and Liam Delap.</span>",
     src:"CaughtOffside",rel:2.2,prob:18,
     url:"https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/07/chelsea-transfer-news-today-enzo-fernandez-speaks-out-future-unusual-deal-takes-shape"
   },
   {
     init:"AW",h:"Chelsea favourites for Adam Wharton as rivals cool",
-    p:"Bookmakers have shortened Chelsea's odds as Liverpool, Man United and Spurs are said to have stepped back — though Palace's £80-100m valuation makes a deal before deadline day unlikely. Rumour-tier for now.",
+    p:"Bookmakers have shortened Chelsea's odds as Liverpool, Man United and Spurs are said to have stepped back — though Palace's £80-100m valuation makes a deal before deadline day unlikely. Rumour-tier for now. <span class=\"rum-outcome\"><strong>Outcome:</strong> Wharton stayed at Crystal Palace. Chelsea were priced out for a second consecutive window.</span>",
     src:"Football Insider",rel:1.8,prob:22,
     url:"https://www.footballinsider247.com/chelsea/adam-wharton-chelsea-increasingly-likely-to-complete-crystal-palace-deal-as-odds-tumble"
   }
@@ -2005,10 +2097,17 @@ renderTransferHistory();
 /* Upcoming fixtures carry `when` (date + kick-off). Played matches carry a
    `score` instead, and `res` ("w"/"l"/"d") tints it. Both render through the
    same row; the score simply takes the slot the kick-off time would occupy. */
+/* Newest first. A row with no `score` is still to be played; everything with a
+   score is a settled result. Scores are written home-first, and `res` is the
+   result from Chelsea's point of view. */
 var fixtures=[
-  {comp:"Premier League",teams:"Brentford vs Chelsea",when:"Fri 18 Sep - 8:00pm"},
-  {comp:"Carabao Cup",teams:"Liverpool vs Chelsea",when:"Fourth round - date TBC"},
+  {comp:"Carabao Cup",teams:"Liverpool vs Chelsea",when:"28 Oct",score:"1-1",res:"l",note:"Liverpool won 6-5 on penalties"},
+  {comp:"Premier League",teams:"Chelsea vs Tottenham Hotspur",when:"24 Oct",score:"0-2",res:"l"},
+  {comp:"Premier League",teams:"Everton vs Chelsea",when:"17 Oct",score:"0-2",res:"w"},
+  {comp:"Premier League",teams:"Chelsea vs Bournemouth",when:"10 Oct",score:"5-1",res:"w"},
+  {comp:"Premier League",teams:"Brentford vs Chelsea",when:"18 Sep",score:"3-0",res:"l"},
   {comp:"Premier League",teams:"Chelsea vs Hull City",when:"12 Sep",score:"2-2",res:"d"},
+  {comp:"Carabao Cup",teams:"Chelsea vs Leeds United",when:"9 Sep",score:"6-3",res:"w"},
   {comp:"Premier League",teams:"Arsenal vs Chelsea",when:"6 Sep",score:"2-1",res:"l"},
   {comp:"Premier League",teams:"Chelsea vs Brighton",when:"30 Aug",score:"4-3",res:"w"},
   {comp:"Premier League",teams:"Fulham vs Chelsea",when:"24 Aug",score:"2-3",res:"w"},
@@ -2023,34 +2122,34 @@ function fxHTML(f){
   var right=f.score
     ? '<div class="score '+(f.res||'')+'">'+f.score+'</div><div class="when">'+f.when+'</div>'
     : '<div class="when">'+f.when+'</div>';
-  return '<div class="fixture-row"><div class="comp">'+f.comp+'</div><div class="teams">'+f.teams+'</div>'+right+'</div>';
+  var teams=f.teams+(f.note?'<span class="fx-note">'+f.note+'</span>':'');
+  return '<div class="fixture-row"><div class="comp">'+f.comp+'</div><div class="teams">'+teams+'</div>'+right+'</div>';
 }
 document.getElementById('fixture-list').innerHTML=fixtures.map(fxHTML).join('');
 document.getElementById('fixture-list-full').innerHTML=fixtures.map(fxHTML).join('');
 
 /* ── Polls ── */
+/* Three of the four summer-window polls had been settled by the result they
+   were asking about, so they are retired. The replacements open on zero votes
+   rather than carrying invented numbers over from the questions they replace. */
 var polls=[
-  {q:"Should Chelsea cash in on Enzo Fernández at £120m?",cat:"Transfers",opts:[
-    {lbl:"Sell — reinvest the money",votes:612},
-    {lbl:"Keep him — he's the engine",votes:443}
+  {q:"Was £125m enough for Enzo Fernández?",cat:"Transfers",opts:[
+    {lbl:"Good business — bank it",votes:0},
+    {lbl:"Should have kept him",votes:0}
   ]},
-  {q:"Where should Chelsea spend their last big fee of the window?",cat:"Transfers",opts:[
-    {lbl:"Left-back cover (Chavarría)",votes:284},
-    {lbl:"Backup for Gusto if he leaves",votes:198},
-    {lbl:"A new out-and-out striker",votes:351},
-    {lbl:"Nowhere — the squad's strong enough",votes:97}
+  {q:"Who should start in goal while Emiliano Martínez recovers?",cat:"Match & Tactics",opts:[
+    {lbl:"Stick with Mike Penders",votes:0},
+    {lbl:"Recall a goalkeeper in January",votes:0}
   ]},
-  {q:"Will Morgan Rogers be Chelsea's best signing of the summer?",cat:"Squad",opts:[
-    {lbl:"Yes, undroppable from day one",votes:520},
-    {lbl:"Too early to say",votes:266},
-    {lbl:"No, Palmer's still the main man there",votes:184}
+  {q:"Will Morgan Rogers be Chelsea's best signing of the summer?",cat:"Transfers",opts:[
+    {lbl:"Yes - he's the real deal",votes:0},
+    {lbl:"Too early to say",votes:0}
   ]},
-  {q:"What should happen to Nicolas Jackson?",cat:"Squad",opts:[
-    {lbl:"Let him fight for his place under Alonso",votes:301},
-    {lbl:"Sell this summer while there's interest",votes:275},
-    {lbl:"Send him out on loan again",votes:150}
+  {q:"Was Cole Palmer's red card against Tottenham deserved?",cat:"Match & Tactics",opts:[
+    {lbl:"Yes - it was a stamp",votes:0},
+    {lbl:"No - harsh second yellow",votes:0}
   ]}
-];
+];;
 var pollVoted={};
 function pollTotal(p){ return p.opts.reduce(function(a,o){return a+o.votes;},0); }
 function pollOptHTML(p,pi,oi){
