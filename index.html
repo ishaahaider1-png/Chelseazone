@@ -982,6 +982,21 @@ function articleTweetHTML(block){
 /* ── News ── */
 var news=[
   {
+    cat:"News",cc:"",init:"MU",
+    h:"Manchester United 0-2 Chelsea: Rogers and Palmer win it, Lavia man of the match",
+    p:"Chelsea won 2-0 away at Manchester United on 31 October. Morgan Rogers scored a brilliant goal and Cole Palmer added a penalty.",
+    src:"The Chelsea Zone",when:"31 Oct",
+    slug:"manchester-united-0-2-chelsea",date:"2026-10-31",
+    photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",
+    photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
+    photoCaption:"Morgan Rogers, who scored Chelsea's first at Old Trafford, pictured on international duty with England.",
+    photoAttribution:true,photoPos:"center 22%",heroPosition:"center 22%",
+    body:[
+      {type:"paragraph",text:"Chelsea won 2-0 away at Manchester United on 31 October. Morgan Rogers scored a brilliant goal and Cole Palmer added a penalty."},
+      {type:"paragraph",text:"Roméo Lavia was named man of the match."}
+    ]
+  },
+  {
     cat:"News",cc:"",init:"LI",
     h:"Liverpool 1-1 Chelsea (6-5 pens): Blues out of the Carabao Cup",
     p:"With Palmer serving his suspension, Rogers scored a 40th-minute penalty after Ryan Gravenberch fouled Moisés Caicedo. Three minutes later, Wesley Fofana handled from a corner and Cody Gakpo equalised from the spot. Maxence Lacroix limped off before half-time.",
@@ -1695,8 +1710,12 @@ function articleHTML(n){
     '</div>'+
     heroCredit+
     '<div class="art-content">'+articleBodyHTML(n)+'</div>'+
-    '<div class="art-source"><span class="art-source-label">Original reporting</span>'+
-      '<a href="'+n.url+'" target="_blank" rel="noopener noreferrer">Read the full story at '+n.src+' &#8599;</a></div>'+
+    /* Only stories summarised from an outside report carry a source block;
+       our own match reports have no external link to send readers to. */
+    (n.url
+      ? '<div class="art-source"><span class="art-source-label">Original reporting</span>'+
+        '<a href="'+n.url+'" target="_blank" rel="noopener noreferrer">Read the full story at '+n.src+' &#8599;</a></div>'
+      : '')+
     '<div class="art-foot">'+back+'</div>';
 }
 /* Render an article by slug into the article page. Returns false for unknown slug. */
@@ -2101,6 +2120,7 @@ renderTransferHistory();
    score is a settled result. Scores are written home-first, and `res` is the
    result from Chelsea's point of view. */
 var fixtures=[
+  {comp:"Premier League",teams:"Manchester United vs Chelsea",when:"31 Oct",score:"0-2",res:"w"},
   {comp:"Carabao Cup",teams:"Liverpool vs Chelsea",when:"28 Oct",score:"1-1",res:"l",note:"Liverpool won 6-5 on penalties"},
   {comp:"Premier League",teams:"Chelsea vs Tottenham Hotspur",when:"24 Oct",score:"0-2",res:"l"},
   {comp:"Premier League",teams:"Everton vs Chelsea",when:"17 Oct",score:"0-2",res:"w"},
