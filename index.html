@@ -2230,6 +2230,16 @@ var replyOpen=null;        /* id of the thread whose reply box is open, if any *
 var replyDrafts={};        /* thread id → in-progress text, kept across re-renders */
 var repliesExpanded={};    /* thread id → true once the reader asks for the full thread */
 var REPLY_PREVIEW=2;       /* replies shown before the "show more" toggle kicks in */
+/* comments.parent_id is what replies hang off. If the migration in
+   supabase/migrations/001_comment_replies.sql has not been applied yet the
+   column is missing, every insert carrying it fails, and a Reply button would
+   just hand the reader an error. So the first fetch asks for the column by
+   name: if Postgres reports it as undefined (42703) the panel drops to a flat
+   thread list and the reply controls stay hidden. Nothing to change here once
+   the migration lands — the probe starts succeeding and replies turn on. */
+var REPLIES_ENABLED=true;
+var COMMENT_COLS='id,article_id,user_id,display_name,body,category,created_at,parent_id';
+function isUndefinedColumn(e){ return !!e && (e.code==='42703' || /parent_id/.test(e.message||'')); }
 
 function timeAgo(iso){
   var d=new Date(iso), s=Math.floor((Date.now()-d.getTime())/1000);
@@ -2243,11 +2253,22 @@ function timeAgo(iso){
 function mapRow(r){ return {id:r.id,parent_id:r.parent_id||null,user_id:r.user_id,name:r.display_name,cat:r.category,text:r.body,created_at:r.created_at,time:timeAgo(r.created_at),likes:0,liked:false}; }
 function loadComments(){
   renderResetBanner();
-  var q=sb.from('comments').select('*').eq('article_id','discuss');
+  var cols=REPLIES_ENABLED?COMMENT_COLS:'*';
+  var q=sb.from('comments').select(cols).eq('article_id','discuss');
   var since=cycleStart();
   if(since!=null) q=q.gte('created_at',new Date(since).toISOString());
   q.order('created_at',{ascending:false}).then(function(res){
-    if(res.error){ console.error('load comments',res.error); return; }
+    if(res.error){
+      /* No parent_id column yet → turn replies off and retry once, flat. */
+      if(REPLIES_ENABLED && isUndefinedColumn(res.error)){
+        REPLIES_ENABLED=false;
+        console.warn('comments.parent_id is missing — replies disabled until '+
+                     'supabase/migrations/001_comment_replies.sql is applied');
+        loadComments();
+        return;
+      }
+      console.error('load comments',res.error); return;
+    }
     var rows=(res.data||[]).map(mapRow);
     comments=rows.filter(function(c){ return !c.parent_id; });
     replies={};
@@ -2268,6 +2289,7 @@ function loadComments(){
     });
   });
 }
+
 function initials(n){ return String(n||'').replace(/[^a-zA-Z0-9]/g,'').slice(0,2).toUpperCase(); }
 /* Lookup across both levels — the vote and reply handlers are shared. */
 function findComment(id){
@@ -2289,7 +2311,7 @@ function replyRowHTML(c,i,threadId){
       '<div class="chead"><span class="cname">'+escapeHtml(c.name)+'</span><span class="ctime">'+escapeHtml(c.time)+'</span></div>'+
       '<div class="ctext">'+escapeHtml(c.text)+'</div>'+
       '<div class="cactions">'+voteHTML(c)+
-        '<span class="cact" onclick="openReply(\''+threadId+'\',\''+c.id+'\')">&#8617; Reply</span>'+
+        (REPLIES_ENABLED?'<span class="cact" onclick="openReply(\''+threadId+'\',\''+c.id+'\')">&#8617; Reply</span>':'')+
       '</div>'+
     '</div></div>';
 }
@@ -2334,7 +2356,7 @@ function renderComments(){
           '<div class="chead"><span class="cname">'+escapeHtml(c.name)+'</span>'+(i===topIdx&&topLikes>0?'<span class="ctop">Top comment</span>':'')+'<span class="ctag">'+escapeHtml(c.cat)+'</span><span class="ctime">'+escapeHtml(c.time)+'</span></div>'+
           '<div class="ctext">'+escapeHtml(c.text)+'</div>'+
           '<div class="cactions">'+voteHTML(c)+
-            '<span class="cact" onclick="openReply(\''+c.id+'\')">&#8617; Reply</span>'+count+
+            (REPLIES_ENABLED?'<span class="cact" onclick="openReply(\''+c.id+'\')">&#8617; Reply</span>'+count:'')+
           '</div>'+
         '</div></div>'+
       replyList+
@@ -2361,6 +2383,7 @@ function closeReply(){ replyOpen=null; renderComments(); }
 /* threadId is always the top-level comment: replying to a reply opens that same
    thread's box, prefilled with the handle being answered. */
 function openReply(threadId,fromId){
+  if(!REPLIES_ENABLED) return;
   if(!currentUser){ signInGoogle(); return; }
   if(!currentUsername){ go('discuss'); refreshComposer(); return; }
   if(fromId&&fromId!==threadId&&!replyDrafts[threadId]){
@@ -2373,6 +2396,7 @@ function openReply(threadId,fromId){
   if(t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); }
 }
 function postReply(threadId){
+  if(!REPLIES_ENABLED) return;
   if(!currentUser){ signInGoogle(); return; }
   if(!currentUsername){ refreshComposer(); return; }
   var parent=findComment(threadId);
