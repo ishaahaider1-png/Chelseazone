@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://thechelseazone.com/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/news</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/transfers</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/rumours</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/players</loc>
@@ -30,11 +30,11 @@
   </url>
   <url>
     <loc>https://thechelseazone.com/fixtures</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/discuss</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://thechelseazone.com/article/chelsea-closing-in-on-maxence-lacroix-as-palace-talks-reach-final-stage</loc>
@@ -277,7 +277,15 @@
     <lastmod>2026-10-28</lastmod>
   </url>
   <url>
-    <loc>https://thechelseazone.com/article/manchester-united-0-2-chelsea</loc>
+    <loc>https://thechelseazone.com/article/chelsea-2-0-manchester-united</loc>
     <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/article/sunderland-1-0-chelsea</loc>
+    <lastmod>2026-11-08</lastmod>
+  </url>
+  <url>
+    <loc>https://thechelseazone.com/article/team-news-leeds-november</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
 </urlset>

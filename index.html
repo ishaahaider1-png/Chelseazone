@@ -720,7 +720,8 @@ function goArticle(slug,push){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-article').classList.add('active');
   document.querySelectorAll('.nav-links button').forEach(function(b){b.classList.remove('active');});
-  if(push!==false){ var path='/article/'+slug; if(location.pathname!==path){ history.pushState({article:slug},'',path); } }
+  var canon=NEWS_BY_SLUG[slug]?slug:(SLUG_ALIASES[slug]||slug);
+  if(push!==false){ var path='/article/'+canon; if(location.pathname!==path){ history.pushState({article:canon},'',path); } }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 /* On load: open the article, tab, or fall back to home for unknown paths.
@@ -982,18 +983,63 @@ function articleTweetHTML(block){
 /* ── News ── */
 var news=[
   {
+    cat:"News",cc:"",init:"TN",
+    h:"Team news: Martínez in line to return against Leeds, Reece James out for the year",
+    p:"Chelsea are back in action against Leeds United on Saturday 21 November. Emiliano Martínez is expected to be available after jaw surgery, while Reece James is not expected to play again in 2026.",
+    src:"Yahoo Sports",when:"18 Nov",
+    url:"https://sports.yahoo.com/articles/martinez-acheampong-joao-pedro-chelsea-153704078.html",
+    slug:"team-news-leeds-november",date:"2026-11-18",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/9/93/Dibu_Mart%C3%ADnez_-_ARG_v_CAN_-_2024-07-09.jpg",
+    photoSrc:"https://commons.wikimedia.org/wiki/File:Dibu_Mart%C3%ADnez_-_ARG_v_CAN_-_2024-07-09.jpg",
+    photoBy:"Sebas",photoLic:"CC BY 3.0",photoLicUrl:"https://creativecommons.org/licenses/by/3.0",
+    photoCaption:"Emiliano Martínez, expected back in the side against Leeds, pictured on international duty with Argentina.",
+    photoAttribution:true,photoPos:"center 30%",heroPosition:"center 30%",
+    body:[
+      {type:"paragraph",text:"Chelsea's next match is at home to Leeds United on Saturday 21 November, their first since the international break."},
+      {type:"heading",text:"Expected back"},
+      {type:"paragraph",text:"Emiliano Martínez is the most likely returnee. He has recovered from surgery on the fractured jaw he suffered at Everton in October, and trained with the squad before joining up with Argentina. Xabi Alonso chose not to use him against Sunderland."},
+      {type:"paragraph",text:"Josh Acheampong withdrew from England Under-21 duty with a minor injury but is expected to be available, and Aaron Anselmino trained for over a week before his Argentina call-up."},
+      {type:"heading",text:"Still out"},
+      {type:"paragraph",text:"Reece James, who had knee surgery in October, is not expected to play again in 2026. Maxence Lacroix is out for weeks with the hamstring injury he picked up in the Carabao Cup tie at Liverpool."},
+      {type:"paragraph",text:"João Pedro has a thigh problem and has not yet returned to training. Jorrel Hato has missed the last three matches with a back injury, and Jamie Gittens has been out since the previous international break with an ankle injury, missing six games."},
+      {type:"paragraph",text:"Moisés Caicedo is not on the injury list but has been managing discomfort since the Manchester United game. He played a full match for Ecuador during the break."}
+    ]
+  },
+  {
+    cat:"News",cc:"",init:"SU",
+    h:"Sunderland 1-0 Chelsea: Le Fée penalty settles it at the Stadium of Light",
+    p:"Enzo Le Fée's 36th-minute penalty gave Sunderland a 1-0 win over Chelsea at the Stadium of Light. Chelsea had 68.7% of the ball and could not find a way through.",
+    src:"ESPN",when:"8 Nov",
+    url:"https://www.espn.com/soccer/report/_/gameId/401879239",
+    slug:"sunderland-1-0-chelsea",date:"2026-11-08",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Stadium_of_Light_%28Sunderland_A.F.C.%29.jpg/1920px-Stadium_of_Light_%28Sunderland_A.F.C.%29.jpg",
+    photoSrc:"https://commons.wikimedia.org/wiki/File:Stadium_of_Light_(Sunderland_A.F.C.).jpg",
+    photoBy:"Quintin Soloviev",photoLic:"CC BY 4.0",photoLicUrl:"https://creativecommons.org/licenses/by/4.0",
+    photoCaption:"The Stadium of Light, where Chelsea lost 1-0 to Sunderland.",
+    photoAttribution:true,photoPos:"center 50%",heroPosition:"center 50%",
+    body:[
+      {type:"paragraph",text:"Enzo Le Fée scored from the penalty spot in the 36th minute to give Sunderland a 1-0 win over Chelsea on 8 November. It was his third penalty of the season."},
+      {type:"paragraph",text:"It was the first time this season Sunderland had led at half-time, and they defended the lead for the rest of the match. Chelsea held 68.7% of possession and had 10 shots with four on target, against Sunderland's nine and two."},
+      {type:"paragraph",text:"The defeat left Chelsea fifth in the Premier League on 16 points from 10 games, with five wins, one draw and four defeats."}
+    ]
+  },
+  {
     cat:"News",cc:"",init:"MU",
-    h:"Manchester United 0-2 Chelsea: Rogers and Palmer win it, Lavia man of the match",
-    p:"Chelsea won 2-0 away at Manchester United on 31 October. Morgan Rogers scored a brilliant goal and Cole Palmer added a penalty.",
-    src:"The Chelsea Zone",when:"31 Oct",
-    slug:"manchester-united-0-2-chelsea",date:"2026-10-31",
-    photo:"images/players/morgan-rogers-ghana.jpg",photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",
+    h:"Chelsea 2-0 Manchester United: Rogers and Palmer win it after Martínez is sent off",
+    p:"Morgan Rogers lifted Chelsea ahead five minutes after half-time and Cole Palmer added a penalty, won when Lisandro Martínez was dismissed for a second yellow card. The win moved Chelsea fourth.",
+    src:"Sky Sports",when:"31 Oct",
+    url:"https://www.skysports.com/football/chelsea-vs-manchester-united/report/559527",
+    slug:"chelsea-2-0-manchester-united",date:"2026-10-31",
+    photo:"images/players/morgan-rogers-ghana.jpg",
+    photoSrc:"https://commons.wikimedia.org/wiki/File:Morgan_Rogers_England_v_Ghana_23_June_2026-054.jpg",
     photoBy:"Bryan Berlin / WikiPortraits",photoLic:"CC BY-SA 4.0",photoLicUrl:"https://creativecommons.org/licenses/by-sa/4.0",
-    photoCaption:"Morgan Rogers, who scored Chelsea's first at Old Trafford, pictured on international duty with England.",
+    photoCaption:"Morgan Rogers, who opened the scoring at Stamford Bridge, pictured on international duty with England.",
     photoAttribution:true,photoPos:"center 22%",heroPosition:"center 22%",
     body:[
-      {type:"paragraph",text:"Chelsea won 2-0 away at Manchester United on 31 October. Morgan Rogers scored a brilliant goal and Cole Palmer added a penalty."},
-      {type:"paragraph",text:"Roméo Lavia was named man of the match."}
+      {type:"paragraph",text:"Chelsea beat Manchester United 2-0 at Stamford Bridge on Saturday 31 October, with both goals coming in the second half."},
+      {type:"paragraph",text:"Morgan Rogers broke through the United defence and lifted a finish over goalkeeper Senne Lammens in the 50th minute."},
+      {type:"paragraph",text:"Three minutes later, Lisandro Martínez was shown a second yellow card for raising an arm to Wesley Fofana's face inside the box. Referee Peter Bankes awarded a penalty after a VAR check, and Cole Palmer scored it in the 64th minute."},
+      {type:"paragraph",text:"The win moved Chelsea up to fourth. United went nine matches without a win."}
     ]
   },
   {
@@ -1670,6 +1716,12 @@ function slugify(str){
     .replace(/[^a-z0-9]+/g,'-')                        /* everything else → hyphen */
     .replace(/^-+|-+$/g,'');                           /* trim leading/trailing hyphens */
 }
+/* Slugs that have already been published and then had to change. Keeping the
+   old one pointing at the corrected article means an existing link lands on
+   the story rather than being bounced to the news index.
+   manchester-united-0-2-chelsea: published with the venue the wrong way round,
+   so both the slug and the score order were wrong. */
+var SLUG_ALIASES={'manchester-united-0-2-chelsea':'chelsea-2-0-manchester-united'};
 var NEWS_BY_SLUG={};
 (function(){
   var used={};
@@ -1720,7 +1772,7 @@ function articleHTML(n){
 }
 /* Render an article by slug into the article page. Returns false for unknown slug. */
 function renderArticle(slug){
-  var n=NEWS_BY_SLUG[slug];
+  var n=NEWS_BY_SLUG[slug]||NEWS_BY_SLUG[SLUG_ALIASES[slug]];
   if(!n) return false;
   document.getElementById('article-body').innerHTML=articleHTML(n);
   observeEmbeds();   /* lazy-load any tweet embeds contained in this article */
@@ -2116,11 +2168,14 @@ renderTransferHistory();
 /* Upcoming fixtures carry `when` (date + kick-off). Played matches carry a
    `score` instead, and `res` ("w"/"l"/"d") tints it. Both render through the
    same row; the score simply takes the slot the kick-off time would occupy. */
-/* Newest first. A row with no `score` is still to be played; everything with a
-   score is a settled result. Scores are written home-first, and `res` is the
+/* Fixtures still to be played first, in date order, then results newest first.
+   A row with no `score` has not been played yet. Scores are written home-first, and `res` is the
    result from Chelsea's point of view. */
 var fixtures=[
-  {comp:"Premier League",teams:"Manchester United vs Chelsea",when:"31 Oct",score:"0-2",res:"w"},
+  {comp:"Premier League",teams:"Chelsea vs Leeds United",when:"Sat 21 Nov"},
+  {comp:"Premier League",teams:"Nottingham Forest vs Chelsea",when:"Fri 27 Nov"},
+  {comp:"Premier League",teams:"Sunderland vs Chelsea",when:"8 Nov",score:"1-0",res:"l"},
+  {comp:"Premier League",teams:"Chelsea vs Manchester United",when:"31 Oct",score:"2-0",res:"w"},
   {comp:"Carabao Cup",teams:"Liverpool vs Chelsea",when:"28 Oct",score:"1-1",res:"l",note:"Liverpool won 6-5 on penalties"},
   {comp:"Premier League",teams:"Chelsea vs Tottenham Hotspur",when:"24 Oct",score:"0-2",res:"l"},
   {comp:"Premier League",teams:"Everton vs Chelsea",when:"17 Oct",score:"0-2",res:"w"},
